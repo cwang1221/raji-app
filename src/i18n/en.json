@@ -1,3 +1,16 @@
 {
-  "welcome": "Welcome!"
+  "welcome": "Welcome!",
+  "generalMsg": {
+    "networkError": "Something wrong with the network. :(",
+    "timeoutError": "Time out. Please try again later. :("
+  }, 
+  "login": {
+    "username": "Username",
+    "usernameErrMsg": "Please input your username",
+    "password": "Password",
+    "passwordErrMsg": "Please input your password",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "loginFailedErrMsg": "The given email or password are not valid."
+  }
 }
