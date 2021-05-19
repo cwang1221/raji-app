@@ -1,9 +1,9 @@
-.button {
-  width: 100%;
-  margin-top: 0.6rem;
-}
-
 .form {
   width: 20rem !important;
-  margin: 10rem auto !important;
+  margin: 5rem auto !important;
+}
+
+.logo {
+  width: 70% !important;
+  margin: 1rem auto;
 }

@@ -51,9 +51,11 @@ Axios.interceptors.response.use((res) => {
   }
   if (err.message === 'Network Error') {
     message.error(i18n.t('generalMsg.networkError'))
+    err.showed = true
   }
   if (err.code === 'ECONNABORTED') {
     message.error(i18n.t('generalMsg.timeoutError'))
+    err.showed = true
   }
   return Promise.reject(err)
 })

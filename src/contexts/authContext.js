@@ -41,7 +41,7 @@ export function AuthContextProvider({ children }) {
       })
       return true
     } catch (error) {
-      message.error(t('signIn.signInFailedErrMsg'))
+      error.showed || message.error(t('signIn.signInFailedErrMsg'))
       return false
     }
   }
