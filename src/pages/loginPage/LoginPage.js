@@ -1,12 +1,18 @@
 import { Form, Input, Button } from 'antd'
+import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { auth } from '../../services/raji.service'
+import { useHistory } from 'react-router-dom'
+import { AuthContext } from '../../contexts/authContext'
 
 export function LoginPage() {
   const { t } = useTranslation()
+  const { postAuth } = useContext(AuthContext)
+  const history = useHistory()
 
-  const onFinish = ({ username, password }) => {
-    auth(username, password)
+  const onFinish = async ({ username, password }) => {
+    if (await postAuth(username, password)) {
+      history.push('/')
+    }
   }
 
   return (
@@ -32,8 +38,8 @@ export function LoginPage() {
         <Input maxLength={50} />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit">{t('username.signIn')}</Button>
-        <Button type="primary">{t('username.signUp')}</Button>
+        <Button type="primary" htmlType="submit">{t('login.signIn').toLocaleUpperCase()}</Button>
+        <Button>{t('login.signUp').toLocaleUpperCase()}</Button>
       </Form.Item>
     </Form>
   )
