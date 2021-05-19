@@ -4,6 +4,7 @@ COPY package*.json ./
 RUN npm install
 COPY public public/
 COPY src src/
+ENV MASTER_KEY xxx
 RUN npm run build
 
 FROM nginx:alpine
