@@ -1,4 +1,4 @@
-import { createContext } from 'react'
+import { createContext, useContext } from 'react'
 import { message } from 'antd'
 import { useTranslation } from 'react-i18next'
 import axios from '../axios'
@@ -15,9 +15,9 @@ const defaultState = {
   role: ''
 }
 
-export const AuthContext = createContext()
+const AuthContext = createContext()
 
-export function AuthContextProvider({ children }) {
+export function AuthProvider({ children }) {
   const { t } = useTranslation()
   const [auth, setAuth] = useLocalStorage(LOCAL_STORAGE_AUTH_KEY, defaultState)
 
@@ -52,3 +52,5 @@ export function AuthContextProvider({ children }) {
     </AuthContext.Provider>
   )
 }
+
+export const useAuth = () => useContext(AuthContext)

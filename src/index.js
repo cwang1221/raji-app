@@ -4,12 +4,12 @@ import reportWebVitals from './reportWebVitals'
 import 'antd/dist/antd.css'
 import './i18n'
 import './assets/styles/style.css'
-import { AuthContextProvider } from './contexts/authContext'
+import { AppProvider } from './contexts'
 
 ReactDOM.render(
-  <AuthContextProvider>
+  <AppProvider>
     <App />
-  </AuthContextProvider>,
+  </AppProvider>,
   document.getElementById('root')
 )
 

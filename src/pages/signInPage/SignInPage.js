@@ -1,14 +1,14 @@
 import { Form, Input, Button, Image } from 'antd'
-import { useContext, useRef } from 'react'
+import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
-import { AuthContext } from '../../contexts/authContext'
+import { useAuth } from '../../contexts/authContext'
 import styles from './SignInPage.module.css'
 import logo from '../../assets/images/logo.png'
 
 export function SignInPage() {
   const { t } = useTranslation()
-  const { postAuth } = useContext(AuthContext)
+  const { postAuth } = useAuth()
   const history = useHistory()
   const formRef = useRef()
 
