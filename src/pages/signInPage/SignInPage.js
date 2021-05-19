@@ -52,7 +52,7 @@ export function SignInPage() {
       >
         <Input maxLength={100} type="password" />
       </Form.Item>
-      <Form.Item style={{ marginTop: '2rem' }}>
+      <Form.Item style={{ marginTop: '3rem' }}>
         <Button type="primary" htmlType="submit" style={{ width: '100%' }}>{t('signIn.signIn')}</Button>
       </Form.Item>
     </Form>
