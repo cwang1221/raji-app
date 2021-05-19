@@ -26,7 +26,7 @@ export function SignInPage() {
 
   return (
     <Form ref={formRef} labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} onFinish={onFinish} onFinishFailed={onFinishFailed} className={styles.form}>
-      <Form.Item style={{ marginTop: '2rem' }}>
+      <Form.Item>
         <Image src={logo} preview={false} className={styles.logo} />
       </Form.Item>
       <Form.Item

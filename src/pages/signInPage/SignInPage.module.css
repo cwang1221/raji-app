@@ -1,9 +1,11 @@
 .form {
   width: 20rem !important;
-  margin: 5rem auto !important;
+  margin: 0 auto !important;
+  padding-top: 5rem !important;
 }
 
 .logo {
   width: 70% !important;
-  margin: 1rem auto;
+  margin: 0 auto;
+  padding-bottom: 1rem !important;
 }
