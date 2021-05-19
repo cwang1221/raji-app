@@ -21,13 +21,13 @@ export function AuthContextProvider({ children }) {
   const { t } = useTranslation()
   const [auth, setAuth] = useLocalStorage(LOCAL_STORAGE_AUTH_KEY, defaultState)
 
-  const postAuth = async (username, password) => {
+  const postAuth = async (email, password) => {
     try {
       const response = await axios.request({
         url: `${BASE_URL}auth`,
         method: 'post',
         auth: {
-          username,
+          username: email,
           password
         }
       })

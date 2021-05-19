@@ -1,5 +1,5 @@
 import { Form, Input, Button } from 'antd'
-import { useContext } from 'react'
+import { useContext, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../../contexts/authContext'
@@ -8,21 +8,31 @@ export function SignInPage() {
   const { t } = useTranslation()
   const { postAuth } = useContext(AuthContext)
   const history = useHistory()
+  const formRef = useRef()
 
-  const onFinish = async ({ username, password }) => {
-    if (await postAuth(username, password)) {
+  const onFinish = async ({ email, password }) => {
+    if (await postAuth(email, password)) {
       history.push('/')
     }
   }
 
+  const onFinishFailed = (e) => {
+    const firstErrorFieldName = e.errorFields[0].name[0]
+    const firstErrorField = formRef.current.getFieldInstance(firstErrorFieldName)
+    firstErrorField.focus({ cursor: 'all' })
+  }
+
   return (
-    <Form labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} onFinish={onFinish}>
+    <Form ref={formRef} labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} onFinish={onFinish} onFinishFailed={onFinishFailed}>
       <Form.Item
-        label={t('signIn.username')}
-        name="username"
+        label={t('signIn.email')}
+        name="email"
         rules={[{
           required: true,
-          message: t('signIn.usernameErrMsg')
+          message: t('signIn.emailErrMsg')
+        }, {
+          type: 'email',
+          message: t('signIn.emailErrMsg')
         }]}
       >
         <Input maxLength={50} />
@@ -35,7 +45,7 @@ export function SignInPage() {
           message: t('signIn.passwordErrMsg')
         }]}
       >
-        <Input maxLength={50} />
+        <Input maxLength={50} type="password" />
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit">{t('signIn.signIn').toLocaleUpperCase()}</Button>

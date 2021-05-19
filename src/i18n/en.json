@@ -5,8 +5,8 @@
     "timeoutError": "Time out. Please try again later. :("
   }, 
   "signIn": {
-    "username": "Username",
-    "usernameErrMsg": "Please input your username",
+    "email": "Email",
+    "emailErrMsg": "Please input your email",
     "password": "Password",
     "passwordErrMsg": "Please input your password",
     "signIn": "Sign In",
