@@ -10,7 +10,19 @@
     "password": "Password",
     "passwordErrMsg": "Please input your password",
     "signIn": "Sign In",
-    "signUp": "Sign Up",
+    "signUp": "Do not have an account? Sign up",
     "signInFailedErrMsg": "The given email or password are not valid."
+  },
+  "signUp": {
+    "email": "Email",
+    "emailErrMsg": "Please input an email",
+    "username": "Username",
+    "usernameErrMsg": "Please input a username",
+    "password": "Password",
+    "passwordErrMsg": "Please input a password",
+    "confirmPassword": "Comfirm Password",
+    "confirmPasswordErrMsg": "Please confirm the password",
+    "signUp": "Sign Up",
+    "signIn": "Already have an account? Sign in"
   }
 }

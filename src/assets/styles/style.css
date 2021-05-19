@@ -11,3 +11,7 @@
   z-index: 9999;
   font-size: 20px;
 }
+
+.ant-form-item {
+  margin-bottom: 0.5rem !important;
+}
