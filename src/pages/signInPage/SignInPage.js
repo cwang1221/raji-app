@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../../contexts/authContext'
 
-export function LoginPage() {
+export function SignInPage() {
   const { t } = useTranslation()
   const { postAuth } = useContext(AuthContext)
   const history = useHistory()
@@ -18,28 +18,28 @@ export function LoginPage() {
   return (
     <Form labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} onFinish={onFinish}>
       <Form.Item
-        label={t('login.username')}
+        label={t('signIn.username')}
         name="username"
         rules={[{
           required: true,
-          message: t('login.usernameErrMsg')
+          message: t('signIn.usernameErrMsg')
         }]}
       >
         <Input maxLength={50} />
       </Form.Item>
       <Form.Item
-        label={t('login.password')}
+        label={t('signIn.password')}
         name="password"
         rules={[{
           required: true,
-          message: t('login.passwordErrMsg')
+          message: t('signIn.passwordErrMsg')
         }]}
       >
         <Input maxLength={50} />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit">{t('login.signIn').toLocaleUpperCase()}</Button>
-        <Button>{t('login.signUp').toLocaleUpperCase()}</Button>
+        <Button type="primary" htmlType="submit">{t('signIn.signIn').toLocaleUpperCase()}</Button>
+        <Button>{t('signIn.signUp').toLocaleUpperCase()}</Button>
       </Form.Item>
     </Form>
   )
