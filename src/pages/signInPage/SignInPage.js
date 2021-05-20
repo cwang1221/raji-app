@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { useAuth } from '../../contexts/authContext'
 import styles from './SignInPage.module.css'
 import logo from '../../assets/images/logo.png'
+import { focusErrorInForm } from '../../utils'
 
 export function SignInPage() {
   const { t } = useTranslation()
@@ -18,10 +19,8 @@ export function SignInPage() {
     }
   }
 
-  const onFinishFailed = (e) => {
-    const firstErrorFieldName = e.errorFields[0].name[0]
-    const firstErrorField = formRef.current.getFieldInstance(firstErrorFieldName)
-    firstErrorField.focus({ cursor: 'all' })
+  const onFinishFailed = () => {
+    focusErrorInForm(formRef)
   }
 
   return (

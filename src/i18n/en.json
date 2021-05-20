@@ -24,6 +24,10 @@
     "search": "Search"
   },
   "header": {
-    "createStory": "Create Story"
+    "createStory": "Create Story",
+    "editProfile": "Edit Profile",
+    "signOut": "Sign Out",
+    "username": "Username",
+    "usernameErrMsg": "Please input your username"
   }
 }

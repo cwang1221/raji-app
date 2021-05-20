@@ -33,6 +33,7 @@ export function AuthProvider({ children }) {
       })
       const { token, user } = response.data
       setAuth({
+        id: user.id,
         token,
         username: user.name,
         email: user.email,
@@ -47,7 +48,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ auth, postAuth }}>
+    <AuthContext.Provider value={{ auth, setAuth, postAuth }}>
       {children}
     </AuthContext.Provider>
   )

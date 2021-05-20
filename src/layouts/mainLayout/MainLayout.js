@@ -1,8 +1,9 @@
 import { Layout } from 'antd'
-import { Header } from './Header'
+import { Route } from 'react-router-dom'
+import { Header } from './header/Header'
 import { SideMenu } from './SideMenu'
 
-export function MainLayout({ children }) {
+function MainLayout({ children }) {
   return (
     <Layout style={{ height: '100vh' }}>
       <Header />
@@ -15,5 +16,18 @@ export function MainLayout({ children }) {
         </Layout>
       </Layout>
     </Layout>
+  )
+}
+
+export function MainLayoutRoute({ component: Component, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={(props) => (
+        <MainLayout>
+          <Component {...props} />
+        </MainLayout>
+      )}
+    />
   )
 }
