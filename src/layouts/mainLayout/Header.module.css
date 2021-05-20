@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerGroup {
+  display: flex;
+  align-items: center;
+}
+
+.createButton {
+  margin-left: 2rem !important;
+}
+
+.search {
+  margin-left: 2rem !important;
+  width: 20rem !important;
+}
+
+.avater {
+  margin-left: 1rem !important;
+}

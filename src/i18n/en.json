@@ -11,5 +11,19 @@
     "passwordErrMsg": "Please input your password",
     "signIn": "Sign In",
     "signInFailedErrMsg": "The given email or password are not valid."
+  },
+  "sideMenu": {
+    "dashboard": "Dashboard",
+    "status": "Statue",
+    "stories": "Stories",
+    "epics": "Epics",
+    "milestones": "Milestones",
+    "reports": "Reports",
+    "labels": "Labels",
+    "projects": "Projects",
+    "search": "Search"
+  },
+  "header": {
+    "createStory": "Create Story"
   }
 }
