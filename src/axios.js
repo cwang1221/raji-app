@@ -9,6 +9,9 @@ const Axios = axios.create({
 
 Axios.defaults.headers.tenant = 'default'
 
+const auth = JSON.parse(window.localStorage.getItem('__auth__'))
+auth && (Axios.defaults.headers.Authorization = `Bearer ${auth.token}`)
+
 let requestCount = 0
 
 function showLoading() {

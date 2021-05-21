@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import axios from '../axios'
 import { useLocalStorage } from '../hooks'
 
-const BASE_URL = 'http://39.103.224.134:8080/'
+const BASE_URL = 'http://39.103.224.134:8080'
 const LOCAL_STORAGE_AUTH_KEY = '__auth__'
 
 const defaultState = {
@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
   const postAuth = async (email, password) => {
     try {
       const response = await axios.request({
-        url: `${BASE_URL}auth`,
+        url: `${BASE_URL}/auth`,
         method: 'post',
         auth: {
           username: email,
@@ -47,8 +47,23 @@ export function AuthProvider({ children }) {
     }
   }
 
+  const putUser = async (username) => {
+    try {
+      await axios.request({
+        url: `${BASE_URL}/users/${auth.id}`,
+        method: 'put',
+        data: {
+          name: username
+        }
+      })
+      setAuth({ ...auth, username })
+    } catch (error) {
+      error.showed || message.error(t('signIn.signInFailedErrMsg'))
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ auth, setAuth, postAuth }}>
+    <AuthContext.Provider value={{ auth, setAuth, postAuth, putUser }}>
       {children}
     </AuthContext.Provider>
   )

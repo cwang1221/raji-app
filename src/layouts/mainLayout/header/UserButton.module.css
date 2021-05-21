@@ -1,0 +1,9 @@
+.avatar {
+  margin-left: 1rem !important;
+}
+
+.avatar:hover {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #1890FF;
+}
