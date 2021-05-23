@@ -1,45 +1,39 @@
 import { createContext, useContext } from 'react'
 import { message } from 'antd'
 import { useTranslation } from 'react-i18next'
-import axios from '../axios'
+import axios from '../libs/axios'
 import { useLocalStorage } from '../hooks'
-
-const BASE_URL = 'http://39.103.224.134:8080'
-const LOCAL_STORAGE_AUTH_KEY = '__auth__'
-
-const defaultState = {
-  token: '',
-  username: '',
-  email: '',
-  avatar: '',
-  role: ''
-}
 
 const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
   const { t } = useTranslation()
-  const [auth, setAuth] = useLocalStorage(LOCAL_STORAGE_AUTH_KEY, defaultState)
+  const [user, setUser] = useLocalStorage('auth', {
+    username: '',
+    email: '',
+    avatar: '',
+    role: ''
+  })
 
   const postAuth = async (email, password) => {
     try {
       const response = await axios.request({
-        url: `${BASE_URL}/auth`,
+        url: '/auth',
         method: 'post',
         auth: {
           username: email,
           password
         }
       })
-      const { token, user } = response.data
-      setAuth({
-        id: user.id,
-        token,
-        username: user.name,
-        email: user.email,
-        avatar: user.picture,
-        role: user.role
+
+      setUser({
+        id: response.data.user.id,
+        username: response.data.user.name,
+        email: response.data.user.email,
+        avatar: response.data.user.picture,
+        role: response.data.user.role
       })
+
       return true
     } catch (error) {
       error.showed || message.error(t('signIn.signInFailedErrMsg'))
@@ -50,20 +44,21 @@ export function AuthProvider({ children }) {
   const putUser = async (username) => {
     try {
       await axios.request({
-        url: `${BASE_URL}/users/${auth.id}`,
+        url: `/users/${user.id}`,
         method: 'put',
         data: {
           name: username
-        }
+        },
+        withCredentials: true
       })
-      setAuth({ ...auth, username })
+      setUser({ ...user, username })
     } catch (error) {
-      error.showed || message.error(t('signIn.signInFailedErrMsg'))
+      error.showed || message.error(t('header.updateUsernameErrMsg'))
     }
   }
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, postAuth, putUser }}>
+    <AuthContext.Provider value={{ user, setUser, postAuth, putUser }}>
       {children}
     </AuthContext.Provider>
   )

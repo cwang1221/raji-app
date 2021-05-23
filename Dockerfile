@@ -4,7 +4,7 @@ COPY package*.json ./
 RUN npm install
 COPY public public/
 COPY src src/
-ENV MASTER_KEY xxx
+ENV REACT_APP_SERVICE_URL http://39.103.224.134:8080
 RUN npm run build
 
 FROM nginx:alpine

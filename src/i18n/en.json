@@ -2,7 +2,8 @@
   "welcome": "Welcome!",
   "generalMsg": {
     "networkError": "Something wrong with the network. :(",
-    "timeoutError": "Time out. Please try again later. :("
+    "timeoutError": "Time out. Please try again later. :(",
+    "authFailedError": "Please sign in."
   }, 
   "signIn": {
     "email": "Email",
@@ -28,6 +29,7 @@
     "editProfile": "Edit Profile",
     "signOut": "Sign Out",
     "username": "Username",
-    "usernameErrMsg": "Please input your username"
+    "usernameErrMsg": "Please input your username",
+    "updateUsernameErrMsg": "Could not update the username, please try again later."
   }
 }

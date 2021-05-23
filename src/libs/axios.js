@@ -1,16 +1,16 @@
 import axios from 'axios'
 import ReactDOM from 'react-dom'
 import { message, Spin } from 'antd'
+import { createBrowserHistory } from 'history'
 import i18n from './i18n'
 
 const Axios = axios.create({
-  timeout: 20000
+  baseURL: process.env.REACT_APP_SERVICE_URL + 1,
+  timeout: 20000,
+  withCredentials: true
 })
 
 Axios.defaults.headers.tenant = 'default'
-
-const auth = JSON.parse(window.localStorage.getItem('__auth__'))
-auth && (Axios.defaults.headers.Authorization = `Bearer ${auth.token}`)
 
 let requestCount = 0
 
@@ -49,9 +49,6 @@ Axios.interceptors.response.use((res) => {
   }
   return res
 }, (err) => {
-  if (!err.config.hideLoading) {
-    hideLoading()
-  }
   if (err.message === 'Network Error') {
     message.error(i18n.t('generalMsg.networkError'))
     err.showed = true
@@ -59,6 +56,16 @@ Axios.interceptors.response.use((res) => {
   if (err.code === 'ECONNABORTED') {
     message.error(i18n.t('generalMsg.timeoutError'))
     err.showed = true
+  }
+  if (err?.response?.status === 401) {
+    createBrowserHistory().replace('/signIn')
+    window.location.reload()
+    message.error(i18n.t('generalMsg.authFailedError'))
+    err.showed = true
+  }
+
+  if (!err.config.hideLoading) {
+    hideLoading()
   }
   return Promise.reject(err)
 })

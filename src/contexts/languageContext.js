@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
 import { useLocalStorage } from '../hooks'
-import i18n from '../i18n'
+import i18n from '../libs/i18n'
 
 const LOCAL_STORAGE_LANGUAGE_KEY = '__lang__'
 

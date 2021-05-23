@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import 'antd/dist/antd.css'
-import './i18n'
+import './libs/i18n'
 import './assets/styles/style.css'
 import { AppProvider } from './contexts'
 

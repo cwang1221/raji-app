@@ -8,14 +8,14 @@ import { MyModal } from '../../../components'
 import styles from './UserButton.module.css'
 
 export function UserButton() {
-  const { auth, setAuth, putUser } = useAuth()
+  const { user, setUser, putUser } = useAuth()
   const [showEditProfile, setShowEditProfile] = useState(false)
   const history = useHistory()
   const { t } = useTranslation()
   const formRef = useRef()
 
   const onLogout = () => {
-    setAuth({})
+    setUser({})
     history.push('/signIn')
   }
 
@@ -48,9 +48,9 @@ export function UserButton() {
       ]}
     >
       <Card.Meta
-        avatar={<Avatar src={auth.avatar} />}
-        title={auth.username}
-        description={auth.email}
+        avatar={<Avatar src={user.avatar} />}
+        title={user.username}
+        description={user.email}
       />
     </Card>
   )
@@ -61,7 +61,7 @@ export function UserButton() {
         placement="bottomRight"
         overlay={<UserCard />}
       >
-        <Avatar size="large" src={auth.avatar} className={styles.avatar} />
+        <Avatar size="large" src={user.avatar} className={styles.avatar} />
       </Dropdown>
       <MyModal
         title={t('header.editProfile')}
@@ -73,7 +73,7 @@ export function UserButton() {
         ]}
         onCancel={closeEditProfile}
       >
-        <Form ref={formRef} labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} initialValues={{ username: auth.username }}>
+        <Form ref={formRef} labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} initialValues={{ username: user.username }}>
           <Form.Item
             label={t('header.username')}
             name="username"
