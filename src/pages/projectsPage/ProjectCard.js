@@ -10,7 +10,7 @@ export function ProjectCard({ indicator, title, description, storyCount, point }
       <Space align="start">
         <div className={styles.indicator} style={{ backgroundColor: indicator }} />
         <div>
-          <Typography.Title level={3} className={styles.title}>{title}</Typography.Title>
+          <Typography.Title level={4} className={styles.title}>{title}</Typography.Title>
           <Typography.Text>{description}</Typography.Text>
           <div>
             <Space size={2} className={styles.footer}>

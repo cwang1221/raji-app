@@ -34,7 +34,6 @@
   },
   "projects": {
     "projects": "Projects",
-    "web": "Web",
     "has": "has {{count}} Projects",
     "follow": "Follow"
   }

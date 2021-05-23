@@ -48,8 +48,7 @@ export function AuthProvider({ children }) {
         method: 'put',
         data: {
           name: username
-        },
-        withCredentials: true
+        }
       })
       setUser({ ...user, username })
     } catch (error) {
