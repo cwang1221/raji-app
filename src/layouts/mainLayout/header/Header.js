@@ -27,7 +27,7 @@ export function Header() {
             </Menu>
           )}
         >
-          <Button size="large" type="primary" icon={<TranslationOutlined />} shape="circle" className={styles.button} />
+          <Button size="large" icon={<TranslationOutlined />} shape="circle" className={styles.button} />
         </Dropdown>
         <UserButton />
       </div>

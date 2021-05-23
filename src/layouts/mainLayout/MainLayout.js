@@ -10,7 +10,7 @@ function MainLayout({ children }) {
       <Layout>
         <SideMenu />
         <Layout>
-          <Layout.Content>
+          <Layout.Content style={{ padding: '1rem 2rem' }}>
             {children}
           </Layout.Content>
         </Layout>

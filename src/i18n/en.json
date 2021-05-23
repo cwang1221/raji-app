@@ -31,5 +31,11 @@
     "username": "Username",
     "usernameErrMsg": "Please input your username",
     "updateUsernameErrMsg": "Could not update the username, please try again later."
+  },
+  "projects": {
+    "projects": "Projects",
+    "web": "Web",
+    "has": "has {{count}} Projects",
+    "follow": "Follow"
   }
 }

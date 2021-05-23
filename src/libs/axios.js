@@ -5,7 +5,7 @@ import { createBrowserHistory } from 'history'
 import i18n from './i18n'
 
 const Axios = axios.create({
-  baseURL: process.env.REACT_APP_SERVICE_URL + 1,
+  baseURL: process.env.REACT_APP_SERVICE_URL,
   timeout: 20000,
   withCredentials: true
 })

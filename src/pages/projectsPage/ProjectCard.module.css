@@ -1,0 +1,40 @@
+.card {
+  position:relative;
+  width: 23rem;
+  height: 12rem;
+  background-color: #fafafa;
+  border-radius: 0.5rem;
+  box-shadow: 5px 5px 5px lightgray;
+}
+
+.card:hover {
+  box-shadow: 8px 8px 5px lightgray;
+  transform: translate(-1px,-1px);
+}
+
+.indicator {
+  width: 0.7rem;
+  height: 12rem;
+  margin-right: 0.5rem;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.title {
+  margin-top: 1rem;
+}
+
+.footer {
+  position:absolute;
+  bottom: 0.8rem;
+  color: gray;
+}
+
+.icon {
+  margin-right: 0 !important;
+}
+
+.followButton {
+  color: gray;
+  margin-left: 3rem;
+}
