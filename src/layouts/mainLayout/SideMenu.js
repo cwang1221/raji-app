@@ -2,12 +2,18 @@ import { Menu, Layout } from 'antd'
 import { DashboardOutlined, TeamOutlined, ReadOutlined, FlagOutlined, BlockOutlined, BarChartOutlined, TagOutlined, RocketOutlined, SearchOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
 export function SideMenu() {
   const { t } = useTranslation()
+  const [collapsed, setCollapsed] = useState(false)
+
+  const onCollapse = (collapsedParam) => {
+    setCollapsed(collapsedParam)
+  }
 
   return (
-    <Layout.Sider>
+    <Layout.Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
       <Menu mode="inline" theme="dark">
         <Menu.Item key="dashboard" icon={<DashboardOutlined />}>
           <Link to="/">{t('sideMenu.dashboard')}</Link>
