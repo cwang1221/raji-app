@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { MainLayoutRoute } from './layouts'
 import { ProjectsPage, SignInPage, WelcomePage } from './pages'
+import './App.less'
 
 function App() {
   return (

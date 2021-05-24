@@ -30,7 +30,8 @@
     "signOut": "Sign Out",
     "username": "Username",
     "usernameErrMsg": "Please input your username",
-    "updateUsernameErrMsg": "Could not update the username, please try again later."
+    "updateUsernameErrMsg": "Could not update the username, please try again later.",
+    "searchPlaceholder": "Search stories"
   },
   "projects": {
     "projects": "Projects",

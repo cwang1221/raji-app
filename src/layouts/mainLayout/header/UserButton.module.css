@@ -3,5 +3,5 @@
 }
 
 .avatar:hover {
-  box-shadow: 1px 1px 0 #40A9FF, -1px 1px 0 #40A9FF, -1px -1px 0 #40A9FF, 1px -1px 0 #40A9FF;
+  box-shadow: 1px 1px 0 rgb(128, 75, 214), -1px 1px 0 rgb(128, 75, 214), -1px -1px 0 rgb(128, 75, 214), 1px -1px 0 rgb(128, 75, 214);
 }

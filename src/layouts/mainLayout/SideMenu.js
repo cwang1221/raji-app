@@ -3,6 +3,7 @@ import { DashboardOutlined, TeamOutlined, ReadOutlined, FlagOutlined, BlockOutli
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import styles from './SideMenu.module.css'
 
 export function SideMenu() {
   const { t } = useTranslation()
@@ -13,8 +14,8 @@ export function SideMenu() {
   }
 
   return (
-    <Layout.Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-      <Menu mode="inline" theme="dark">
+    <Layout.Sider collapsible collapsed={collapsed} onCollapse={onCollapse} className={styles.sider}>
+      <Menu mode="inline" theme="dark" className={styles.sider}>
         <Menu.Item key="dashboard" icon={<DashboardOutlined />}>
           <Link to="/">{t('sideMenu.dashboard')}</Link>
         </Menu.Item>

@@ -5,6 +5,7 @@
   background-color: #fafafa;
   border-radius: 0.5rem;
   box-shadow: 5px 5px 5px lightgray;
+  padding-right: 1rem;
 }
 
 .card:hover {

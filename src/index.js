@@ -1,9 +1,7 @@
 import ReactDOM from 'react-dom'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import 'antd/dist/antd.css'
 import './libs/i18n'
-import './assets/styles/style.css'
 import { AppProvider } from './contexts'
 
 ReactDOM.render(

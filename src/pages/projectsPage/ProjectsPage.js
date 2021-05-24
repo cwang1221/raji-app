@@ -27,8 +27,9 @@ export function ProjectsPage() {
       </Space>
       <div>
         <Space size={20} wrap>
-          {webProjects.map(({ color, name, description }) => (
+          {webProjects.map(({ id, color, name, description }) => (
             <ProjectCard
+              key={id}
               indicator={color}
               title={name}
               description={description}
@@ -44,8 +45,9 @@ export function ProjectsPage() {
       </Space>
       <div>
         <Space size={20}>
-          {mobileProjects.map(({ color, name, description }) => (
+          {mobileProjects.map(({ id, color, name, description }) => (
             <ProjectCard
+              key={id}
               indicator={color}
               title={name}
               description={description}
