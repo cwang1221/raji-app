@@ -1,5 +1,5 @@
 import { Layout } from 'antd'
-import { Route } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 import { Header } from './header/Header'
 import { SideMenu } from './SideMenu'
 
@@ -24,9 +24,13 @@ export function MainLayoutRoute({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={(props) => (
-        <MainLayout>
-          <Component {...props} />
-        </MainLayout>
+        document.cookie.includes('jwt=') ? (
+          <MainLayout>
+            <Component {...props} />
+          </MainLayout>
+        ) : (
+          <Redirect to="/signIn" />
+        )
       )}
     />
   )
