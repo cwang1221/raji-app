@@ -5,7 +5,7 @@ import { SideMenu } from './SideMenu'
 
 function MainLayout({ children }) {
   return (
-    <Layout style={{ height: '100vh' }}>
+    <Layout style={{ minHeight: '100vh', height: '100%' }}>
       <Header />
       <Layout>
         <SideMenu />

@@ -3,7 +3,5 @@
 }
 
 .avatar:hover {
-  border-style: solid;
-  border-width: 1px;
-  border-color: #1890FF;
+  box-shadow: 1px 1px 0 #40A9FF, -1px 1px 0 #40A9FF, -1px -1px 0 #40A9FF, 1px -1px 0 #40A9FF;
 }
