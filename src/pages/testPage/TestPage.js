@@ -1,32 +1,50 @@
 import { Typography } from 'antd'
 import { useState } from 'react'
+import { UserOutlined } from '@ant-design/icons'
 import { FilterBar, FilterItem } from '../../components'
 
 export function TestPage() {
-  const [value1, setValue1] = useState('Apple')
+  const [fruit, setFruit] = useState('Apple')
+  const [vegetable, setVegetable] = useState('Tomato')
+  const [people, setPeople] = useState(['5'])
 
   return (
     <div style={{ padding: '2rem' }}>
       <Typography.Title level={3}>Test Page</Typography.Title>
       <FilterBar>
         <FilterItem.RadioGroupButton
-          name="abc"
-          options={[
-            { label: 'Apple', value: 'Apple' },
-            { label: 'Pear', value: 'Pear' }
+          name="Fruit"
+          items={[
+            { text: 'Apple', key: 'Apple' },
+            { text: 'Pear', key: 'Pear' }
           ]}
-          value={value1}
-          onChange={(e) => { setValue1(e.target.value) }}
+          value={fruit}
+          onChange={setFruit}
+        />
+        <FilterItem.RadioGroupButton
+          name="Vegetable"
+          items={[
+            { text: 'Potato', key: 'Potato' },
+            { text: 'Tomato', key: 'Tomato' }
+          ]}
+          value={vegetable}
+          onChange={setVegetable}
         />
         <FilterItem.Seperator />
-        <FilterItem.RadioGroupButton
-          name="abc"
-          options={[
-            { label: 'Apple', value: 'Apple' },
-            { label: 'Pear', value: 'Pear' }
+        <FilterItem.MultiSelect
+          name="People"
+          icon={<UserOutlined />}
+          items={[
+            { text: 'AAAAAA', key: '1' },
+            { text: 'BBBBBB', key: '2' },
+            { text: 'CCCCCC', key: '3' },
+            { text: 'DDDDDD', key: '4' },
+            { text: '12345678901234567890', key: '5' },
+            { text: 'FFFFFF', key: '6' },
+            { text: 'GGGGGG', key: '7' }
           ]}
-          value={value1}
-          onChange={(e) => { setValue1(e.target.value) }}
+          value={people}
+          onChange={setPeople}
         />
       </FilterBar>
     </div>

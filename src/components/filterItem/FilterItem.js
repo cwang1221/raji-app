@@ -1,6 +1,7 @@
 import { Typography } from 'antd'
 import { RadioGroupButton } from './RadioGroupButton'
 import { Seperator } from './Seperator'
+import { MultiSelect } from './MultiSelect'
 import styles from './FilterItem.module.css'
 
 export function FilterItemBase({ name, children }) {
@@ -14,5 +15,6 @@ export function FilterItemBase({ name, children }) {
 
 export const FilterItem = {
   RadioGroupButton,
-  Seperator
+  Seperator,
+  MultiSelect
 }

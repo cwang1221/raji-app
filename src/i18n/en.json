@@ -40,5 +40,10 @@
   },
   "milestones": {
     "milestones": "Milestones"
+  },
+  "filterBar": {
+    "none": "None",
+    "all": "All",
+    "countItems": "{{count}} items"
   }
 }
