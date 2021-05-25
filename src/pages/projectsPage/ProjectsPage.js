@@ -1,8 +1,8 @@
 import { Typography, Space } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useProjects } from '../../hooks'
 import { ProjectCard } from './ProjectCard'
-import axios from '../../libs/axios'
 
 export function ProjectsPage() {
   const { t } = useTranslation()
@@ -10,10 +10,7 @@ export function ProjectsPage() {
   const [mobileProjects, setMobileProjects] = useState([])
 
   useEffect(async () => {
-    const { data } = await axios.request({
-      url: '/projects',
-      method: 'get'
-    })
+    const data = await useProjects()
     setWebProjects(data.filter((project) => project.type === 'web'))
     setMobileProjects(data.filter((project) => project.type === 'mobile'))
   }, [])

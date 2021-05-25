@@ -3,8 +3,9 @@ import { DownOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FilterItemBase } from './FilterItem'
+import styles from './MultiSelect.module.css'
 
-export function MultiSelect({ name, items, value, defaultValue, icon, onChange }) {
+export function MultiSelect({ name, items, value, icon, onChange }) {
   const [shownText, setShownText] = useState('')
   const { t } = useTranslation()
 
@@ -45,7 +46,13 @@ export function MultiSelect({ name, items, value, defaultValue, icon, onChange }
           </Menu>
         )}
       >
-        <Button>{icon}{shownText}<DownOutlined /></Button>
+        <Button className={styles.button}>
+          <div className={styles.buttonContent}>
+            {icon}
+            <span className={styles.shownText}>{shownText}</span>
+            <DownOutlined />
+          </div>
+        </Button>
       </Dropdown>
     </FilterItemBase>
   )

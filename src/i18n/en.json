@@ -39,11 +39,21 @@
     "follow": "Follow"
   },
   "milestones": {
-    "milestones": "Milestones"
+    "milestones": "Milestones",
+    "view": "View",
+    "column": "Column",
+    "table": "Table",
+    "states": "States",
+    "notStarted": "Not Started",
+    "inProgress": "In Progress",
+    "readyForDev": "Ready for Dev",
+    "done": "Done",
+    "projects": "Projects"
   },
   "filterBar": {
     "none": "None",
     "all": "All",
-    "countItems": "{{count}} items"
+    "countItems": "{{count}} items",
+    "clearFilters": "Clear Filters"
   }
 }
