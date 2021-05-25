@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { MainLayoutRoute } from './layouts'
-import { MilestonesPage, ProjectsPage, SignInPage, WelcomePage } from './pages'
+import { MilestonesPage, ProjectsPage, SignInPage, TestPage, WelcomePage } from './pages'
 import './App.less'
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
         <MainLayoutRoute path="/projects" component={ProjectsPage} />
         <MainLayoutRoute path="/milestones" component={MilestonesPage} />
         <Route path="/signIn" component={SignInPage} />
+        <Route path="/test" component={TestPage} />
         <Route render={() => <h1>404 not found</h1>} />
       </Switch>
     </BrowserRouter>
