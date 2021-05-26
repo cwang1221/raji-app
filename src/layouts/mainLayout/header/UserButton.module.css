@@ -1,8 +1,0 @@
-.avatar {
-  margin-left: 1rem !important;
-}
-
-.avatar:hover {
-  box-shadow: 1px 1px 0 rgb(128, 75, 214), -1px 1px 0 rgb(128, 75, 214), -1px -1px 0 rgb(128, 75, 214), 1px -1px 0 rgb(128, 75, 214);
-  cursor: pointer;
-}

@@ -1,29 +1,64 @@
 import { Button, Space, Typography } from 'antd'
 import { FileTextOutlined, BorderlessTableOutlined, EyeOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
-import styles from './ProjectCard.module.css'
+import styled from 'styled-components'
 
 export function ProjectCard({ indicator, title, description, storyCount, point }) {
   const { t } = useTranslation()
+
   return (
-    <div className={styles.card}>
+    <Card>
       <Space align="start">
-        <div className={styles.indicator} style={{ backgroundColor: indicator }} />
+        <Indicator style={{ backgroundColor: indicator }} />
         <div>
-          <Typography.Title level={4} className={styles.title}>{title}</Typography.Title>
+          <Typography.Title level={4} style={{ marginTop: '1rem' }}>{title}</Typography.Title>
           <Typography.Text>{description}</Typography.Text>
           <div>
-            <Space size={2} className={styles.footer}>
+            <Footer as={Space} size={2}>
               <FileTextOutlined /> <span>{storyCount}</span>
               <BorderlessTableOutlined style={{ marginLeft: '1rem' }} /> <span>{point}</span>
-              <Button size="small" className={styles.followButton}><EyeOutlined />{t('projects.follow')}</Button>
+              <FollowButton as={Button} size="small"><EyeOutlined />{t('projects.follow')}</FollowButton>
               <Button size="small" style={{ marginLeft: '1rem' }}>
                 <div style={{ backgroundColor: indicator, width: '0.5rem', height: '0.5rem' }} />
               </Button>
-            </Space>
+            </Footer>
           </div>
         </div>
       </Space>
-    </div>
+    </Card>
   )
 }
+
+const Card = styled.div`
+  position:relative;
+  width: 23rem;
+  height: 12rem;
+  background-color: #fafafa;
+  border-radius: 0.5rem;
+  box-shadow: 5px 5px 5px lightgray;
+  padding-right: 1rem;
+
+  &:hover {
+    box-shadow: 8px 8px 5px lightgray;
+    transform: translate(-1px,-1px);
+  }
+`
+
+const Footer = styled.div`
+  position:absolute;
+  bottom: 0.8rem;
+  color: gray;
+`
+
+const FollowButton = styled.div`
+  color: gray;
+  margin-left: 3rem;
+`
+
+const Indicator = styled.div`
+  width: 0.7rem;
+  height: 12rem;
+  margin-right: 0.5rem;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+`

@@ -1,9 +1,9 @@
 import { Layout, Avatar, Button, Input, Dropdown, Menu } from 'antd'
 import { TranslationOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 import logo from '../../../assets/images/logoSquareTransparent.png'
 import { useLanguageContext } from '../../../contexts/languageContext'
-import styles from './Header.module.css'
 import { UserButton } from './UserButton'
 
 export function Header() {
@@ -11,13 +11,13 @@ export function Header() {
   const { language, changeLanguage } = useLanguageContext()
 
   return (
-    <Layout.Header className={styles.header}>
-      <div className={styles.headerGroup}>
+    <HeaderBar as={Layout.Header}>
+      <HeaderGroup>
         <Avatar shape="square" size={48} src={logo} />
-        <Button type="primary" className={styles.createButton}>{t('header.createStory')}</Button>
-        <Input.Search className={styles.search} placeholder={t('header.searchPlaceholder')} />
-      </div>
-      <div className={styles.headerGroup}>
+        <CreateButton as={Button} type="primary">{t('header.createStory')}</CreateButton>
+        <Search as={Input.Search} placeholder={t('header.searchPlaceholder')} />
+      </HeaderGroup>
+      <HeaderGroup>
         <Dropdown
           placement="bottomRight"
           overlay={(
@@ -27,10 +27,31 @@ export function Header() {
             </Menu>
           )}
         >
-          <Button size="large" type="primary" icon={<TranslationOutlined />} shape="circle" className={styles.button} />
+          <Button size="large" type="primary" icon={<TranslationOutlined />} shape="circle" />
         </Dropdown>
         <UserButton />
-      </div>
-    </Layout.Header>
+      </HeaderGroup>
+    </HeaderBar>
   )
 }
+const HeaderBar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(40, 28, 54) !important;
+`
+
+const HeaderGroup = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const CreateButton = styled.div`
+  margin-left: 2rem !important;
+  background-color: rgb(12, 179, 79) !important;
+`
+
+const Search = styled.div`
+  margin-left: 2rem !important;
+  width: 20rem !important;
+`

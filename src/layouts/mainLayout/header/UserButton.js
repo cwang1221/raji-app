@@ -2,10 +2,10 @@ import { Card, Avatar, Button, Dropdown, Form, Input } from 'antd'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
+import styled from 'styled-components'
 import { useAuth } from '../../../contexts/authContext'
 import { focusErrorInForm } from '../../../utils'
 import { MyModal } from '../../../components'
-import styles from './UserButton.module.css'
 
 export function UserButton() {
   const { user, setUser, putUser } = useAuth()
@@ -61,7 +61,7 @@ export function UserButton() {
         placement="bottomRight"
         overlay={<UserCard />}
       >
-        <Avatar size="large" src={user.avatar} className={styles.avatar} />
+        <UserAvatar as={Avatar} size="large" src={user.avatar} />
       </Dropdown>
       <MyModal
         title={t('header.editProfile')}
@@ -89,3 +89,12 @@ export function UserButton() {
     </>
   )
 }
+
+const UserAvatar = styled.div`
+  margin-left: 1rem !important;
+  
+  &:hover {
+    box-shadow: 1px 1px 0 rgb(128, 75, 214), -1px 1px 0 rgb(128, 75, 214), -1px -1px 0 rgb(128, 75, 214), 1px -1px 0 rgb(128, 75, 214);
+    cursor: pointer;
+  }
+`

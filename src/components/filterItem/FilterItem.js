@@ -1,15 +1,15 @@
 import { Typography } from 'antd'
+import styled from 'styled-components'
 import { RadioGroupButton } from './RadioGroupButton'
 import { Seperator } from './Seperator'
 import { MultiSelect } from './MultiSelect'
-import styles from './FilterItem.module.css'
 
 export function FilterItemBase({ name, children }) {
   return (
-    <div className={styles.container}>
-      <Typography.Text type="secondary" className={styles.title}>{name.toUpperCase()}</Typography.Text>
+    <Container>
+      <Label as={Typography.Text} type="secondary">{name.toUpperCase()}</Label>
       {children}
-    </div>
+    </Container>
   )
 }
 
@@ -18,3 +18,11 @@ export const FilterItem = {
   Seperator,
   MultiSelect
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const Label = styled.div`
+  margin-bottom: 0.2rem;
+`

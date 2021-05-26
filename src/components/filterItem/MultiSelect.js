@@ -2,8 +2,8 @@ import { Dropdown, Menu, Button } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 import { FilterItemBase } from './FilterItem'
-import styles from './MultiSelect.module.css'
 
 export function MultiSelect({ name, items, value, icon, onChange }) {
   const [shownText, setShownText] = useState('')
@@ -46,14 +46,33 @@ export function MultiSelect({ name, items, value, icon, onChange }) {
           </Menu>
         )}
       >
-        <Button className={styles.button}>
-          <div className={styles.buttonContent}>
+        <MultiSelectButton as={Button}>
+          <ButtonContent>
             {icon}
-            <span className={styles.shownText}>{shownText}</span>
+            <ShownText>{shownText}</ShownText>
             <DownOutlined />
-          </div>
-        </Button>
+          </ButtonContent>
+        </MultiSelectButton>
       </Dropdown>
     </FilterItemBase>
   )
 }
+
+const MultiSelectButton = styled.div`
+  width: 9rem;
+  padding-left: 0.7rem !important;
+  padding-right: 0.7rem !important;
+`
+
+const ButtonContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const ShownText = styled.span`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 1fr;
+  margin: 0 0.5rem;
+`
