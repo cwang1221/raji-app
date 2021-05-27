@@ -6,17 +6,17 @@ export function Epic({ name, state }) {
   let stateIcon
   switch (state) {
     case 'notStarted':
-      stateIcon = <BorderOutlined />
+      stateIcon = <BorderOutlined style={{ color: 'gray' }} />
       break
     case 'readyForDev':
-      stateIcon = <RightOutlined />
+      stateIcon = <RightOutlined style={{ color: '#FFA500' }} />
       break
     case 'inProgress':
-      stateIcon = <DoubleRightOutlined />
+      stateIcon = <DoubleRightOutlined style={{ color: '#1E90FF' }} />
       break
     case 'done':
     default:
-      stateIcon = <FlagOutlined />
+      stateIcon = <FlagOutlined style={{ color: '#009D4D' }} />
       break
   }
 
