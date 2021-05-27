@@ -1,19 +1,43 @@
 import { useTranslation } from 'react-i18next'
-import { message, Typography } from 'antd'
+import { Card, message, Space, Typography } from 'antd'
 import { AppstoreFilled, RocketFilled } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import { FilterBar, FilterItem } from '../../components'
-import { useProjects } from '../../hooks'
+import { useEpics, useMilestones, useProjects } from '../../hooks'
+import { Epic } from './Epic'
 
 export function MilestonesPage() {
   const { t } = useTranslation()
   const [statesFilter, setStatesFilter] = useState(['notStarted', 'inProgress'])
   const [projectsFilter, setProjectsFilter] = useState([])
   const [projects, setProjects] = useState([])
+  const [milestones, setMilestones] = useState([])
+  const [epics, setEpics] = useState({ backlog: [] })
 
   useEffect(async () => {
-    const data = await useProjects()
-    setProjects(data.map((project) => ({ text: project.name, key: `${project.id}` })))
+    useProjects().then((data) => setProjects(data.map((project) => ({ text: project.name, key: `${project.id}` }))))
+
+    const milestonesData = await useMilestones()
+    setMilestones(milestonesData)
+
+    const epicsData = await useEpics()
+    const formattedEpics = { backlog: [] }
+    epicsData.forEach((epic) => {
+      if (!epic.milestoneId) {
+        formattedEpics.backlog.push(epic)
+        return
+      }
+
+      formattedEpics[epic.milestoneId] || (formattedEpics[epic.milestoneId] = [])
+      formattedEpics[epic.milestoneId].push(epic)
+    })
+
+    Object.keys(formattedEpics).forEach((milestoneId) => {
+      formattedEpics[milestoneId].sort((epic1, epic2) => (epic1.indexInMilestone < epic2.indexInMilestone ? -1 : 1))
+    })
+
+    setEpics(formattedEpics)
   }, [])
 
   const onChangeView = () => {
@@ -40,7 +64,7 @@ export function MilestonesPage() {
           items={[
             { text: t('milestones.notStarted'), key: 'notStarted' },
             { text: t('milestones.inProgress'), key: 'inProgress' },
-            { text: t('milestones.readyForDev') + 11111, key: 'readyForDev' },
+            { text: t('milestones.readyForDev'), key: 'readyForDev' },
             { text: t('milestones.done'), key: 'done' }
           ]}
           value={statesFilter}
@@ -56,6 +80,32 @@ export function MilestonesPage() {
           onChange={setProjectsFilter}
         />
       </FilterBar>
+
+      <Space wrap align="start">
+        {Object.keys(epics).sort((milestoneId1, milestoneId2) => {
+          if (milestoneId1 === 'backlog') {
+            return -1
+          }
+          return parseInt(milestoneId1, 10) < parseInt(milestoneId2, 10) ? -1 : 1
+        }).map((milestoneId) => (
+          <MilestoneContainer as={Card} key={milestoneId || 'backlog'}>
+            <Card.Grid style={{ width: '100%' }}>
+              {milestoneId === 'backlog' ? t('milestones.backlog') : milestones.find((milestone) => `${milestone.id}` === milestoneId).name}
+            </Card.Grid>
+            {epics[milestoneId].map((epic) => (
+              <Epic
+                key={epic.id}
+                name={`${epic.name} ${epic.id}`}
+                state={epic.state}
+              />
+            ))}
+          </MilestoneContainer>
+        ))}
+      </Space>
     </>
   )
 }
+
+const MilestoneContainer = styled.div`
+  width: 20rem;
+`

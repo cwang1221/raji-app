@@ -45,7 +45,7 @@ const Card = styled.div`
 `
 
 const Footer = styled.div`
-  position:absolute;
+  position: absolute;
   bottom: 0.8rem;
   color: gray;
 `

@@ -48,7 +48,8 @@
     "inProgress": "In Progress",
     "readyForDev": "Ready for Dev",
     "done": "Done",
-    "projects": "Projects"
+    "projects": "Projects",
+    "backlog": "Epic Backlog"
   },
   "filterBar": {
     "none": "None",
