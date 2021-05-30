@@ -85,7 +85,7 @@ export function MilestonesPage() {
         />
       </FilterBar>
 
-      <Space wrap align="start">
+      <Space align="start">
         {Object.keys(epics).sort((milestoneId1, milestoneId2) => {
           if (milestoneId1 === 'backlog') {
             return -1
