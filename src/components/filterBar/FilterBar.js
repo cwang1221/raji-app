@@ -15,9 +15,11 @@ export function FilterBar({ children }) {
   }
 
   return (
-    <Space align="end" style={{ marginBottom: '1rem' }}>
-      {children}
-      <Button onClick={clearFilters}><StopOutlined style={{ color: 'darkred' }} />{t('filterBar.clearFilters')}</Button>
-    </Space>
+    <div>
+      <Space align="end" style={{ marginBottom: '1rem' }}>
+        {children}
+        <Button onClick={clearFilters}><StopOutlined style={{ color: 'darkred' }} />{t('filterBar.clearFilters')}</Button>
+      </Space>
+    </div>
   )
 }

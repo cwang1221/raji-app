@@ -1,5 +1,9 @@
 {
   "welcome": "Welcome!",
+  "general": {
+    "stories": "Stories",
+    "points": "Points"
+  },
   "generalMsg": {
     "networkError": "Something wrong with the network. :(",
     "timeoutError": "Time out. Please try again later. :(",
@@ -49,7 +53,8 @@
     "readyForDev": "Ready for Dev",
     "done": "Done",
     "projects": "Projects",
-    "backlog": "Epic Backlog"
+    "backlog": "Epic Backlog",
+    "total": "Total"
   },
   "filterBar": {
     "none": "None",

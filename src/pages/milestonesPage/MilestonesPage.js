@@ -4,12 +4,30 @@ import { AppstoreFilled, RocketFilled } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { FilterBar, FilterItem } from '../../components'
-import { useEpics, useMilestones, useProjects } from '../../hooks'
+import { useEpicList, useMilestones, useProjects } from '../../hooks'
 import { Epic } from './Epic'
+
+const formatEpics = (epics) => {
+  const formattedEpics = { backlog: [] }
+  epics.forEach((epic) => {
+    if (!epic.milestoneId) {
+      formattedEpics.backlog.push(epic)
+      return
+    }
+
+    formattedEpics[epic.milestoneId] || (formattedEpics[epic.milestoneId] = [])
+    formattedEpics[epic.milestoneId].push(epic)
+  })
+
+  Object.keys(formattedEpics).forEach((milestoneId) => {
+    formattedEpics[milestoneId].sort((epic1, epic2) => (epic1.indexInMilestone < epic2.indexInMilestone ? -1 : 1))
+  })
+  return formattedEpics
+}
 
 export function MilestonesPage() {
   const { t } = useTranslation()
-  const [statesFilter, setStatesFilter] = useState(['notStarted', 'inProgress'])
+  const [statesFilter, setStatesFilter] = useState([])
   const [projectsFilter, setProjectsFilter] = useState([])
   const [projects, setProjects] = useState([])
   const [milestones, setMilestones] = useState([])
@@ -17,28 +35,14 @@ export function MilestonesPage() {
 
   useEffect(async () => {
     useProjects().then((data) => setProjects(data.map((project) => ({ text: project.name, key: `${project.id}` }))))
-
     const milestonesData = await useMilestones()
     setMilestones(milestonesData)
-
-    const epicsData = await useEpics()
-    const formattedEpics = { backlog: [] }
-    epicsData.forEach((epic) => {
-      if (!epic.milestoneId) {
-        formattedEpics.backlog.push(epic)
-        return
-      }
-
-      formattedEpics[epic.milestoneId] || (formattedEpics[epic.milestoneId] = [])
-      formattedEpics[epic.milestoneId].push(epic)
-    })
-
-    Object.keys(formattedEpics).forEach((milestoneId) => {
-      formattedEpics[milestoneId].sort((epic1, epic2) => (epic1.indexInMilestone < epic2.indexInMilestone ? -1 : 1))
-    })
-
-    setEpics(formattedEpics)
   }, [])
+
+  useEffect(async () => {
+    const epicsData = await useEpicList(statesFilter, projectsFilter)
+    setEpics(formatEpics(epicsData))
+  }, [statesFilter, projectsFilter])
 
   const onChangeView = () => {
     message.info('Not ready :)')
@@ -97,6 +101,11 @@ export function MilestonesPage() {
                 key={epic.id}
                 name={`${epic.name} ${epic.id}`}
                 state={epic.state}
+                countOfStories={epic.countOfStories}
+                countOfDoneStories={epic.countOfDoneStories}
+                countOfInProgressStories={epic.countOfInProgressStories}
+                totalPoint={epic.totalPoint}
+                owners={epic.owners}
               />
             ))}
           </MilestoneContainer>

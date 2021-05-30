@@ -1,8 +1,11 @@
-import { Card, Typography, Progress, Avatar } from 'antd'
+import { Card, Typography, Progress, Avatar, Tooltip } from 'antd'
 import styled from 'styled-components'
 import { FlagOutlined, FileTextOutlined, BorderlessTableOutlined, BorderOutlined, RightOutlined, DoubleRightOutlined } from '@ant-design/icons'
+import { useTranslation } from 'react-i18next'
 
-export function Epic({ name, state }) {
+export function Epic({ name, state, countOfStories, countOfDoneStories, countOfInProgressStories, totalPoint, owners }) {
+  const { t } = useTranslation()
+
   let stateIcon
   switch (state) {
     case 'notStarted':
@@ -27,26 +30,34 @@ export function Epic({ name, state }) {
         <Typography.Title level={5}>{name}</Typography.Title>
         <Footer>
           <DataContainer>
-            <DataBackground>
-              <FileTextOutlined /> <Number>5</Number>
-            </DataBackground>
-            <DataBackground>
-              <BorderlessTableOutlined /> <Number>2</Number>
-            </DataBackground>
-            <DataBackground>
-              <ProgressBar
-                as={Progress}
-                percent={60}
-                success={{ percent: 30 }}
-                showInfo={false}
-                trailColor="#D9EAF0"
-              />
-            </DataBackground>
+            <Tooltip title={t('general.stories')}>
+              <DataBackground>
+                <FileTextOutlined /> <Number>{countOfStories}</Number>
+              </DataBackground>
+            </Tooltip>
+            <Tooltip title={t('general.points')}>
+              <DataBackground>
+                <BorderlessTableOutlined /> <Number>{totalPoint}</Number>
+              </DataBackground>
+            </Tooltip>
+            <Tooltip title={`${t('milestones.total')}: ${countOfStories}, ${t('milestones.inProgress')}: ${countOfInProgressStories}, ${t('milestones.done')}: ${countOfDoneStories}`}>
+              <DataBackground>
+                <ProgressBar
+                  as={Progress}
+                  percent={(countOfInProgressStories / countOfStories) * 100}
+                  success={{ percent: (countOfDoneStories / countOfStories) * 100 }}
+                  showInfo={false}
+                  trailColor="#D9EAF0"
+                />
+              </DataBackground>
+            </Tooltip>
           </DataContainer>
           <OwnerContainer>
-            <Avatar size="small" icon={<FlagOutlined />} />
-            <Avatar size="small" icon={<FlagOutlined />} style={{ marginLeft: '2px' }} />
-            <Avatar size="small" icon={<FlagOutlined />} style={{ marginLeft: '2px' }} />
+            {owners.map((owner) => (
+              <Tooltip key={owner.id} title={owner.name}>
+                <Avatar size="small" src={owner.avatar} style={{ marginLeft: '2px' }} />
+              </Tooltip>
+            ))}
           </OwnerContainer>
         </Footer>
       </EpicMainContent>
