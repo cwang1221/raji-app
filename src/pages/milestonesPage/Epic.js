@@ -25,7 +25,9 @@ export function Epic({ name, state, countOfStories, countOfDoneStories, countOfI
 
   return (
     <EpicContainer as={Card.Grid} hoverable={false}>
-      {stateIcon}
+      <Tooltip title={t(`milestones.${state}`)}>
+        {stateIcon}
+      </Tooltip>
       <EpicMainContent>
         <Typography.Title level={5}>{name}</Typography.Title>
         <Footer>

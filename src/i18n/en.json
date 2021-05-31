@@ -2,7 +2,8 @@
   "welcome": "Welcome!",
   "general": {
     "stories": "Stories",
-    "points": "Points"
+    "points": "Points",
+    "epics": "Epics"
   },
   "generalMsg": {
     "networkError": "Something wrong with the network. :(",
@@ -54,7 +55,9 @@
     "done": "Done",
     "projects": "Projects",
     "backlog": "Epic Backlog",
-    "total": "Total"
+    "backlogDescription": "You have {{count}} unfinished Epics that don't already belong to a Milestone. They are listed here.",
+    "total": "Total",
+    "percentageCompleted": "{{percentage}}% Completed"
   },
   "filterBar": {
     "none": "None",

@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import { FilterBar, FilterItem } from '../../components'
 import { useEpicList, useMilestones, useProjects } from '../../hooks'
 import { Epic } from './Epic'
+import { BacklogHeader } from './BacklogHeader'
+import { MilestoneHeader } from './MilestoneHeader'
 
 const formatEpics = (epics) => {
   const formattedEpics = { backlog: [] }
@@ -93,13 +95,37 @@ export function MilestonesPage() {
           return parseInt(milestoneId1, 10) < parseInt(milestoneId2, 10) ? -1 : 1
         }).map((milestoneId) => (
           <MilestoneContainer as={Card} key={milestoneId || 'backlog'}>
-            <Card.Grid style={{ width: '100%' }}>
-              {milestoneId === 'backlog' ? t('milestones.backlog') : milestones.find((milestone) => `${milestone.id}` === milestoneId).name}
-            </Card.Grid>
+            <Card.Grid hoverable={false} style={{ padding: '0' }} />
+            {milestoneId === 'backlog'
+              ? <BacklogHeader countOfEpics={epics[milestoneId].length} />
+              : (() => {
+                const filteredEpics = epics[milestoneId]
+                let countOfStories = 0
+                let countOfDoneStories = 0
+                let countOfInProgressStories = 0
+                let totalPoint = 0
+                filteredEpics.forEach((epic) => {
+                  countOfStories += epic.countOfStories
+                  countOfDoneStories += epic.countOfDoneStories
+                  countOfInProgressStories += epic.countOfInProgressStories
+                  totalPoint += epic.totalPoint
+                })
+
+                return (
+                  <MilestoneHeader
+                    name={milestones.find((item) => `${item.id}` === milestoneId).name}
+                    countOfEpics={filteredEpics.length}
+                    countOfStories={countOfStories}
+                    countOfDoneStories={countOfDoneStories}
+                    countOfInProgressStories={countOfInProgressStories}
+                    totalPoint={totalPoint}
+                  />
+                )
+              })()}
             {epics[milestoneId].map((epic) => (
               <Epic
                 key={epic.id}
-                name={`${epic.name} ${epic.id}`}
+                name={epic.name}
                 state={epic.state}
                 countOfStories={epic.countOfStories}
                 countOfDoneStories={epic.countOfDoneStories}
