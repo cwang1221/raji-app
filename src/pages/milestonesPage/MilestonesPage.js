@@ -4,7 +4,7 @@ import { AppstoreFilled, RocketFilled } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { FilterBar, FilterItem } from '../../components'
-import { useEpicList, useMilestones, useProjects } from '../../hooks'
+import { useDocumentTitle, useEpicList, useMilestones, useProjects } from '../../hooks'
 import { Epic } from './Epic'
 import { BacklogHeader } from './BacklogHeader'
 import { MilestoneHeader } from './MilestoneHeader'
@@ -34,6 +34,8 @@ export function MilestonesPage() {
   const [projects, setProjects] = useState([])
   const [milestones, setMilestones] = useState([])
   const [epics, setEpics] = useState({ backlog: [] })
+
+  useDocumentTitle(t('milestones.milestones'))
 
   useEffect(async () => {
     useProjects().then((data) => setProjects(data.map((project) => ({ text: project.name, key: `${project.id}` }))))

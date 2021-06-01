@@ -3,13 +3,14 @@
   "general": {
     "stories": "Stories",
     "points": "Points",
-    "epics": "Epics"
+    "epics": "Epics",
+    "error": "Error"
   },
   "generalMsg": {
     "networkError": "Something wrong with the network. :(",
     "timeoutError": "Time out. Please try again later. :(",
     "authFailedError": "Please sign in.",
-    "errorPage": "Something goes wrong. :(",
+    "errorBoundaryPage": "Something goes wrong. :(",
     "notFoundPage": "404 NOT FOUND :("
   }, 
   "signIn": {

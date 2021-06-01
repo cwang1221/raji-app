@@ -1,13 +1,15 @@
 import { Typography, Space } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useProjects } from '../../hooks'
+import { useDocumentTitle, useProjects } from '../../hooks'
 import { ProjectCard } from './ProjectCard'
 
 export function ProjectsPage() {
   const { t } = useTranslation()
   const [webProjects, setWebProjects] = useState([])
   const [mobileProjects, setMobileProjects] = useState([])
+
+  useDocumentTitle(t('projects.projects'))
 
   useEffect(async () => {
     const data = await useProjects()
