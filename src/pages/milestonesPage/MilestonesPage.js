@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next'
-import { Card, message, Space, Typography } from 'antd'
+import { List, message, Space, Typography } from 'antd'
 import { AppstoreFilled, RocketFilled } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { FilterBar, FilterItem } from '../../components'
 import { useDocumentTitle, useEpicList, useMilestones, useProjects } from '../../hooks'
 import { Epic } from './Epic'
@@ -52,6 +53,10 @@ export function MilestonesPage() {
     message.info('Not ready :)')
   }
 
+  const onDragEnd = (result) => {
+    const a = 1
+  }
+
   return (
     <>
       <Typography.Title level={3}>{t('milestones.milestones')}</Typography.Title>
@@ -89,56 +94,79 @@ export function MilestonesPage() {
         />
       </FilterBar>
 
-      <Space align="start">
-        {Object.keys(epics).sort((milestoneId1, milestoneId2) => {
-          if (milestoneId1 === 'backlog') {
-            return -1
-          }
-          return parseInt(milestoneId1, 10) < parseInt(milestoneId2, 10) ? -1 : 1
-        }).map((milestoneId) => (
-          <MilestoneContainer as={Card} key={milestoneId || 'backlog'}>
-            <Card.Grid hoverable={false} style={{ padding: '0' }} />
-            {milestoneId === 'backlog'
-              ? <BacklogHeader countOfEpics={epics[milestoneId].length} />
-              : (() => {
-                const filteredEpics = epics[milestoneId]
-                let countOfStories = 0
-                let countOfDoneStories = 0
-                let countOfInProgressStories = 0
-                let totalPoint = 0
-                filteredEpics.forEach((epic) => {
-                  countOfStories += epic.countOfStories
-                  countOfDoneStories += epic.countOfDoneStories
-                  countOfInProgressStories += epic.countOfInProgressStories
-                  totalPoint += epic.totalPoint
-                })
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Space align="start">
+          {Object.keys(epics).sort((milestoneId1, milestoneId2) => {
+            if (milestoneId1 === 'backlog') {
+              return -1
+            }
+            return parseInt(milestoneId1, 10) < parseInt(milestoneId2, 10) ? -1 : 1
+          }).map((milestoneId) => (
+            <MilestoneContainer
+              as={List}
+              bordered
+              key={milestoneId || 'backlog'}
+              header={milestoneId === 'backlog'
+                ? <BacklogHeader countOfEpics={epics[milestoneId].length} />
+                : (() => {
+                  const filteredEpics = epics[milestoneId]
+                  let countOfStories = 0
+                  let countOfDoneStories = 0
+                  let countOfInProgressStories = 0
+                  let totalPoint = 0
+                  filteredEpics.forEach((epic) => {
+                    countOfStories += epic.countOfStories
+                    countOfDoneStories += epic.countOfDoneStories
+                    countOfInProgressStories += epic.countOfInProgressStories
+                    totalPoint += epic.totalPoint
+                  })
 
-                return (
-                  <MilestoneHeader
-                    name={milestones.find((item) => `${item.id}` === milestoneId).name}
-                    countOfEpics={filteredEpics.length}
-                    countOfStories={countOfStories}
-                    countOfDoneStories={countOfDoneStories}
-                    countOfInProgressStories={countOfInProgressStories}
-                    totalPoint={totalPoint}
-                  />
-                )
-              })()}
-            {epics[milestoneId].map((epic) => (
-              <Epic
-                key={epic.id}
-                name={epic.name}
-                state={epic.state}
-                countOfStories={epic.countOfStories}
-                countOfDoneStories={epic.countOfDoneStories}
-                countOfInProgressStories={epic.countOfInProgressStories}
-                totalPoint={epic.totalPoint}
-                owners={epic.owners}
-              />
-            ))}
-          </MilestoneContainer>
-        ))}
-      </Space>
+                  return (
+                    <MilestoneHeader
+                      name={milestones.find((item) => `${item.id}` === milestoneId).name}
+                      countOfEpics={filteredEpics.length}
+                      countOfStories={countOfStories}
+                      countOfDoneStories={countOfDoneStories}
+                      countOfInProgressStories={countOfInProgressStories}
+                      totalPoint={totalPoint}
+                    />
+                  )
+                })()}
+              style={{ backgroundColor: 'white' }}
+            >
+
+              <Droppable droppableId={`${milestoneId}` || 'backlog'}>
+                {(provided) => (
+                  <div ref={provided.innerRef} {...provided.droppableProps}>
+                    {epics[milestoneId].map((epic) => (
+                      <Draggable key={epic.id} draggableId={`${epic.id}`} index={epic.indexInMilestone}>
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <Epic
+                              name={epic.name}
+                              state={epic.state}
+                              countOfStories={epic.countOfStories}
+                              countOfDoneStories={epic.countOfDoneStories}
+                              countOfInProgressStories={epic.countOfInProgressStories}
+                              totalPoint={epic.totalPoint}
+                              owners={epic.owners}
+                            />
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </MilestoneContainer>
+          ))}
+        </Space>
+      </DragDropContext>
     </>
   )
 }

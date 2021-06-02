@@ -1,4 +1,4 @@
-import { Card, Typography, Progress, Avatar, Tooltip } from 'antd'
+import { Typography, Progress, Avatar, Tooltip, List } from 'antd'
 import styled from 'styled-components'
 import { FlagOutlined, FileTextOutlined, BorderlessTableOutlined, BorderOutlined, RightOutlined, DoubleRightOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
@@ -24,7 +24,7 @@ export function Epic({ name, state, countOfStories, countOfDoneStories, countOfI
   }
 
   return (
-    <EpicContainer as={Card.Grid} hoverable={false}>
+    <EpicContainer as={List.Item}>
       <Tooltip title={t(`milestones.${state}`)}>
         {stateIcon}
       </Tooltip>
@@ -71,6 +71,8 @@ const EpicContainer = styled.div`
   width: 100%;
   display: flex;
   padding: 1rem;
+  background-color: white;
+  border: #f0f0f0 1px solid !important;
 `
 
 const EpicMainContent = styled.div`

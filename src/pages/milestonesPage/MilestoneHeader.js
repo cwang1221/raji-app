@@ -1,4 +1,4 @@
-import { Card, Space, Typography, Progress, Tooltip } from 'antd'
+import { Space, Typography, Progress, Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { DoubleRightOutlined, CheckOutlined, FlagOutlined, FileTextOutlined, BorderlessTableOutlined, CheckCircleFilled } from '@ant-design/icons'
@@ -7,7 +7,7 @@ export function MilestoneHeader({ name, countOfEpics, countOfStories, countOfDon
   const { t } = useTranslation()
   const done = countOfDoneStories === countOfStories
   return (
-    <Card.Grid hoverable={false} style={{ width: '100%', padding: '1.2rem' }}>
+    <div style={{ width: '100%' }}>
       <Space style={{ width: '100%' }}>
         <Typography.Title level={4} style={{ color: '#316399' }}>{name}</Typography.Title>
         {done && <CheckOutlined style={{ fontSize: '20px', marginBottom: '0.5rem', color: '#009D4D' }} />}
@@ -39,7 +39,7 @@ export function MilestoneHeader({ name, countOfEpics, countOfStories, countOfDon
           style={{ paddingTop: '-1rem' }}
         />
       </Tooltip>
-    </Card.Grid>
+    </div>
   )
 }
 
