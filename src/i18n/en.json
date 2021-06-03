@@ -22,7 +22,7 @@
     "signInFailedErrMsg": "The given email or password are not valid."
   },
   "sideMenu": {
-    "dashboard": "Dashboard",
+    "home": "Home",
     "status": "Statue",
     "stories": "Stories",
     "epics": "Epics",

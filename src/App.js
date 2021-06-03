@@ -7,8 +7,8 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
-        <MainLayoutRoute path="/dashboard" component={WelcomePage} />
+        <Route exact path="/" render={() => <Redirect to="/home" />} />
+        <MainLayoutRoute path="/home" component={WelcomePage} />
         <MainLayoutRoute path="/projects" component={ProjectsPage} />
         <MainLayoutRoute path="/milestones" component={MilestonesPage} />
         <Route path="/signIn" component={SignInPage} />
