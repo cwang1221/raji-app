@@ -46,7 +46,7 @@ export function Epic({ name, state, countOfStories, countOfDoneStories, countOfI
               <DataBackground>
                 <ProgressBar
                   as={Progress}
-                  percent={(countOfInProgressStories / countOfStories) * 100}
+                  percent={((countOfInProgressStories + countOfDoneStories) / countOfStories) * 100}
                   success={{ percent: (countOfDoneStories / countOfStories) * 100 }}
                   showInfo={false}
                   trailColor="#D9EAF0"

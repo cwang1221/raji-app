@@ -5,28 +5,11 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { FilterBar, FilterItem } from '../../components'
-import { useDocumentTitle, useEpicList, useMilestones, useProjects } from '../../hooks'
+import { useDocumentTitle, useMilestone, useProjects } from '../../hooks'
 import { Epic } from './Epic'
 import { BacklogHeader } from './BacklogHeader'
 import { MilestoneHeader } from './MilestoneHeader'
-
-const formatEpics = (epics) => {
-  const formattedEpics = { backlog: [] }
-  epics.forEach((epic) => {
-    if (!epic.milestoneId) {
-      formattedEpics.backlog.push(epic)
-      return
-    }
-
-    formattedEpics[epic.milestoneId] || (formattedEpics[epic.milestoneId] = [])
-    formattedEpics[epic.milestoneId].push(epic)
-  })
-
-  Object.keys(formattedEpics).forEach((milestoneId) => {
-    formattedEpics[milestoneId].sort((epic1, epic2) => (epic1.indexInMilestone < epic2.indexInMilestone ? -1 : 1))
-  })
-  return formattedEpics
-}
+import { clone } from '../../utils'
 
 export function MilestonesPage() {
   const { t } = useTranslation()
@@ -34,19 +17,23 @@ export function MilestonesPage() {
   const [projectsFilter, setProjectsFilter] = useState([])
   const [projects, setProjects] = useState([])
   const [milestones, setMilestones] = useState([])
-  const [epics, setEpics] = useState({ backlog: [] })
+  const { getMilestonesList, putMilestone } = useMilestone()
 
   useDocumentTitle(t('milestones.milestones'))
 
   useEffect(async () => {
     useProjects().then((data) => setProjects(data.map((project) => ({ text: project.name, key: `${project.id}` }))))
-    const milestonesData = await useMilestones()
-    setMilestones(milestonesData)
   }, [])
 
   useEffect(async () => {
-    const epicsData = await useEpicList(statesFilter, projectsFilter)
-    setEpics(formatEpics(epicsData))
+    const milestones = await getMilestonesList(statesFilter, projectsFilter)
+    milestones.sort((milestone1, milestone2) => {
+      if (milestone1.name === 'BACKLOG') {
+        return -1
+      }
+      return milestone1.id - milestone2.id
+    })
+    setMilestones(milestones)
   }, [statesFilter, projectsFilter])
 
   const onChangeView = () => {
@@ -54,12 +41,37 @@ export function MilestonesPage() {
   }
 
   const onDragEnd = (result) => {
-    const a = 1
+    if (!result.destination) {
+      return
+    }
+
+    const milestonesClone = clone(milestones)
+
+    const sourceMilestone = milestonesClone.find((milestone) => `${milestone.id}` === result.source.droppableId)
+    const draggableId = sourceMilestone.epicIds.splice(result.source.index, 1)[0]
+    const draggableEpic = sourceMilestone.epics.splice(result.source.index, 1)[0]
+
+    const destinationMilestone = milestonesClone.find((milestone) => `${milestone.id}` === result.destination.droppableId)
+    destinationMilestone.epicIds.splice(result.destination.index, 0, draggableId)
+    destinationMilestone.epics.splice(result.destination.index, 0, draggableEpic)
+
+    setMilestones(milestonesClone)
+    putMilestone(destinationMilestone.id, { epicIds: destinationMilestone.epicIds })
+    sourceMilestone.id !== destinationMilestone.id && putMilestone(sourceMilestone.id, { epicIds: sourceMilestone.epicIds })
+  }
+
+  const changeState = (id, state) => {
+    const milestonesClone = clone(milestones)
+    milestonesClone.find((milestone) => milestone.id === id).state = state
+
+    setMilestones(milestonesClone)
+    putMilestone(id, { state })
   }
 
   return (
     <>
       <Typography.Title level={3}>{t('milestones.milestones')}</Typography.Title>
+
       <FilterBar>
         <FilterItem.RadioGroupButton
           name={t('milestones.view')}
@@ -75,9 +87,8 @@ export function MilestonesPage() {
           name={t('milestones.states')}
           icon={<AppstoreFilled style={{ color: 'rgb(132, 131, 135)' }} />}
           items={[
-            { text: t('milestones.notStarted'), key: 'notStarted' },
+            { text: t('milestones.todo'), key: 'todo' },
             { text: t('milestones.inProgress'), key: 'inProgress' },
-            { text: t('milestones.readyForDev'), key: 'readyForDev' },
             { text: t('milestones.done'), key: 'done' }
           ]}
           value={statesFilter}
@@ -96,50 +107,47 @@ export function MilestonesPage() {
 
       <DragDropContext onDragEnd={onDragEnd}>
         <Space align="start">
-          {Object.keys(epics).sort((milestoneId1, milestoneId2) => {
-            if (milestoneId1 === 'backlog') {
-              return -1
-            }
-            return parseInt(milestoneId1, 10) < parseInt(milestoneId2, 10) ? -1 : 1
-          }).map((milestoneId) => (
+          {milestones.map((milestone) => (
             <MilestoneContainer
               as={List}
               bordered
-              key={milestoneId || 'backlog'}
-              header={milestoneId === 'backlog'
-                ? <BacklogHeader countOfEpics={epics[milestoneId].length} />
+              key={milestone.id}
+              header={milestone.name === 'BACKLOG'
+                ? <BacklogHeader countOfEpics={milestone.epics.length} />
                 : (() => {
-                  const filteredEpics = epics[milestoneId]
                   let countOfStories = 0
                   let countOfDoneStories = 0
                   let countOfInProgressStories = 0
                   let totalPoint = 0
-                  filteredEpics.forEach((epic) => {
+
+                  milestone.epics.forEach((epic) => {
                     countOfStories += epic.countOfStories
                     countOfDoneStories += epic.countOfDoneStories
                     countOfInProgressStories += epic.countOfInProgressStories
                     totalPoint += epic.totalPoint
                   })
-
                   return (
                     <MilestoneHeader
-                      name={milestones.find((item) => `${item.id}` === milestoneId).name}
-                      countOfEpics={filteredEpics.length}
+                      id={milestone.id}
+                      name={milestone.name}
+                      countOfEpics={milestone.epics.length}
                       countOfStories={countOfStories}
                       countOfDoneStories={countOfDoneStories}
                       countOfInProgressStories={countOfInProgressStories}
+                      state={milestone.state}
                       totalPoint={totalPoint}
+                      changeState={changeState}
                     />
                   )
                 })()}
               style={{ backgroundColor: 'white' }}
             >
 
-              <Droppable droppableId={`${milestoneId}` || 'backlog'}>
+              <Droppable droppableId={`${milestone.id}`}>
                 {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {epics[milestoneId].map((epic) => (
-                      <Draggable key={epic.id} draggableId={`${epic.id}`} index={epic.indexInMilestone}>
+                  <div ref={provided.innerRef} {...provided.droppableProps} style={{ minHeight: '4rem' }}>
+                    {milestone.epics.map((epic, index) => (
+                      <Draggable key={epic.id} draggableId={`${epic.id}`} index={index}>
                         {(provided) => (
                           <div
                             ref={provided.innerRef}

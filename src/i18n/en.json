@@ -52,7 +52,7 @@
     "column": "Column",
     "table": "Table",
     "states": "States",
-    "notStarted": "Not Started",
+    "todo": "To Do",
     "inProgress": "In Progress",
     "readyForDev": "Ready for Dev",
     "done": "Done",
