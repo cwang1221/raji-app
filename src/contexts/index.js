@@ -1,11 +1,14 @@
 import { AuthProvider } from './authContext'
 import { LanguageProvider } from './languageContext'
+import { SettingProvider } from './settingContext'
 
 export function AppProvider({ children }) {
   return (
     <AuthProvider>
       <LanguageProvider>
-        {children}
+        <SettingProvider>
+          {children}
+        </SettingProvider>
       </LanguageProvider>
     </AuthProvider>
   )

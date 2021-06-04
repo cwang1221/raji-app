@@ -1,15 +1,23 @@
 import { Typography, Form, Button, Input, Divider, InputNumber } from 'antd'
 import { useTranslation } from 'react-i18next'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { focusErrorInForm } from '../../utils'
-import { useDocumentTitle } from '../../hooks'
+import { useDocumentTitle, useSetting } from '../../hooks'
 import { useAuth } from '../../contexts/authContext'
+import { useSettingContext } from '../../contexts/settingContext'
 
 export function SettingPage() {
   const { t } = useTranslation()
   const { user, putUser } = useAuth()
   const profileFormRef = useRef()
   const toolsFormRef = useRef()
+  const { setting, setSetting } = useSettingContext()
+  const { putSetting } = useSetting()
+
+  useEffect(() => {
+    toolsFormRef.current.getFieldsValue().timePerTopic !== setting.timePerTopic
+    && toolsFormRef.current.setFieldsValue({ timePerTopic: setting.timePerTopic })
+  }, [setting])
 
   useDocumentTitle(t('signIn.signIn'))
 
@@ -22,7 +30,8 @@ export function SettingPage() {
   }
 
   const onToolsFinish = async ({ timePerTopic }) => {
-    putUser(timePerTopic)
+    setSetting({ timePerTopic })
+    putSetting({ timePerTopic })
   }
 
   const onToolsFinishFailed = () => {
@@ -68,6 +77,7 @@ export function SettingPage() {
         wrapperCol={{ span: 24 }}
         onFinish={onToolsFinish}
         onFinishFailed={onToolsFinishFailed}
+        initialValues={{ timePerTopic: setting.timePerTopic }}
         style={{ width: '24rem' }}
       >
         <Form.Item

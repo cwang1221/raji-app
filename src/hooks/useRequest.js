@@ -61,4 +61,22 @@ const putMilestone = async (id, milestone) => {
   return data
 }
 
+const getSetting = async () => {
+  const { data } = await axios.request({
+    url: '/settings',
+    method: 'get'
+  })
+  return data
+}
+
+const putSetting = async (settings) => {
+  const { data } = await axios.request({
+    url: '/settings',
+    method: 'put',
+    data: settings
+  })
+  return data
+}
+
 export const useMilestone = () => ({ getMilestonesList, putMilestone })
+export const useSetting = () => ({ getSetting, putSetting })

@@ -2,7 +2,7 @@ import { Button, Space } from 'antd'
 import { StopOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 
-export function FilterBar({ children }) {
+export function FilterBar({ children,  }) {
   const { t } = useTranslation()
 
   const clearFilters = () => {

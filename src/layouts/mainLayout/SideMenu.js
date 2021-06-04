@@ -23,10 +23,6 @@ export function SideMenu() {
     history.push('/signIn')
   }
 
-  const onAvatarClick = () => {
-
-  }
-
   const UserPopup = () => (
     <UserCard
       as={Card}
@@ -88,7 +84,7 @@ export function SideMenu() {
           arrow
           overlay={<UserPopup />}
         >
-          <Item className={menuSelectedKey === 'settings' ? 'selected avatar' : 'avatar'} onClick={onAvatarClick}>
+          <Item className={menuSelectedKey === 'settings' ? 'selected avatar' : 'avatar'}>
             <Avatar size="large" src={user.avatar} />
           </Item>
         </Dropdown>
