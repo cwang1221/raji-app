@@ -6,12 +6,15 @@ import styled from 'styled-components'
 import { useAuth } from '../../contexts/authContext'
 import logo from '../../assets/images/logo.png'
 import { focusErrorInForm } from '../../utils'
+import { useDocumentTitle } from '../../hooks'
 
 export function SignInPage() {
   const { t } = useTranslation()
   const { postAuth } = useAuth()
   const history = useHistory()
   const formRef = useRef()
+
+  useDocumentTitle(t('signIn.signIn'))
 
   const onFinish = async ({ email, password }) => {
     if (await postAuth(email, password)) {

@@ -4,10 +4,10 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import './libs/i18n'
 import { AppProvider } from './contexts'
-import { ErrorPage } from './pages'
+import { ErrorBoundaryPage } from './pages'
 
 ReactDOM.render(
-  <ErrorBoundary FallbackComponent={ErrorPage}>
+  <ErrorBoundary FallbackComponent={ErrorBoundaryPage}>
     <AppProvider>
       <App />
     </AppProvider>

@@ -1,23 +1,26 @@
 import { Typography } from 'antd'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { useDocumentTitle } from '../../hooks'
 
-export function ErrorPage() {
+const ErrorPage = ({ title }) => {
   const { t } = useTranslation()
+  useDocumentTitle(t('general.error'))
   return (
     <Container>
-      <Content as={Typography.Title}>{t('generalMsg.errorPage')}</Content>
+      <Content as={Typography.Title}>{title}</Content>
     </Container>
   )
 }
 
+export function ErrorBoundaryPage() {
+  const { t } = useTranslation()
+  return <ErrorPage title={t('generalMsg.errorBoundaryPage')} />
+}
+
 export function NotFoundPage() {
   const { t } = useTranslation()
-  return (
-    <Container>
-      <Content as={Typography.Title}>{t('generalMsg.notFoundPage')}</Content>
-    </Container>
-  )
+  return <ErrorPage title={t('generalMsg.notFoundPage')} />
 }
 
 const Container = styled.div`

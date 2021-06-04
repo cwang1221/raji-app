@@ -2,15 +2,13 @@ import { Card, Avatar, Button, Dropdown, Form, Input } from 'antd'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
-import styled from 'styled-components'
-import { useAuth } from '../../../contexts/authContext'
-import { focusErrorInForm } from '../../../utils'
-import { MyModal } from '../../../components'
+import { useAuth } from '../../contexts/authContext'
+import { focusErrorInForm } from '../../utils'
+import { MyModal } from '../../components'
 
 export function UserButton() {
   const { user, setUser, putUser } = useAuth()
   const [showEditProfile, setShowEditProfile] = useState(false)
-  const history = useHistory()
   const { t } = useTranslation()
   const formRef = useRef()
 
@@ -61,7 +59,7 @@ export function UserButton() {
         placement="bottomRight"
         overlay={<UserCard />}
       >
-        <UserAvatar as={Avatar} size="large" src={user.avatar} />
+        <Avatar size="large" src={user.avatar} />
       </Dropdown>
       <MyModal
         title={t('header.editProfile')}
@@ -89,12 +87,3 @@ export function UserButton() {
     </>
   )
 }
-
-const UserAvatar = styled.div`
-  margin-left: 1rem !important;
-  
-  &:hover {
-    box-shadow: 1px 1px 0 rgb(128, 75, 214), -1px 1px 0 rgb(128, 75, 214), -1px -1px 0 rgb(128, 75, 214), 1px -1px 0 rgb(128, 75, 214);
-    cursor: pointer;
-  }
-`

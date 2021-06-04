@@ -1,15 +1,15 @@
 import { Layout } from 'antd'
 import { Redirect, Route } from 'react-router-dom'
 import styled from 'styled-components'
-import { Header } from './header/Header'
+import { Header } from './Header'
 import { SideMenu } from './SideMenu'
 
 function MainLayout({ children }) {
   return (
     <Layout style={{ height: '100vh' }}>
-      <Header />
+      <SideMenu />
       <Layout>
-        <SideMenu />
+        <Header />
         <Content as={Layout.Content}>
           {children}
         </Content>
@@ -36,6 +36,7 @@ export function MainLayoutRoute({ component: Component, ...rest }) {
 }
 
 const Content = styled.div`
+  background-color: rgb(238, 238, 238);
   padding: 1rem 2rem;
   overflow: scroll;
 `
