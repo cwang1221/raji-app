@@ -66,7 +66,10 @@
     "none": "None",
     "all": "All",
     "countItems": "{{count}} items",
-    "clearFilters": "Clear Filters"
+    "clearFilters": "Clear Filters",
+    "projectHint": "Filter by Project",
+    "allProjects": "All Projects",
+    "countProjects": "{{count}} Projects"
   },
   "settings": {
     "profile": "Your Profile",

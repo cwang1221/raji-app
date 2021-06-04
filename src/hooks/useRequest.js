@@ -1,6 +1,6 @@
 import axios from '../libs/axios'
 
-export const useProjects = async () => {
+export const getProjects = async () => {
   const { data } = await axios.request({
     url: '/projects',
     method: 'get'
@@ -41,7 +41,7 @@ const getMilestonesList = async (states, projectIds) => {
 
   const queryStrings = []
   states && states.length !== 0 && states.length !== 4 && queryStrings.push(`state=${states.join(',')}`)
-  projectIds && projectIds.length !== 0 && projectIds.length !== 4 && queryStrings.push(`projectId=${projectIds.join(',')}`)
+  projectIds && !projectIds.includes('all') && queryStrings.push(`projectId=${projectIds.join(',')}`)
 
   queryStrings.length > 0 && (url += `?${queryStrings.join('&')}`)
 
@@ -80,3 +80,4 @@ const putSetting = async (settings) => {
 
 export const useMilestone = () => ({ getMilestonesList, putMilestone })
 export const useSetting = () => ({ getSetting, putSetting })
+export const useProject = () => ({ getProjects })

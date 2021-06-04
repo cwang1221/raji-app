@@ -4,8 +4,8 @@ import { AppstoreFilled, RocketFilled } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-import { FilterBar, FilterItem } from '../../components'
-import { useDocumentTitle, useMilestone, useProjects } from '../../hooks'
+import { FilterBar, FilterItem, ProjectFilter } from '../../components'
+import { useDocumentTitle, useMilestone, useProject } from '../../hooks'
 import { Epic } from './Epic'
 import { BacklogHeader } from './BacklogHeader'
 import { MilestoneHeader } from './MilestoneHeader'
@@ -18,11 +18,12 @@ export function MilestonesPage() {
   const [projects, setProjects] = useState([])
   const [milestones, setMilestones] = useState([])
   const { getMilestonesList, putMilestone } = useMilestone()
+  const { getProjects } = useProject()
 
   useDocumentTitle(t('milestones.milestones'))
 
   useEffect(async () => {
-    useProjects().then((data) => setProjects(data.map((project) => ({ text: project.name, key: `${project.id}` }))))
+    getProjects().then((data) => setProjects(data.map((project) => ({ text: project.name, key: `${project.id}` }))))
   }, [])
 
   const getMilestones = async () => {
@@ -78,6 +79,8 @@ export function MilestonesPage() {
       <Typography.Title level={3}>{t('milestones.milestones')}</Typography.Title>
 
       <FilterBar>
+        <ProjectFilter />
+        <FilterItem.Seperator />
         <FilterItem.RadioGroupButton
           name={t('milestones.view')}
           items={[
@@ -100,14 +103,15 @@ export function MilestonesPage() {
           defaultValue={[]}
           onChange={setStatesFilter}
         />
-        <FilterItem.MultiSelect
+        {/* <FilterItem.MultiSelect
           name={t('milestones.projects')}
           icon={<RocketFilled style={{ color: 'rgb(218, 111, 129)' }} />}
           items={projects}
           value={projectsFilter}
           defaultValue={[]}
           onChange={setProjectsFilter}
-        />
+        /> */}
+        <ProjectFilter onChange={setProjectsFilter} />
       </FilterBar>
 
       <DragDropContext onDragEnd={onDragEnd}>
