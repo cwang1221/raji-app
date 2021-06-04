@@ -85,7 +85,7 @@ export function ProjectFilter({ onChange }) {
       <FilterPopup as={Card} onClick={(e) => e.nativeEvent.stopImmediatePropagation()}>
         <span style={{ fontSize: '10px' }}>{t('filterBar.projectHint')}</span>
         <Input.Search ref={searchBoxRef} onChange={onFilterProjects} />
-        <Menu multiple selectedKeys={selectedProjects} onSelect={onSelect} onDeselect={onDeselect}>
+        <Menu multiple selectedKeys={selectedProjects} onSelect={onSelect} onDeselect={onDeselect} style={{ borderRight: '0px' }}>
           {showAll && <Menu.Item key="all">{t('filterBar.allProjects')}</Menu.Item>}
           {filteredProjects.map((project) => (
             <Menu.Item key={`${project.id}`} icon={<CaretRightOutlined style={{ color: project.color }} />}>{project.name}</Menu.Item>
