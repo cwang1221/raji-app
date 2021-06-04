@@ -34,7 +34,7 @@
   },
   "header": {
     "createStory": "Create Story",
-    "editProfile": "Edit Profile",
+    "setting": "Setting",
     "signOut": "Sign Out",
     "username": "Username",
     "usernameErrMsg": "Please input your username",
@@ -67,5 +67,16 @@
     "all": "All",
     "countItems": "{{count}} items",
     "clearFilters": "Clear Filters"
+  },
+  "settings": {
+    "profile": "Your Profile",
+    "username": "Username",
+    "usernameErrMsg": "Please input your username",
+    "tools": "Tools",
+    "timer": "Daily Meeting Timer",
+    "timePerTopic": "Time per Topic",
+    "timeErrMsg": "Please input a number between 1 and 300",
+    "seconds": "Seconds",
+    "save": "Save"
   }
 }

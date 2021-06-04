@@ -76,7 +76,8 @@ const State = styled.span`
   font-weight: bold;
 
   &:hover{
-    background-color: lightgray;
+    box-shadow: 1px 1px 1px lightgray;
+    border: 1px solid gray;
     cursor: pointer;
   }
 `

@@ -31,6 +31,9 @@ export function SideMenu() {
     <UserCard
       as={Card}
       actions={[
+        <Link to="/settings">
+          <Button type="text">{t('header.setting')}</Button>
+        </Link>,
         <Button type="text" onClick={onLogout}>{t('header.signOut')}</Button>
       ]}
     >
@@ -85,7 +88,7 @@ export function SideMenu() {
           arrow
           overlay={<UserPopup />}
         >
-          <Item className="avatar" onClick={onAvatarClick}>
+          <Item className={menuSelectedKey === 'settings' ? 'selected avatar' : 'avatar'} onClick={onAvatarClick}>
             <Avatar size="large" src={user.avatar} />
           </Item>
         </Dropdown>

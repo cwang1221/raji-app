@@ -25,7 +25,7 @@ export function MilestonesPage() {
     useProjects().then((data) => setProjects(data.map((project) => ({ text: project.name, key: `${project.id}` }))))
   }, [])
 
-  useEffect(async () => {
+  const getMilestones = async () => {
     const milestones = await getMilestonesList(statesFilter, projectsFilter)
     milestones.sort((milestone1, milestone2) => {
       if (milestone1.name === 'BACKLOG') {
@@ -34,6 +34,10 @@ export function MilestonesPage() {
       return milestone1.id - milestone2.id
     })
     setMilestones(milestones)
+  }
+
+  useEffect(() => {
+    getMilestones()
   }, [statesFilter, projectsFilter])
 
   const onChangeView = () => {
@@ -60,12 +64,13 @@ export function MilestonesPage() {
     sourceMilestone.id !== destinationMilestone.id && putMilestone(sourceMilestone.id, { epicIds: sourceMilestone.epicIds })
   }
 
-  const changeState = (id, state) => {
+  const changeState = async (id, state) => {
     const milestonesClone = clone(milestones)
     milestonesClone.find((milestone) => milestone.id === id).state = state
 
     setMilestones(milestonesClone)
-    putMilestone(id, { state })
+    await putMilestone(id, { state })
+    getMilestones()
   }
 
   return (
