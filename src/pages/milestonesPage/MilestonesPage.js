@@ -17,7 +17,7 @@ export function MilestonesPage() {
   const [milestones, setMilestones] = useState([])
   const { getMilestonesList, putMilestone } = useMilestone()
 
-  useDocumentTitle(t('milestones.milestones'))
+  useDocumentTitle(t('milestone.milestones'))
 
   const getMilestones = async () => {
     const milestones = await getMilestonesList(filteredStates, filteredProjects)
@@ -63,7 +63,7 @@ export function MilestonesPage() {
 
   return (
     <>
-      <Typography.Title level={3}>{t('milestones.milestones')}</Typography.Title>
+      <Typography.Title level={3}>{t('milestone.milestones')}</Typography.Title>
 
       <FilterBar
         leftChildren={[
@@ -74,10 +74,10 @@ export function MilestonesPage() {
         rightChildren={[
           <FilterItem.RadioGroupButton
             key="viewSetting"
-            name={t('milestones.view')}
+            name={t('milestone.view')}
             items={[
-              { text: t('milestones.column'), key: 'column' },
-              { text: t('milestones.table'), key: 'table' }
+              { text: t('milestone.column'), key: 'column' },
+              { text: t('milestone.table'), key: 'table' }
             ]}
             value="column"
             onChange={onChangeView}

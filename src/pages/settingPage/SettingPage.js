@@ -40,7 +40,7 @@ export function SettingPage() {
 
   return (
     <>
-      <Typography.Title level={3}>{t('settings.profile')}</Typography.Title>
+      <Typography.Title level={3}>{t('setting.profile')}</Typography.Title>
 
       <Form
         ref={profileFormRef}
@@ -52,24 +52,24 @@ export function SettingPage() {
         style={{ width: '24rem', marginBottom: '2rem' }}
       >
         <Form.Item
-          label={t('settings.username')}
+          label={t('setting.username')}
           name="username"
           rules={[{
             required: true,
-            message: t('settings.usernameErrMsg')
+            message: t('setting.usernameErrMsg')
           }]}
         >
           <Input maxLength={100} />
         </Form.Item>
         <Form.Item style={{ marginTop: '2rem' }} wrapperCol={{ span: 8 }}>
-          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>{t('settings.save')}</Button>
+          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>{t('setting.save')}</Button>
         </Form.Item>
       </Form>
 
       <Divider />
 
-      <Typography.Title level={3} style={{ marginTop: '1rem' }}>{t('settings.tools')}</Typography.Title>
-      <Typography.Title level={5} style={{ marginTop: '1rem' }}>{t('settings.timer')}</Typography.Title>
+      <Typography.Title level={3} style={{ marginTop: '1rem' }}>{t('setting.tools')}</Typography.Title>
+      <Typography.Title level={5} style={{ marginTop: '1rem' }}>{t('setting.timer')}</Typography.Title>
 
       <Form
         ref={toolsFormRef}
@@ -81,22 +81,22 @@ export function SettingPage() {
         style={{ width: '24rem' }}
       >
         <Form.Item
-          label={t('settings.timePerTopic')}
+          label={t('setting.timePerTopic')}
           name="timePerTopic"
           rules={[{
             required: true,
-            message: t('settings.timeErrMsg')
+            message: t('setting.timeErrMsg')
           }, {
             type: 'number',
             max: 300,
             min: 1,
-            message: t('settings.timeErrMsg')
+            message: t('setting.timeErrMsg')
           }]}
         >
           <InputNumber style={{ width: '24rem' }} />
         </Form.Item>
         <Form.Item style={{ marginTop: '2rem' }} wrapperCol={{ span: 8 }}>
-          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>{t('settings.save')}</Button>
+          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>{t('setting.save')}</Button>
         </Form.Item>
       </Form>
     </>

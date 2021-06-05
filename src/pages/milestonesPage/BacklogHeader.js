@@ -5,8 +5,8 @@ export function BacklogHeader({ countOfEpics }) {
   const { t } = useTranslation()
   return (
     <div style={{ width: '100%' }}>
-      <Typography.Title level={4}>{t('milestones.backlog')}</Typography.Title>
-      <Typography.Text>{t('milestones.backlogDescription', { count: countOfEpics })}</Typography.Text>
+      <Typography.Title level={4}>{t('milestone.backlog')}</Typography.Title>
+      <Typography.Text>{t('milestone.backlogDescription', { count: countOfEpics })}</Typography.Text>
     </div>
   )
 }

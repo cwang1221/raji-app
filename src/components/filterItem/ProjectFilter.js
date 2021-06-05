@@ -1,9 +1,10 @@
 import { CaretDownOutlined, CaretRightOutlined, RocketOutlined, StopOutlined } from '@ant-design/icons'
-import { Button, Card, Dropdown, Input, Menu } from 'antd'
+import { Button, Dropdown, Input, Menu } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useProject } from '../../hooks'
+import { MyCard } from '../myCard'
 import { FilterItemBase } from './FilterItem'
 
 export function ProjectFilter({ onChange, registerFilter }) {
@@ -90,7 +91,7 @@ export function ProjectFilter({ onChange, registerFilter }) {
 
   const Popup = () => (
     <div>
-      <FilterPopup as={Card} onClick={(e) => stopPropagation(e)}>
+      <FilterPopup as={MyCard} onClick={(e) => stopPropagation(e)}>
         <span style={{ fontSize: '10px' }}>{t('filterBar.projectHint')}</span>
         <Input.Search ref={searchBoxRef} onChange={onFilterProjects} />
         <Menu multiple selectedKeys={selectedProjects} onSelect={onSelect} onDeselect={onDeselect} style={{ borderRight: '0px' }}>
@@ -104,7 +105,7 @@ export function ProjectFilter({ onChange, registerFilter }) {
   )
 
   return (
-    <FilterItemBase name={t('milestones.projects')}>
+    <FilterItemBase name={t('milestone.projects')}>
       <Dropdown overlay={Popup} trigger={['click']} onVisibleChange={onPopupVisibleChange}>
         <Button>
           <RocketOutlined />

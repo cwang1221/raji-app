@@ -4,7 +4,9 @@
     "stories": "Stories",
     "points": "Points",
     "epics": "Epics",
-    "error": "Error"
+    "error": "Error",
+    "follow": "Follow",
+    "following": "Following"
   },
   "generalMsg": {
     "networkError": "Something wrong with the network. :(",
@@ -41,12 +43,12 @@
     "updateUsernameErrMsg": "Could not update the username, please try again later.",
     "searchPlaceholder": "Search stories"
   },
-  "projects": {
+  "project": {
     "projects": "Projects",
     "has": "has {{count}} Projects",
-    "follow": "Follow"
+    "zoomInTooltip": "View stories in this project"
   },
-  "milestones": {
+  "milestone": {
     "milestones": "Milestones",
     "view": "View",
     "column": "Column",
@@ -54,13 +56,17 @@
     "states": "States",
     "todo": "To Do",
     "inProgress": "In Progress",
-    "readyForDev": "Ready for Dev",
     "done": "Done",
     "projects": "Projects",
     "backlog": "Epic Backlog",
     "backlogDescription": "You have {{count}} unfinished Epics that don't already belong to a Milestone. They are listed here.",
     "total": "Total",
     "percentageCompleted": "{{percentage}}% Completed"
+  },
+  "epic": {
+    "todo": "To Do",
+    "inProgress": "In Progress",
+    "done": "Done"
   },
   "filterBar": {
     "none": "None",
@@ -73,7 +79,7 @@
     "countStates": "{{count}} States",
     "milestoneStateHint": "Filter by Milestate State"
   },
-  "settings": {
+  "setting": {
     "profile": "Your Profile",
     "username": "Username",
     "usernameErrMsg": "Please input your username",

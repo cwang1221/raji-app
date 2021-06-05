@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import logo from '../../assets/images/logoWhite.png'
 import { useAuth } from '../../contexts/authContext'
+import { MyCard } from '../../components'
 
 export function SideMenu() {
   const history = useHistory()
@@ -25,7 +26,7 @@ export function SideMenu() {
 
   const UserPopup = () => (
     <UserCard
-      as={Card}
+      as={MyCard}
       actions={[
         <Link to="/settings">
           <Button type="text">{t('header.setting')}</Button>

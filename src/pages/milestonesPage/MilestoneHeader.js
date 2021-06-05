@@ -9,13 +9,13 @@ export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countO
   let stateComponent
   switch (state) {
     case 'todo':
-      stateComponent = <State><BorderOutlined style={{ marginRight: '0.3rem', color: '#c9a61d' }} />{t('milestones.todo')}</State>
+      stateComponent = <State><BorderOutlined style={{ marginRight: '0.3rem', color: '#c9a61d' }} />{t('milestone.todo')}</State>
       break
     case 'inProgress':
-      stateComponent = <State><DoubleRightOutlined style={{ marginRight: '0.3rem' }} />{t('milestones.inProgress')}</State>
+      stateComponent = <State><DoubleRightOutlined style={{ marginRight: '0.3rem' }} />{t('milestone.inProgress')}</State>
       break
     case 'done':
-      stateComponent = <State><CheckCircleFilled style={{ marginRight: '0.3rem', color: '#009D4D' }} />{t('milestones.done')}</State>
+      stateComponent = <State><CheckCircleFilled style={{ marginRight: '0.3rem', color: '#009D4D' }} />{t('milestone.done')}</State>
       break
     default:
       break
@@ -32,28 +32,28 @@ export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countO
           trigger={['click']}
           overlay={(
             <Menu selectedKeys={state} onClick={(e) => changeState(id, e.key)}>
-              <Menu.Item key="todo" icon={<BorderOutlined style={{ color: '#c9a61d' }} />}>{t('milestones.todo')}</Menu.Item>
-              <Menu.Item key="inProgress" icon={<DoubleRightOutlined style={{ color: 'gray' }} />}>{t('milestones.inProgress')}</Menu.Item>
-              <Menu.Item key="done" icon={<CheckCircleFilled style={{ color: '#009D4D' }} />}>{t('milestones.done')}</Menu.Item>
+              <Menu.Item key="todo" icon={<BorderOutlined style={{ color: '#c9a61d' }} />}>{t('milestone.todo')}</Menu.Item>
+              <Menu.Item key="inProgress" icon={<DoubleRightOutlined style={{ color: 'gray' }} />}>{t('milestone.inProgress')}</Menu.Item>
+              <Menu.Item key="done" icon={<CheckCircleFilled style={{ color: '#009D4D' }} />}>{t('milestone.done')}</Menu.Item>
             </Menu>
         )}
         >
           {stateComponent}
         </Dropdown>
-        <Tooltip title={t('general.epics')}>
+        <Tooltip title={`${countOfEpics} ${t('general.epics')}`}>
           <DataContainer><FlagOutlined /><Number>{countOfEpics}</Number></DataContainer>
         </Tooltip>
-        <Tooltip title={t('general.stories')}>
+        <Tooltip title={`${countOfStories} ${t('general.stories')}`}>
           <DataContainer><FileTextOutlined /><Number>{countOfStories}</Number></DataContainer>
         </Tooltip>
-        <Tooltip title={t('general.points')}>
+        <Tooltip title={`${totalPoint} ${t('general.points')}`}>
           <DataContainer><BorderlessTableOutlined /><Number>{totalPoint}</Number></DataContainer>
         </Tooltip>
       </Space>
       <div style={{ marginTop: '0.5rem', marginBottom: '-0.5rem' }}>
-        <Typography.Text strong>{t('milestones.percentageCompleted', { percentage: countOfStories ? Math.round((countOfDoneStories / countOfStories) * 100) : 0 })}</Typography.Text>
+        <Typography.Text strong>{t('milestone.percentageCompleted', { percentage: countOfStories ? Math.round((countOfDoneStories / countOfStories) * 100) : 0 })}</Typography.Text>
       </div>
-      <Tooltip title={`${t('milestones.total')}: ${countOfStories}, ${t('milestones.inProgress')}: ${countOfInProgressStories}, ${t('milestones.done')}: ${countOfDoneStories}`}>
+      <Tooltip title={`${t('milestone.total')}: ${countOfStories}, ${t('milestone.inProgress')}: ${countOfInProgressStories}, ${t('milestone.done')}: ${countOfDoneStories}`}>
         <Progress
           percent={((countOfInProgressStories + countOfDoneStories) / countOfStories) * 100}
           success={{ percent: (countOfDoneStories / countOfStories) * 100 }}

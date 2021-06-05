@@ -8,51 +8,53 @@ export function ProjectsPage() {
   const { t } = useTranslation()
   const [webProjects, setWebProjects] = useState([])
   const [mobileProjects, setMobileProjects] = useState([])
-  const { getProjects } = useProject()
+  const { getProjectList } = useProject()
 
-  useDocumentTitle(t('projects.projects'))
+  useDocumentTitle(t('project.projects'))
 
   useEffect(async () => {
-    const data = await getProjects()
+    const data = await getProjectList()
     setWebProjects(data.filter((project) => project.type === 'web'))
     setMobileProjects(data.filter((project) => project.type === 'mobile'))
   }, [])
 
   return (
     <>
-      <Typography.Title level={3}>{t('projects.projects')}</Typography.Title>
+      <Typography.Title level={3}>{t('project.projects')}</Typography.Title>
       <Space style={{ marginTop: '0.5rem' }}>
         <Typography.Title level={5}>Web</Typography.Title>
-        <Typography.Title level={5} style={{ fontWeight: 400 }}>{t('projects.has', { count: webProjects.length })}</Typography.Title>
+        <Typography.Title level={5} style={{ fontWeight: 400 }}>{t('project.has', { count: webProjects.length })}</Typography.Title>
       </Space>
       <div>
         <Space size={20} wrap>
-          {webProjects.map(({ id, color, name, description }) => (
+          {webProjects.map((project) => (
             <ProjectCard
-              key={id}
-              indicator={color}
-              title={name}
-              description={description}
-              storyCount="57"
-              point="71"
+              key={project.id}
+              indicator={project.color}
+              title={project.name}
+              description={project.description}
+              storyCount={project.countOfStories}
+              point={project.totalPoint}
+              isFollowing={project.isFollowing}
             />
           ))}
         </Space>
       </div>
       <Space style={{ marginTop: '2rem' }}>
         <Typography.Title level={5}>Mobile</Typography.Title>
-        <Typography.Title level={5} style={{ fontWeight: 400 }}>{t('projects.has', { count: mobileProjects.length })}</Typography.Title>
+        <Typography.Title level={5} style={{ fontWeight: 400 }}>{t('project.has', { count: mobileProjects.length })}</Typography.Title>
       </Space>
       <div>
         <Space size={20}>
-          {mobileProjects.map(({ id, color, name, description }) => (
+          {mobileProjects.map((project) => (
             <ProjectCard
-              key={id}
-              indicator={color}
-              title={name}
-              description={description}
-              storyCount="57"
-              point="71"
+              key={project.id}
+              indicator={project.color}
+              title={project.name}
+              description={project.description}
+              storyCount={project.countOfStories}
+              point={project.totalPoint}
+              isFollowing={project.isFollowing}
             />
           ))}
         </Space>

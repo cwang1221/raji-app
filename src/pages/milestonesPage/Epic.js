@@ -32,17 +32,17 @@ export function Epic({ name, state, countOfStories, countOfDoneStories, countOfI
         <Typography.Title level={5}>{name}</Typography.Title>
         <Footer>
           <DataContainer>
-            <Tooltip title={t('general.stories')}>
+            <Tooltip title={`${countOfStories} ${t('general.stories')}`}>
               <DataBackground>
                 <FileTextOutlined /> <Number>{countOfStories}</Number>
               </DataBackground>
             </Tooltip>
-            <Tooltip title={t('general.points')}>
+            <Tooltip title={`${totalPoint} ${t('general.points')}`}>
               <DataBackground>
                 <BorderlessTableOutlined /> <Number>{totalPoint}</Number>
               </DataBackground>
             </Tooltip>
-            <Tooltip title={`${t('milestones.total')}: ${countOfStories}, ${t('milestones.inProgress')}: ${countOfInProgressStories}, ${t('milestones.done')}: ${countOfDoneStories}`}>
+            <Tooltip title={`${t('milestone.total')}: ${countOfStories}, ${t('milestone.inProgress')}: ${countOfInProgressStories}, ${t('milestone.done')}: ${countOfDoneStories}`}>
               <DataBackground>
                 <ProgressBar
                   as={Progress}

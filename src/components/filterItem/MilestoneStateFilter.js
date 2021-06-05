@@ -1,8 +1,9 @@
 import { CaretDownOutlined, AppstoreFilled, StopOutlined, BorderOutlined, DoubleRightOutlined, CheckCircleFilled } from '@ant-design/icons'
-import { Button, Card, Dropdown, Menu } from 'antd'
+import { Button, Dropdown, Menu } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { MyCard } from '../myCard'
 import { FilterItemBase } from './FilterItem'
 
 export function MilestoneStateFilter({ onChange, registerFilter }) {
@@ -69,7 +70,7 @@ export function MilestoneStateFilter({ onChange, registerFilter }) {
 
   const Popup = () => (
     <div>
-      <FilterPopup as={Card} onClick={(e) => stopPropagation(e)}>
+      <FilterPopup as={MyCard} onClick={(e) => stopPropagation(e)}>
         <span style={{ fontSize: '10px' }}>{t('filterBar.milestoneStateHint')}</span>
         <Menu multiple selectedKeys={selectedStates} onSelect={onSelect} onDeselect={onDeselect} style={{ borderRight: '0px' }}>
           <Menu.Item key="all">{t('filterBar.allProjects')}</Menu.Item>
@@ -82,7 +83,7 @@ export function MilestoneStateFilter({ onChange, registerFilter }) {
   )
 
   return (
-    <FilterItemBase name={t('milestones.states')}>
+    <FilterItemBase name={t('milestone.states')}>
       <Dropdown overlay={Popup} trigger={['click']}>
         <Button>
           <AppstoreFilled style={{ color: 'rgb(132, 131, 135)' }} />
