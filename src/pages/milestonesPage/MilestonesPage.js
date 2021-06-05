@@ -1,11 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { List, message, Space, Typography } from 'antd'
-import { AppstoreFilled, RocketFilled } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { FilterBar, FilterItem, MilestoneStateFilter, ProjectFilter } from '../../components'
-import { useDocumentTitle, useMilestone, useProject } from '../../hooks'
+import { useDocumentTitle, useMilestone } from '../../hooks'
 import { Epic } from './Epic'
 import { BacklogHeader } from './BacklogHeader'
 import { MilestoneHeader } from './MilestoneHeader'
@@ -13,33 +12,21 @@ import { clone } from '../../utils'
 
 export function MilestonesPage() {
   const { t } = useTranslation()
-  const [statesFilter, setStatesFilter] = useState([])
-  const [projectsFilter, setProjectsFilter] = useState([])
-  const [projects, setProjects] = useState([])
+  const [filteredStates, setFilteredStates] = useState([])
+  const [filteredProjects, setFilteredProjects] = useState([])
   const [milestones, setMilestones] = useState([])
   const { getMilestonesList, putMilestone } = useMilestone()
-  const { getProjects } = useProject()
 
   useDocumentTitle(t('milestones.milestones'))
 
-  useEffect(async () => {
-    getProjects().then((data) => setProjects(data.map((project) => ({ text: project.name, key: `${project.id}` }))))
-  }, [])
-
   const getMilestones = async () => {
-    const milestones = await getMilestonesList(statesFilter, projectsFilter)
-    milestones.sort((milestone1, milestone2) => {
-      if (milestone1.name === 'BACKLOG') {
-        return -1
-      }
-      return milestone1.id - milestone2.id
-    })
+    const milestones = await getMilestonesList(filteredStates, filteredProjects)
     setMilestones(milestones)
   }
 
   useEffect(() => {
     getMilestones()
-  }, [statesFilter, projectsFilter])
+  }, [filteredStates, filteredProjects])
 
   const onChangeView = () => {
     message.info('Not ready :)')
@@ -78,32 +65,25 @@ export function MilestonesPage() {
     <>
       <Typography.Title level={3}>{t('milestones.milestones')}</Typography.Title>
 
-      <FilterBar>
-        <FilterItem.RadioGroupButton
-          name={t('milestones.view')}
-          items={[
-            { text: t('milestones.column'), key: 'column' },
-            { text: t('milestones.table'), key: 'table' }
-          ]}
-          value="column"
-          onChange={onChangeView}
-        />
-        <FilterItem.Seperator />
-        {/* <FilterItem.MultiSelect
-          name={t('milestones.states')}
-          icon={<AppstoreFilled style={{ color: 'rgb(132, 131, 135)' }} />}
-          items={[
-            { text: t('milestones.todo'), key: 'todo' },
-            { text: t('milestones.inProgress'), key: 'inProgress' },
-            { text: t('milestones.done'), key: 'done' }
-          ]}
-          value={statesFilter}
-          defaultValue={[]}
-          onChange={setStatesFilter}
-        /> */}
-        <MilestoneStateFilter onChange={setStatesFilter} />
-        <ProjectFilter onChange={setProjectsFilter} />
-      </FilterBar>
+      <FilterBar
+        leftChildren={[
+          <MilestoneStateFilter key="milestoneStateFilter" onChange={setFilteredStates} />,
+          <FilterItem.Seperator key="seperator" />,
+          <ProjectFilter key="projectFilter" onChange={setFilteredProjects} />
+        ]}
+        rightChildren={[
+          <FilterItem.RadioGroupButton
+            key="viewSetting"
+            name={t('milestones.view')}
+            items={[
+              { text: t('milestones.column'), key: 'column' },
+              { text: t('milestones.table'), key: 'table' }
+            ]}
+            value="column"
+            onChange={onChangeView}
+          />
+        ]}
+      />
 
       <DragDropContext onDragEnd={onDragEnd}>
         <Space align="start">

@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { useProject } from '../../hooks'
 import { FilterItemBase } from './FilterItem'
 
-export function ProjectFilter({ onChange }) {
+export function ProjectFilter({ onChange, registerFilter }) {
   const { t } = useTranslation()
   const { getProjects } = useProject()
   const [showAll, setShowAll] = useState(true)
@@ -15,6 +15,11 @@ export function ProjectFilter({ onChange }) {
   const [shownText, setShownText] = useState(t('filterBar.all'))
   const [selectedProjects, setSelectedProjects] = useState(['all'])
   const searchBoxRef = useRef()
+
+  registerFilter({
+    id: 'project',
+    clear: () => setSelectedProjects(['all'])
+  })
 
   useEffect(async () => {
     const data = await getProjects()
@@ -38,7 +43,10 @@ export function ProjectFilter({ onChange }) {
     } else {
       setShownText(t('filterBar.countProjects', { count: selectedProjects.length }))
     }
-    onChange && onChange(selectedProjects)
+    onChange && onChange({
+      id: 'project',
+      items: selectedProjects
+    })
   }, [selectedProjects])
 
   const onSelect = ({ key, selectedKeys }) => {

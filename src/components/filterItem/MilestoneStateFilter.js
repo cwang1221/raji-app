@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { FilterItemBase } from './FilterItem'
 
-export function MilestoneStateFilter({ onChange }) {
+export function MilestoneStateFilter({ onChange, registerFilter }) {
   const { t } = useTranslation()
   const [shownText, setShownText] = useState(t('filterBar.all'))
   const [selectedStates, setSelectedStates] = useState(['all'])
@@ -20,6 +20,11 @@ export function MilestoneStateFilter({ onChange }) {
     icon: <CheckCircleFilled style={{ color: '#009D4D' }} />
   }]
 
+  registerFilter({
+    id: 'milestoneState',
+    clear: () => setSelectedStates(['all'])
+  })
+
   useEffect(() => {
     if (selectedStates.includes('all')) {
       setShownText(t('filterBar.all'))
@@ -28,7 +33,10 @@ export function MilestoneStateFilter({ onChange }) {
     } else {
       setShownText(t('filterBar.countStates', { count: selectedStates.length }))
     }
-    onChange && onChange(selectedStates)
+    onChange && onChange({
+      id: 'milestoneState',
+      items: selectedStates
+    })
   }, [selectedStates])
 
   const onSelect = ({ key, selectedKeys }) => {
@@ -54,7 +62,7 @@ export function MilestoneStateFilter({ onChange }) {
     e.nativeEvent.stopImmediatePropagation()
   }
 
-  const onClear = (e) => {
+  const clear = (e) => {
     stopPropagation(e)
     setSelectedStates(['all'])
   }
@@ -81,7 +89,7 @@ export function MilestoneStateFilter({ onChange }) {
           {shownText}
           {selectedStates.includes('all')
             ? <CaretDownOutlined />
-            : <ClearIcon as={StopOutlined} onClick={onClear} />}
+            : <ClearIcon as={StopOutlined} onClick={clear} />}
         </Button>
       </Dropdown>
     </FilterItemBase>
