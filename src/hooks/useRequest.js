@@ -40,7 +40,7 @@ const getMilestonesList = async (states, projectIds) => {
   let url = '/milestones/ui/list'
 
   const queryStrings = []
-  states && states.length !== 0 && states.length !== 4 && queryStrings.push(`state=${states.join(',')}`)
+  states && !states.includes('all') && queryStrings.push(`state=${states.join(',')}`)
   projectIds && !projectIds.includes('all') && queryStrings.push(`projectId=${projectIds.join(',')}`)
 
   queryStrings.length > 0 && (url += `?${queryStrings.join('&')}`)

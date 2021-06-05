@@ -69,7 +69,9 @@
     "clearFilters": "Clear Filters",
     "projectHint": "Filter by Project",
     "allProjects": "All Projects",
-    "countProjects": "{{count}} Projects"
+    "countProjects": "{{count}} Projects",
+    "countStates": "{{count}} States",
+    "milestoneStateHint": "Filter by Milestate State"
   },
   "settings": {
     "profile": "Your Profile",

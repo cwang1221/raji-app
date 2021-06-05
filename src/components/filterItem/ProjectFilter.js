@@ -17,12 +17,16 @@ export function ProjectFilter({ onChange }) {
   const [selectedProjects, setSelectedProjects] = useState(['all'])
   const searchBoxRef = useRef()
 
+  const documentClick = () => showPopup || setShowPopup(false)
+
   useEffect(async () => {
-    document.onclick = () => showPopup || setShowPopup(false)
+    document.addEventListener('click', documentClick)
 
     const data = await getProjects()
     setProjects(data)
     setFilteredProjects(data)
+
+    return () => document.removeEventListener('click', documentClick)
   }, [])
 
   useEffect(() => {
@@ -100,7 +104,8 @@ export function ProjectFilter({ onChange }) {
       <Dropdown overlay={Popup} visible={showPopup}>
         <Button
           onClick={(e) => {
-            setShowPopup(!showPopup); e.nativeEvent.stopImmediatePropagation()
+            setShowPopup(!showPopup)
+            e.nativeEvent.stopImmediatePropagation()
           }}
         >
           <RocketOutlined />

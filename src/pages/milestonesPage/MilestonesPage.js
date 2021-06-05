@@ -4,7 +4,7 @@ import { AppstoreFilled, RocketFilled } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-import { FilterBar, FilterItem, ProjectFilter } from '../../components'
+import { FilterBar, FilterItem, MilestoneStateFilter, ProjectFilter } from '../../components'
 import { useDocumentTitle, useMilestone, useProject } from '../../hooks'
 import { Epic } from './Epic'
 import { BacklogHeader } from './BacklogHeader'
@@ -79,8 +79,6 @@ export function MilestonesPage() {
       <Typography.Title level={3}>{t('milestones.milestones')}</Typography.Title>
 
       <FilterBar>
-        <ProjectFilter />
-        <FilterItem.Seperator />
         <FilterItem.RadioGroupButton
           name={t('milestones.view')}
           items={[
@@ -91,7 +89,7 @@ export function MilestonesPage() {
           onChange={onChangeView}
         />
         <FilterItem.Seperator />
-        <FilterItem.MultiSelect
+        {/* <FilterItem.MultiSelect
           name={t('milestones.states')}
           icon={<AppstoreFilled style={{ color: 'rgb(132, 131, 135)' }} />}
           items={[
@@ -102,15 +100,8 @@ export function MilestonesPage() {
           value={statesFilter}
           defaultValue={[]}
           onChange={setStatesFilter}
-        />
-        {/* <FilterItem.MultiSelect
-          name={t('milestones.projects')}
-          icon={<RocketFilled style={{ color: 'rgb(218, 111, 129)' }} />}
-          items={projects}
-          value={projectsFilter}
-          defaultValue={[]}
-          onChange={setProjectsFilter}
         /> */}
+        <MilestoneStateFilter onChange={setStatesFilter} />
         <ProjectFilter onChange={setProjectsFilter} />
       </FilterBar>
 
