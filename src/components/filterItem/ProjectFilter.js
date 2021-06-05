@@ -9,7 +9,6 @@ import { FilterItemBase } from './FilterItem'
 export function ProjectFilter({ onChange }) {
   const { t } = useTranslation()
   const { getProjects } = useProject()
-  const [showPopup, setShowPopup] = useState(false)
   const [showAll, setShowAll] = useState(true)
   const [projects, setProjects] = useState([])
   const [filteredProjects, setFilteredProjects] = useState([])
@@ -17,25 +16,19 @@ export function ProjectFilter({ onChange }) {
   const [selectedProjects, setSelectedProjects] = useState(['all'])
   const searchBoxRef = useRef()
 
-  const documentClick = () => showPopup || setShowPopup(false)
-
   useEffect(async () => {
-    document.addEventListener('click', documentClick)
-
     const data = await getProjects()
     setProjects(data)
     setFilteredProjects(data)
-
-    return () => document.removeEventListener('click', documentClick)
   }, [])
 
-  useEffect(() => {
-    if (!showPopup) {
+  const onPopupVisibleChange = (visible) => {
+    if (!visible) {
       searchBoxRef?.current?.setValue('')
       setFilteredProjects(projects)
       setShowAll(true)
     }
-  }, [showPopup])
+  }
 
   useEffect(() => {
     if (selectedProjects.includes('all')) {
@@ -77,16 +70,19 @@ export function ProjectFilter({ onChange }) {
     }
   }
 
-  const onClear = (e) => {
+  const stopPropagation = (e) => {
     e.stopPropagation()
     e.nativeEvent.stopImmediatePropagation()
+  }
+
+  const onClear = (e) => {
+    stopPropagation(e)
     setSelectedProjects(['all'])
-    setShowPopup(false)
   }
 
   const Popup = () => (
     <div>
-      <FilterPopup as={Card} onClick={(e) => e.nativeEvent.stopImmediatePropagation()}>
+      <FilterPopup as={Card} onClick={(e) => stopPropagation(e)}>
         <span style={{ fontSize: '10px' }}>{t('filterBar.projectHint')}</span>
         <Input.Search ref={searchBoxRef} onChange={onFilterProjects} />
         <Menu multiple selectedKeys={selectedProjects} onSelect={onSelect} onDeselect={onDeselect} style={{ borderRight: '0px' }}>
@@ -101,13 +97,8 @@ export function ProjectFilter({ onChange }) {
 
   return (
     <FilterItemBase name={t('milestones.projects')}>
-      <Dropdown overlay={Popup} visible={showPopup}>
-        <Button
-          onClick={(e) => {
-            setShowPopup(!showPopup)
-            e.nativeEvent.stopImmediatePropagation()
-          }}
-        >
+      <Dropdown overlay={Popup} trigger={['click']} onVisibleChange={onPopupVisibleChange}>
+        <Button>
           <RocketOutlined />
           {shownText}
           {selectedProjects.includes('all')

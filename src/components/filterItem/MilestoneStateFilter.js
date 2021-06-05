@@ -7,7 +7,6 @@ import { FilterItemBase } from './FilterItem'
 
 export function MilestoneStateFilter({ onChange }) {
   const { t } = useTranslation()
-  const [showPopup, setShowPopup] = useState(false)
   const [shownText, setShownText] = useState(t('filterBar.all'))
   const [selectedStates, setSelectedStates] = useState(['all'])
   const states = [{
@@ -20,13 +19,6 @@ export function MilestoneStateFilter({ onChange }) {
     id: 'done',
     icon: <CheckCircleFilled style={{ color: '#009D4D' }} />
   }]
-
-  const documentClick = () => showPopup || setShowPopup(false)
-
-  useEffect(async () => {
-    document.addEventListener('click', documentClick)
-    return () => document.removeEventListener('click', documentClick)
-  }, [])
 
   useEffect(() => {
     if (selectedStates.includes('all')) {
@@ -57,16 +49,19 @@ export function MilestoneStateFilter({ onChange }) {
     }
   }
 
-  const onClear = (e) => {
+  const stopPropagation = (e) => {
     e.stopPropagation()
     e.nativeEvent.stopImmediatePropagation()
+  }
+
+  const onClear = (e) => {
+    stopPropagation(e)
     setSelectedStates(['all'])
-    setShowPopup(false)
   }
 
   const Popup = () => (
     <div>
-      <FilterPopup as={Card} onClick={(e) => e.nativeEvent.stopImmediatePropagation()}>
+      <FilterPopup as={Card} onClick={(e) => stopPropagation(e)}>
         <span style={{ fontSize: '10px' }}>{t('filterBar.milestoneStateHint')}</span>
         <Menu multiple selectedKeys={selectedStates} onSelect={onSelect} onDeselect={onDeselect} style={{ borderRight: '0px' }}>
           <Menu.Item key="all">{t('filterBar.allProjects')}</Menu.Item>
@@ -80,13 +75,8 @@ export function MilestoneStateFilter({ onChange }) {
 
   return (
     <FilterItemBase name={t('milestones.states')}>
-      <Dropdown overlay={Popup} visible={showPopup}>
-        <Button
-          onClick={(e) => {
-            setShowPopup(!showPopup)
-            e.nativeEvent.stopImmediatePropagation()
-          }}
-        >
+      <Dropdown overlay={Popup} trigger={['click']}>
+        <Button>
           <AppstoreFilled style={{ color: 'rgb(132, 131, 135)' }} />
           {shownText}
           {selectedStates.includes('all')
