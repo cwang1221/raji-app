@@ -10,6 +10,7 @@ const getProjects = async () => {
   })
   return data
 }
+
 const getProjectList = async () => {
   const { data } = await axios.request({
     url: '/projects/ui/list',
@@ -18,7 +19,16 @@ const getProjectList = async () => {
   return data
 }
 
-export const useProject = () => ({ getProjects, getProjectList })
+const putProject = async (id, payload) => {
+  const { data } = await axios.request({
+    url: `/projects/${id}`,
+    method: 'put',
+    data: payload
+  })
+  return data
+}
+
+export const useProject = () => ({ getProjects, getProjectList, putProject })
 
 //----------------------------------------------------------
 // Milestone

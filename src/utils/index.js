@@ -9,3 +9,12 @@ export function focusErrorInForm(formRef) {
 export function clone(value) {
   return _.cloneDeep(value)
 }
+
+export function rgbToHex(rgb) {
+  const rgbArray = rgb.split('(')[1].split(')')[0].split(', ')
+  const hexArray = rgbArray.map((x) => {
+    x = parseInt(x, 10).toString(16)
+    return (x.length === 1) ? `0${x}` : x
+  })
+  return `#${hexArray.join('')}`
+}

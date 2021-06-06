@@ -30,12 +30,13 @@ export function ProjectsPage() {
           {webProjects.map((project) => (
             <ProjectCard
               key={project.id}
+              id={project.id}
               indicator={project.color}
               title={project.name}
               description={project.description}
               storyCount={project.countOfStories}
               point={project.totalPoint}
-              isFollowing={project.isFollowing}
+              followerIds={project.followerIds}
             />
           ))}
         </Space>
@@ -49,12 +50,13 @@ export function ProjectsPage() {
           {mobileProjects.map((project) => (
             <ProjectCard
               key={project.id}
+              id={project.id}
               indicator={project.color}
               title={project.name}
               description={project.description}
               storyCount={project.countOfStories}
               point={project.totalPoint}
-              isFollowing={project.isFollowing}
+              followerIds={project.followerIds}
             />
           ))}
         </Space>

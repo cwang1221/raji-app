@@ -1,13 +1,19 @@
-import { Button, Dropdown, Space, Tooltip, Typography, Row, Col } from 'antd'
+import { Button, Dropdown, Space, Tooltip, Typography, Row } from 'antd'
 import { FileTextOutlined, BorderlessTableOutlined, EyeOutlined, ZoomInOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useState } from 'react'
 import { MyCard } from '../../components'
+import { useProject } from '../../hooks'
+import { clone, rgbToHex } from '../../utils'
+import { useAuth } from '../../contexts/authContext'
 
-export function ProjectCard({ indicator, title, description, storyCount, point, isFollowing }) {
+export function ProjectCard({ id, indicator, title, description, storyCount, point, followerIds }) {
   const { t } = useTranslation()
-  const [following, setFollowing] = useState(isFollowing)
+  const [followers, setFollowers] = useState(followerIds)
+  const [color, setColor] = useState(indicator)
+  const { putProject } = useProject()
+  const { user } = useAuth()
 
   const colors = [
     ['#880000', '#CC0000', '#DD6E13', '#E2C534'],
@@ -19,12 +25,39 @@ export function ProjectCard({ indicator, title, description, storyCount, point, 
     ['#FBB81B', '#00D38C', '#A3C5EB', '#414042']
   ]
 
+  const changeColor = (e) => {
+    const rgbColor = e.currentTarget.style.backgroundColor
+    const hexColor = rgbToHex(rgbColor)
+    putProject(id, { color: hexColor })
+    setColor(hexColor)
+  }
+
+  const onClickFollow = () => {
+    const index = followers.indexOf(user.id)
+    const followersClone = clone(followers)
+    if (index >= 0) {
+      followersClone.splice(index, 1)
+    } else {
+      followersClone.push(user.id)
+    }
+
+    putProject(id, { followerIds: followersClone })
+    setFollowers(followersClone)
+  }
+
   const ColorDropDown = () => (
     <div>
       <ColorDropDownContainer as={MyCard}>
         {colors.map((row, rowIndex) => (
           <Row key={rowIndex}>
-            {row.map((color, index) => <ColorBlock key={`${rowIndex}-${index}`} style={{ backgroundColor: color }} />)}
+            {row.map((colorCode, index) => (
+              <ColorBlock
+                key={`${rowIndex}-${index}`}
+                style={{ backgroundColor: colorCode }}
+                className={color.toLowerCase() === colorCode.toLowerCase() ? 'selected' : undefined}
+                onClick={changeColor}
+              />
+            ))}
           </Row>
         ))}
       </ColorDropDownContainer>
@@ -34,7 +67,7 @@ export function ProjectCard({ indicator, title, description, storyCount, point, 
   return (
     <Container>
       <Space align="start">
-        <Indicator style={{ backgroundColor: indicator }} />
+        <Indicator color={color} />
         <div>
           <Typography.Title level={4} style={{ marginTop: '1rem' }}>{title}</Typography.Title>
           <Typography.Text>{description}</Typography.Text>
@@ -50,15 +83,16 @@ export function ProjectCard({ indicator, title, description, storyCount, point, 
                 <ZoomInIcon as={ZoomInOutlined} />
               </Tooltip>
               <Button
-                type={following ? 'primary' : 'default'}
+                type={followers.includes(user.id) ? 'primary' : 'default'}
                 size="small"
+                onClick={onClickFollow}
               >
                 <EyeOutlined />
-                {t(following ? 'general.following' : 'general.follow')}
+                {t(followers.includes(user.id) ? 'general.following' : 'general.follow')}
               </Button>
               <Dropdown overlay={ColorDropDown} trigger={['click']}>
                 <Button size="small">
-                  <div style={{ backgroundColor: indicator, width: '0.5rem', height: '0.5rem' }} />
+                  <div style={{ backgroundColor: color, width: '0.5rem', height: '0.5rem' }} />
                 </Button>
               </Dropdown>
             </Footer>
@@ -95,6 +129,7 @@ const Indicator = styled.div`
   margin-right: 0.5rem;
   border-top-left-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
+  background-color: ${(props) => props.color};
 `
 
 const ZoomInIcon = styled.div`
@@ -118,6 +153,14 @@ const ColorBlock = styled.div`
     border: white solid 2px;
     outline: #DCDCDC solid 1px;
     cursor: pointer;
+  }
+
+  &.selected {
+    margin: 2px;
+    width: 24px;
+    height: 24px;
+    border: white solid 2px;
+    outline: darkgray solid 1px;
   }
 `
 
