@@ -5,6 +5,7 @@ import { focusErrorInForm } from '../../utils'
 import { useDocumentTitle, useSetting } from '../../hooks'
 import { useAuth } from '../../contexts/authContext'
 import { useSettingContext } from '../../contexts/settingContext'
+import { MyLabel } from '../../components/myLabel/MyLabel'
 
 export function SettingPage() {
   const { t } = useTranslation()
@@ -52,7 +53,7 @@ export function SettingPage() {
         style={{ width: '24rem', marginBottom: '2rem' }}
       >
         <Form.Item
-          label={t('setting.username')}
+          label={<MyLabel required>{t('setting.username')}</MyLabel>}
           name="username"
           rules={[{
             required: true,
@@ -81,7 +82,7 @@ export function SettingPage() {
         style={{ width: '24rem' }}
       >
         <Form.Item
-          label={t('setting.timePerTopic')}
+          label={<MyLabel required>{t('setting.timePerTopic')}</MyLabel>}
           name="timePerTopic"
           rules={[{
             required: true,

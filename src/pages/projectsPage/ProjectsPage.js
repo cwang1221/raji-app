@@ -1,4 +1,4 @@
-import { Typography, Space } from 'antd'
+import { Typography, Space, Button } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDocumentTitle, useProject } from '../../hooks'
@@ -40,6 +40,9 @@ export function ProjectsPage() {
             />
           ))}
         </Space>
+        <div>
+          <Button size="small" style={{ marginTop: '0.5rem' }} on>{t('project.createButton')}</Button>
+        </div>
       </div>
       <Space style={{ marginTop: '2rem' }}>
         <Typography.Title level={5}>Mobile</Typography.Title>

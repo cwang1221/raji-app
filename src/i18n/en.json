@@ -6,7 +6,8 @@
     "epics": "Epics",
     "error": "Error",
     "follow": "Follow",
-    "following": "Following"
+    "following": "Following",
+    "optional": "Optional"
   },
   "generalMsg": {
     "networkError": "Something wrong with the network. :(",
@@ -46,7 +47,8 @@
   "project": {
     "projects": "Projects",
     "has": "has {{count}} Projects",
-    "zoomInTooltip": "View stories in this project"
+    "zoomInTooltip": "View stories in this project",
+    "createButton": "Create Project in this Workflow"
   },
   "milestone": {
     "milestones": "Milestones",

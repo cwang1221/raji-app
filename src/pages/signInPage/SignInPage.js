@@ -7,6 +7,7 @@ import { useAuth } from '../../contexts/authContext'
 import logo from '../../assets/images/logo.png'
 import { focusErrorInForm } from '../../utils'
 import { useDocumentTitle } from '../../hooks'
+import { MyLabel } from '../../components/myLabel/MyLabel'
 
 export function SignInPage() {
   const { t } = useTranslation()
@@ -32,7 +33,7 @@ export function SignInPage() {
         <Logo as={Image} src={logo} preview={false} />
       </Form.Item>
       <Form.Item
-        label={t('signIn.email')}
+        label={<MyLabel required>{t('signIn.email')}</MyLabel>}
         name="email"
         rules={[{
           required: true,
@@ -45,7 +46,7 @@ export function SignInPage() {
         <Input maxLength={100} />
       </Form.Item>
       <Form.Item
-        label={t('signIn.password')}
+        label={<MyLabel required>{t('signIn.password')}</MyLabel>}
         name="password"
         rules={[{
           required: true,
