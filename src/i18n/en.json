@@ -7,14 +7,17 @@
     "error": "Error",
     "follow": "Follow",
     "following": "Following",
-    "optional": "Optional"
+    "optional": "Optional",
+    "description": "Description",
+    "delete": "Delete"
   },
-  "generalMsg": {
+  "msg": {
     "networkError": "Something wrong with the network. :(",
     "timeoutError": "Time out. Please try again later. :(",
     "authFailedError": "Please sign in.",
     "errorBoundaryPage": "Something goes wrong. :(",
-    "notFoundPage": "404 NOT FOUND :("
+    "notFoundPage": "404 NOT FOUND :(",
+    "required": "This field is required."
   }, 
   "signIn": {
     "email": "Email",
@@ -48,7 +51,17 @@
     "projects": "Projects",
     "has": "has {{count}} Projects",
     "zoomInTooltip": "View stories in this project",
-    "createButton": "Create Project in this Workflow"
+    "createButton": "Create Project in this Workflow",
+    "title": "Project Title",
+    "titlePlaceholder": "e.g. Web App, API Server",
+    "createModalInfo": "Projects represent technical components (such as Web App and API) or feature areas within your product.",
+    "color": "Color",
+    "createProject": "Create Project",
+    "workflow": "Workflow",
+    "web": "Web",
+    "mobile": "Mobile",
+    "duplicateProjectMsg": "Project with this name already exist, please input another one.",
+    "couldNotDeleteMsg": "This project could not be deleted since it has stories."
   },
   "milestone": {
     "milestones": "Milestones",

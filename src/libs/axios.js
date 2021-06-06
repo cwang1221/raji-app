@@ -50,17 +50,17 @@ Axios.interceptors.response.use((res) => {
   return res
 }, (err) => {
   if (err.message === 'Network Error') {
-    message.error(i18n.t('generalMsg.networkError'))
+    message.error(i18n.t('msg.networkError'))
     err.showed = true
   }
   if (err.code === 'ECONNABORTED') {
-    message.error(i18n.t('generalMsg.timeoutError'))
+    message.error(i18n.t('msg.timeoutError'))
     err.showed = true
   }
   if (err?.response?.status === 401) {
     createBrowserHistory().replace('/signIn')
     window.location.reload()
-    message.error(i18n.t('generalMsg.authFailedError'))
+    message.error(i18n.t('msg.authFailedError'))
     err.showed = true
   }
 

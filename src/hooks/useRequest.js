@@ -28,7 +28,24 @@ const putProject = async (id, payload) => {
   return data
 }
 
-export const useProject = () => ({ getProjects, getProjectList, putProject })
+const postProject = async (payload) => {
+  const { data } = await axios.request({
+    url: '/projects',
+    method: 'post',
+    data: payload
+  })
+  return data
+}
+
+const deleteProject = async (id) => {
+  const { data } = await axios.request({
+    url: `/projects/${id}`,
+    method: 'delete'
+  })
+  return data
+}
+
+export const useProject = () => ({ getProjects, getProjectList, putProject, postProject, deleteProject })
 
 //----------------------------------------------------------
 // Milestone

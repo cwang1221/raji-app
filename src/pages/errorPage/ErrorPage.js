@@ -15,12 +15,12 @@ const ErrorPage = ({ title }) => {
 
 export function ErrorBoundaryPage() {
   const { t } = useTranslation()
-  return <ErrorPage title={t('generalMsg.errorBoundaryPage')} />
+  return <ErrorPage title={t('msg.errorBoundaryPage')} />
 }
 
 export function NotFoundPage() {
   const { t } = useTranslation()
-  return <ErrorPage title={t('generalMsg.notFoundPage')} />
+  return <ErrorPage title={t('msg.notFoundPage')} />
 }
 
 const Container = styled.div`
