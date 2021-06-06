@@ -8,10 +8,10 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" render={() => <Redirect to="/home" />} />
-        <MainLayoutRoute path="/home" component={WelcomePage} />
-        <MainLayoutRoute path="/projects" component={ProjectsPage} />
-        <MainLayoutRoute path="/milestones" component={MilestonesPage} />
-        <MainLayoutRoute path="/settings" component={SettingPage} />
+        <MainLayoutRoute path="/home" headerCreateType="story" component={WelcomePage} />
+        <MainLayoutRoute path="/projects" headerCreateType="project" component={ProjectsPage} />
+        <MainLayoutRoute path="/milestones" headerCreateType="milestone" component={MilestonesPage} />
+        <MainLayoutRoute path="/settings" headerCreateType="story" component={SettingPage} />
         <Route path="/signIn" component={SignInPage} />
         <Route path="/test" component={TestPage} />
         <Route component={NotFoundPage} />

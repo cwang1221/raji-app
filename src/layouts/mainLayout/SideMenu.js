@@ -107,7 +107,7 @@ const SideList = styled.div`
 `
 
 const Logo = styled.div`
-  margin-left: 1.3rem;
+  margin-left: 1.1rem;
   margin-top: 1rem;
 `
 
