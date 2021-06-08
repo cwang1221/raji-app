@@ -24,7 +24,10 @@ export function ColorDropdown({ color, onColorChange, children }) {
     <Dropdown
       overlay={(
         <div>
-          <ColorDropDownContainer as={MyCard}>
+          <ColorDropDownContainer
+            as={MyCard}
+            style={{ width: '130px' }}
+          >
             {colors.map((row, rowIndex) => (
               <Row key={rowIndex}>
                 {row.map((colorCode, index) => (

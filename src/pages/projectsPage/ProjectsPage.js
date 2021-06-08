@@ -1,4 +1,4 @@
-import { Typography, Space, Button, Modal, Form, Input, Alert, Select, message } from 'antd'
+import { Typography, Space, Button, Modal, Form, Input, Alert, Select } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -193,7 +193,7 @@ export function ProjectsPage() {
             <CreateInfo as={Alert} message={t('project.createModalInfo')} />
 
             <ColorDropdown color={createModelColor} onColorChange={setCreateModelColor}>
-              <Button size="small">
+              <Button size="small" style={{ width: '100%' }}>
                 {t('project.color')}
                 <span style={{ backgroundColor: createModelColor, width: '0.5rem', height: '0.5rem', marginLeft: '0.5rem' }} />
               </Button>
