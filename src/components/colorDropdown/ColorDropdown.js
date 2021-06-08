@@ -1,7 +1,7 @@
 import { Row, Dropdown } from 'antd'
 import { useRef } from 'react'
 import styled from 'styled-components'
-import { MyCard } from '../../components'
+import { MyCard } from '..'
 import { rgbToHex } from '../../utils'
 
 export function ColorDropdown({ color, onColorChange, children }) {

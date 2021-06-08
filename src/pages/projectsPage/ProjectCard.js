@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useProject } from '../../hooks'
 import { clone } from '../../utils'
 import { useAuth } from '../../contexts/authContext'
-import { ColorDropdown } from './ColorDropdown'
+import { ColorDropdown } from '../../components'
 
 export function ProjectCard({ id, indicator, title, description, storyCount, point, followerIds, onDelete }) {
   const { t } = useTranslation()

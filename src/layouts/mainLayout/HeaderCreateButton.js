@@ -1,13 +1,15 @@
-import { CaretDownOutlined } from '@ant-design/icons'
-import { Button } from 'antd'
+import { BlockOutlined, CaretDownOutlined, FileTextOutlined, FlagFilled, RocketOutlined } from '@ant-design/icons'
+import { Button, Dropdown, Menu } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { CreateProjectModal } from '../../components'
 import { eventBus, events } from '../../utils'
 
 export function HeaderCreateButton() {
   const { t } = useTranslation()
   const [type, setType] = useState('story')
+  const [showProjectModal, setShowProjectModal] = useState(false)
 
   const objects = useRef({
     story: {
@@ -28,12 +30,35 @@ export function HeaderCreateButton() {
     eventBus.subscribe(events.setCreateButton, setType)
   }, [])
 
+  const createObject = (objectType) => {
+    switch (objectType) {
+      case 'project':
+        setShowProjectModal(true)
+        break
+      default:
+        break
+    }
+  }
+
   return (
     <>
-      <LeftButton as={Button} type="primary" size="large">
+      <LeftButton as={Button} type="primary" size="large" onClick={() => createObject(type)}>
         {objects.current[type].text}
       </LeftButton>
-      <RightButton as={Button} type="primary" size="large" icon={<CaretDownOutlined />} />
+      <Dropdown
+        placement="bottomRight"
+        overlay={(
+          <Menu onClick={(e) => createObject(e.key)}>
+            <Menu.Item key="story" icon={<FileTextOutlined style={{ color: 'gray' }} />}>{t('header.createStory')}</Menu.Item>
+            <Menu.Item key="epic" icon={<FlagFilled style={{ color: 'rgb(100, 20, 219)' }} />}>{t('header.createEpic')}</Menu.Item>
+            <Menu.Item key="project" icon={<RocketOutlined style={{ color: 'gray' }} />}>{t('header.createProject')}</Menu.Item>
+            <Menu.Item key="milestone" icon={<BlockOutlined style={{ color: 'rgb(237, 128, 2)' }} />}>{t('header.createMilestone')}</Menu.Item>
+          </Menu>
+      )}
+      >
+        <RightButton as={Button} type="primary" size="large" icon={<CaretDownOutlined />} />
+      </Dropdown>
+      <CreateProjectModal visible={showProjectModal} disableType={false} close={() => setShowProjectModal(false)} />
     </>
   )
 }
