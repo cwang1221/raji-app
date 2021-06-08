@@ -18,3 +18,7 @@ export function rgbToHex(rgb) {
   })
   return `#${hexArray.join('')}`
 }
+
+export function setHeaderCreateButton() {
+
+}

@@ -17,12 +17,12 @@ export function ProjectFilter({ onChange, registerFilter }) {
   const [selectedProjects, setSelectedProjects] = useState(['all'])
   const searchBoxRef = useRef()
 
-  registerFilter({
-    id: 'project',
-    clear: () => setSelectedProjects(['all'])
-  })
-
   useEffect(async () => {
+    registerFilter({
+      id: 'project',
+      clear: () => setSelectedProjects(['all'])
+    })
+
     const data = await getProjects()
     setProjects(data)
     setFilteredProjects(data)

@@ -1,32 +1,11 @@
 import { Layout } from 'antd'
-import { useTranslation } from 'react-i18next'
 import { Redirect, Route } from 'react-router-dom'
 import styled from 'styled-components'
-import { CreateButton } from '../../components'
 import { Header } from './Header'
+import { HeaderCreateButton } from './HeaderCreateButton'
 import { SideMenu } from './SideMenu'
 
-function MainLayout({ children, headerCreateType }) {
-  const { t } = useTranslation()
-
-  let createButtonText
-  switch (headerCreateType) {
-    case 'story':
-      createButtonText = t('header.createStory')
-      break
-    case 'epic':
-      createButtonText = t('header.createEpic')
-      break
-    case 'milestone':
-      createButtonText = t('header.createMilestone')
-      break
-    case 'project':
-      createButtonText = t('header.createProject')
-      break
-    default:
-      break
-  }
-
+function MainLayout({ children }) {
   return (
     <Layout style={{ height: '100vh' }}>
       <SideMenu />
@@ -34,7 +13,7 @@ function MainLayout({ children, headerCreateType }) {
         <Header />
         <div style={{ backgroundColor: 'rgb(29, 29, 57)' }}>
           <SubHeader>
-            <CreateButton text={createButtonText} />
+            <HeaderCreateButton />
           </SubHeader>
         </div>
         <Content as={Layout.Content}>

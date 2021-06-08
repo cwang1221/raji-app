@@ -1,6 +1,6 @@
 import { CaretDownOutlined, AppstoreFilled, StopOutlined, BorderOutlined, DoubleRightOutlined, CheckCircleFilled } from '@ant-design/icons'
 import { Button, Dropdown, Menu } from 'antd'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { MyCard } from '../myCard'
@@ -10,7 +10,7 @@ export function MilestoneStateFilter({ onChange, registerFilter }) {
   const { t } = useTranslation()
   const [shownText, setShownText] = useState(t('filterBar.all'))
   const [selectedStates, setSelectedStates] = useState(['all'])
-  const states = [{
+  const states = useRef([{
     id: 'todo',
     icon: <BorderOutlined style={{ color: '#c9a61d' }} />
   }, {
@@ -19,18 +19,20 @@ export function MilestoneStateFilter({ onChange, registerFilter }) {
   }, {
     id: 'done',
     icon: <CheckCircleFilled style={{ color: '#009D4D' }} />
-  }]
+  }])
 
-  registerFilter({
-    id: 'milestoneState',
-    clear: () => setSelectedStates(['all'])
-  })
+  useEffect(() => {
+    registerFilter({
+      id: 'milestoneState',
+      clear: () => setSelectedStates(['all'])
+    })
+  }, [])
 
   useEffect(() => {
     if (selectedStates.includes('all')) {
       setShownText(t('filterBar.all'))
     } else if (selectedStates.length === 1) {
-      setShownText(t(`milestones.${selectedStates[0]}`))
+      setShownText(t(`milestone.${selectedStates[0]}`))
     } else {
       setShownText(t('filterBar.countStates', { count: selectedStates.length }))
     }
@@ -74,8 +76,8 @@ export function MilestoneStateFilter({ onChange, registerFilter }) {
         <span style={{ fontSize: '10px' }}>{t('filterBar.milestoneStateHint')}</span>
         <Menu multiple selectedKeys={selectedStates} onSelect={onSelect} onDeselect={onDeselect} style={{ borderRight: '0px' }}>
           <Menu.Item key="all">{t('filterBar.allProjects')}</Menu.Item>
-          {states.map((state) => (
-            <Menu.Item key={`${state.id}`} icon={state.icon}>{t(`milestones.${state.id}`)}</Menu.Item>
+          {states.current.map((state) => (
+            <Menu.Item key={`${state.id}`} icon={state.icon}>{t(`milestone.${state.id}`)}</Menu.Item>
           ))}
         </Menu>
       </FilterPopup>

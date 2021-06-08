@@ -2,24 +2,27 @@ import { Space, Typography, Progress, Tooltip, Dropdown, Menu } from 'antd'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { DoubleRightOutlined, CheckOutlined, BorderOutlined, FlagOutlined, FileTextOutlined, BorderlessTableOutlined, CheckCircleFilled } from '@ant-design/icons'
+import { useEffect, useState } from 'react'
 
 export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countOfDoneStories, countOfInProgressStories, totalPoint, state, changeState }) {
   const { t } = useTranslation()
+  const [stateComponent, setStateComponent] = useState(null)
 
-  let stateComponent
-  switch (state) {
-    case 'todo':
-      stateComponent = <State><BorderOutlined style={{ marginRight: '0.3rem', color: '#c9a61d' }} />{t('milestone.todo')}</State>
-      break
-    case 'inProgress':
-      stateComponent = <State><DoubleRightOutlined style={{ marginRight: '0.3rem' }} />{t('milestone.inProgress')}</State>
-      break
-    case 'done':
-      stateComponent = <State><CheckCircleFilled style={{ marginRight: '0.3rem', color: '#009D4D' }} />{t('milestone.done')}</State>
-      break
-    default:
-      break
-  }
+  useEffect(() => {
+    switch (state) {
+      case 'todo':
+        setStateComponent(<State><BorderOutlined style={{ marginRight: '0.3rem', color: '#c9a61d' }} />{t('milestone.todo')}</State>)
+        break
+      case 'inProgress':
+        setStateComponent(<State><DoubleRightOutlined style={{ marginRight: '0.3rem' }} />{t('milestone.inProgress')}</State>)
+        break
+      case 'done':
+        setStateComponent(<State><CheckCircleFilled style={{ marginRight: '0.3rem', color: '#009D4D' }} />{t('milestone.done')}</State>)
+        break
+      default:
+        break
+    }
+  }, [state])
 
   return (
     <div style={{ width: '100%' }}>

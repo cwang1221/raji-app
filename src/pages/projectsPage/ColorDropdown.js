@@ -1,10 +1,11 @@
 import { Row, Dropdown } from 'antd'
+import { useRef } from 'react'
 import styled from 'styled-components'
 import { MyCard } from '../../components'
 import { rgbToHex } from '../../utils'
 
 export function ColorDropdown({ color, onColorChange, children }) {
-  const colors = [
+  const colors = useRef([
     ['#880000', '#CC0000', '#DD6E13', '#E2C534'],
     ['#37710C', '#54BA08', '#9DE061', '#CEEFAA'],
     ['#004C82', '#007CBD', '#08BBDF', '#7CDFCF'],
@@ -12,7 +13,7 @@ export function ColorDropdown({ color, onColorChange, children }) {
     ['#AE9744', '#090909', '#888888', '#C0C0C0'],
     ['#3E1191', '#6515DD', '#8B78FA', '#FF5555'],
     ['#FBB81B', '#00D38C', '#A3C5EB', '#414042']
-  ]
+  ])
 
   const changeColor = (e) => {
     const rgbColor = e.currentTarget.style.backgroundColor
@@ -28,7 +29,7 @@ export function ColorDropdown({ color, onColorChange, children }) {
             as={MyCard}
             style={{ width: '130px' }}
           >
-            {colors.map((row, rowIndex) => (
+            {colors.current.map((row, rowIndex) => (
               <Row key={rowIndex}>
                 {row.map((colorCode, index) => (
                   <ColorBlock
