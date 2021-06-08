@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CreateButton, MyLabel } from '../../components'
 import { useDocumentTitle, useProject } from '../../hooks'
-import { clone, focusErrorInForm } from '../../utils'
+import { clone, focusErrorInForm, setHeaderCreateButton } from '../../utils'
 import { ColorDropdown } from './ColorDropdown'
 import { ProjectCard } from './ProjectCard'
 
@@ -24,6 +24,8 @@ export function ProjectsPage() {
   useDocumentTitle(t('project.projects'))
 
   useEffect(async () => {
+    setHeaderCreateButton('project')
+
     const data = await getProjectList()
     setWebProjects(data.filter((project) => project.type === 'web'))
     setMobileProjects(data.filter((project) => project.type === 'mobile'))

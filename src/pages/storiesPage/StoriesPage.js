@@ -1,13 +1,12 @@
 import { useEffect } from 'react'
-import { Welcome } from '../../components'
 import { setHeaderCreateButton } from '../../utils'
 
-export function WelcomePage() {
+export function StoriesPage() {
   useEffect(() => {
     setHeaderCreateButton('story')
   }, [])
 
   return (
-    <Welcome />
+    <h1>Stories Page</h1>
   )
 }

@@ -8,7 +8,7 @@ import { useDocumentTitle, useMilestone } from '../../hooks'
 import { Epic } from './Epic'
 import { BacklogHeader } from './BacklogHeader'
 import { MilestoneHeader } from './MilestoneHeader'
-import { clone } from '../../utils'
+import { clone, setHeaderCreateButton } from '../../utils'
 
 export function MilestonesPage() {
   const { t } = useTranslation()
@@ -19,14 +19,18 @@ export function MilestonesPage() {
 
   useDocumentTitle(t('milestone.milestones'))
 
-  const getMilestones = async () => {
-    const milestones = await getMilestonesList(filteredStates, filteredProjects)
-    setMilestones(milestones)
-  }
+  useEffect(() => {
+    setHeaderCreateButton('milestone')
+  }, [])
 
   useEffect(() => {
     getMilestones()
   }, [filteredStates, filteredProjects])
+
+  const getMilestones = async () => {
+    const milestones = await getMilestonesList(filteredStates, filteredProjects)
+    setMilestones(milestones)
+  }
 
   const onChangeView = () => {
     message.info('Not ready :)')

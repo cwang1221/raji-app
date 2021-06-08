@@ -24,24 +24,6 @@ export function SideMenu() {
     history.push('/signIn')
   }
 
-  const UserPopup = () => (
-    <UserCard
-      as={MyCard}
-      actions={[
-        <Link to="/settings">
-          <Button type="text">{t('header.setting')}</Button>
-        </Link>,
-        <Button type="text" onClick={onLogout}>{t('header.signOut')}</Button>
-      ]}
-    >
-      <Card.Meta
-        avatar={<Avatar src={user.avatar} />}
-        title={user.username}
-        description={user.email}
-      />
-    </UserCard>
-  )
-
   return (
     <Layout.Sider collapsed>
       <Container>
@@ -83,7 +65,24 @@ export function SideMenu() {
         <Dropdown
           trigger={['click']}
           arrow
-          overlay={<UserPopup />}
+          overlay={(
+            <div>
+              <MyCard
+                actions={[
+                  <Link to="/settings">
+                    <Button type="text">{t('header.setting')}</Button>
+                  </Link>,
+                  <Button type="text" onClick={onLogout}>{t('header.signOut')}</Button>
+                ]}
+              >
+                <Card.Meta
+                  avatar={<Avatar src={user.avatar} />}
+                  title={user.username}
+                  description={user.email}
+                />
+              </MyCard>
+            </div>
+          )}
         >
           <Item className={menuSelectedKey === 'settings' ? 'selected avatar' : 'avatar'}>
             <Avatar size="large" src={user.avatar} />
@@ -159,7 +158,4 @@ const Item = styled.div`
   &:hover.avatar {
     cursor: pointer;
   }
-`
-
-const UserCard = styled.div`
 `

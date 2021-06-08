@@ -1,11 +1,13 @@
 import { CaretDownOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { eventBus, events } from '../../utils'
 
 export function HeaderCreateButton() {
   const { t } = useTranslation()
+  const [type, setType] = useState('story')
 
   const objects = useRef({
     story: {
@@ -15,17 +17,21 @@ export function HeaderCreateButton() {
       text: t('header.createEpic')
     },
     milestone: {
-      text: t('header.createMileStone')
+      text: t('header.createMilestone')
     },
     project: {
       text: t('header.createProject')
     }
   })
 
+  useEffect(() => {
+    eventBus.subscribe(events.setCreateButton, setType)
+  }, [])
+
   return (
     <>
       <LeftButton as={Button} type="primary" size="large">
-        {objects.current.story.text}
+        {objects.current[type].text}
       </LeftButton>
       <RightButton as={Button} type="primary" size="large" icon={<CaretDownOutlined />} />
     </>

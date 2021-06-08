@@ -1,7 +1,7 @@
 import { Typography, Form, Button, Input, Divider, InputNumber } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useRef, useEffect } from 'react'
-import { focusErrorInForm } from '../../utils'
+import { focusErrorInForm, setHeaderCreateButton } from '../../utils'
 import { useDocumentTitle, useSetting } from '../../hooks'
 import { useAuth } from '../../contexts/authContext'
 import { useSettingContext } from '../../contexts/settingContext'
@@ -14,6 +14,10 @@ export function SettingPage() {
   const toolsFormRef = useRef()
   const { setting, setSetting } = useSettingContext()
   const { putSetting } = useSetting()
+
+  useEffect(() => {
+    setHeaderCreateButton('story')
+  }, [])
 
   useEffect(() => {
     toolsFormRef.current.getFieldsValue().timePerTopic !== setting.timePerTopic

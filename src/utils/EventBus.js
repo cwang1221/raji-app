@@ -1,4 +1,4 @@
-const eventBus = {
+export const eventBus = {
   subscribe(event, callback) {
     document.addEventListener(event, (e) => callback(e.detail))
   },
@@ -10,4 +10,6 @@ const eventBus = {
   }
 }
 
-export default eventBus
+export const events = {
+  setCreateButton: 'SET_CREATE_BUTTON'
+}

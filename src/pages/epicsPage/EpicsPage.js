@@ -1,13 +1,12 @@
 import { useEffect } from 'react'
-import { Welcome } from '../../components'
 import { setHeaderCreateButton } from '../../utils'
 
-export function WelcomePage() {
+export function EpicsPage() {
   useEffect(() => {
-    setHeaderCreateButton('story')
+    setHeaderCreateButton('epic')
   }, [])
 
   return (
-    <Welcome />
+    <h1>Epics Page</h1>
   )
 }

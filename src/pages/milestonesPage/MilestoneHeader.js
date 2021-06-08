@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 
 export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countOfDoneStories, countOfInProgressStories, totalPoint, state, changeState }) {
   const { t } = useTranslation()
-  const [stateComponent, setStateComponent] = useState(null)
+  const [stateComponent, setStateComponent] = useState(<div />)
 
   useEffect(() => {
     switch (state) {
