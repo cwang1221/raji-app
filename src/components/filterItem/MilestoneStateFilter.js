@@ -1,8 +1,9 @@
-import { CaretDownOutlined, AppstoreFilled, StopOutlined, BorderOutlined, DoubleRightOutlined, CheckCircleFilled } from '@ant-design/icons'
+import { CaretDownOutlined, AppstoreFilled, StopOutlined } from '@ant-design/icons'
 import { Button, Dropdown, Menu } from 'antd'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { MilestoneStateIcon } from '../milestoneStateIcon/MilestoneStateIcon'
 import { MyCard } from '../myCard'
 import { FilterItemBase } from './FilterItem'
 
@@ -10,16 +11,6 @@ export function MilestoneStateFilter({ onChange, registerFilter }) {
   const { t } = useTranslation()
   const [shownText, setShownText] = useState(t('filterBar.all'))
   const [selectedStates, setSelectedStates] = useState(['all'])
-  const states = useRef([{
-    id: 'todo',
-    icon: <BorderOutlined style={{ color: '#c9a61d' }} />
-  }, {
-    id: 'inProgress',
-    icon: <DoubleRightOutlined />
-  }, {
-    id: 'done',
-    icon: <CheckCircleFilled style={{ color: '#009D4D' }} />
-  }])
 
   useEffect(() => {
     registerFilter({
@@ -76,9 +67,9 @@ export function MilestoneStateFilter({ onChange, registerFilter }) {
         <span style={{ fontSize: '10px' }}>{t('filterBar.milestoneStateHint')}</span>
         <Menu multiple selectedKeys={selectedStates} onSelect={onSelect} onDeselect={onDeselect} style={{ borderRight: '0px' }}>
           <Menu.Item key="all">{t('filterBar.allProjects')}</Menu.Item>
-          {states.current.map((state) => (
-            <Menu.Item key={`${state.id}`} icon={state.icon}>{t(`milestone.${state.id}`)}</Menu.Item>
-          ))}
+          <Menu.Item key="todo" icon={<MilestoneStateIcon state="todo" />}>{t('milestone.todo')}</Menu.Item>
+          <Menu.Item key="inProgress" icon={<MilestoneStateIcon state="inProgress" />}>{t('milestone.inProgress')}</Menu.Item>
+          <Menu.Item key="done" icon={<MilestoneStateIcon state="done" />}>{t('milestone.done')}</Menu.Item>
         </Menu>
       </FilterPopup>
     </div>

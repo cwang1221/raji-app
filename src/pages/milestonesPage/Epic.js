@@ -1,35 +1,16 @@
 import { Typography, Progress, Avatar, Tooltip, List } from 'antd'
 import styled from 'styled-components'
-import { FlagOutlined, FileTextOutlined, BorderlessTableOutlined, BorderOutlined, RightOutlined, DoubleRightOutlined } from '@ant-design/icons'
+import { FileTextOutlined, BorderlessTableOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
-import { useEffect, useState } from 'react'
+import { EpicStateIcon } from '../../components'
 
 export function Epic({ name, state, countOfStories, countOfDoneStories, countOfInProgressStories, totalPoint, owners }) {
   const { t } = useTranslation()
-  const [stateIcon, setStateIcon] = useState(null)
-
-  useEffect(() => {
-    switch (state) {
-      case 'notStarted':
-        setStateIcon(<BorderOutlined style={{ color: 'gray' }} />)
-        break
-      case 'readyForDev':
-        setStateIcon(<RightOutlined style={{ color: '#FFA500' }} />)
-        break
-      case 'inProgress':
-        setStateIcon(<DoubleRightOutlined style={{ color: '#1E90FF' }} />)
-        break
-      case 'done':
-      default:
-        setStateIcon(<FlagOutlined style={{ color: '#009D4D' }} />)
-        break
-    }
-  }, [state])
 
   return (
     <EpicContainer as={List.Item}>
       <Tooltip title={t(`milestones.${state}`)}>
-        {stateIcon}
+        <EpicStateIcon state={state} />
       </Tooltip>
       <EpicMainContent>
         <Typography.Title level={5}>{name}</Typography.Title>
