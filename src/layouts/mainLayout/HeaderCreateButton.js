@@ -10,6 +10,8 @@ export function HeaderCreateButton() {
   const { t } = useTranslation()
   const [type, setType] = useState('story')
   const [showProjectModal, setShowProjectModal] = useState(false)
+  const [dropdownWidth, setDropdownWidth] = useState('0')
+  const leftButtonRef = useRef()
 
   const objects = useRef({
     story: {
@@ -42,15 +44,23 @@ export function HeaderCreateButton() {
     }
   }
 
+  const onDropdownVisibleChange = (visible) => {
+    if (visible) {
+      setDropdownWidth(`${leftButtonRef.current.offsetWidth + 36}px`)
+    }
+  }
+
   return (
     <>
-      <LeftButton as={Button} type="primary" size="large" onClick={() => createObject(type)}>
+      <LeftButton as={Button} ref={leftButtonRef} type="primary" size="large" onClick={() => createObject(type)} className="headerCreateButtonLeft">
         {objects.current[type].text}
       </LeftButton>
       <Dropdown
         placement="bottomRight"
+        onVisibleChange={onDropdownVisibleChange}
+        trigger={['click']}
         overlay={(
-          <Menu onClick={(e) => createObject(e.key)}>
+          <Menu onClick={(e) => createObject(e.key)} style={{ width: dropdownWidth }}>
             <Menu.Item key="story" icon={<FileTextOutlined style={{ color: 'gray' }} />}>{t('header.createStory')}</Menu.Item>
             <Menu.Item key="epic" icon={<FlagFilled style={{ color: 'rgb(100, 20, 219)' }} />}>{t('header.createEpic')}</Menu.Item>
             <Menu.Item key="project" icon={<RocketOutlined style={{ color: 'gray' }} />}>{t('header.createProject')}</Menu.Item>
