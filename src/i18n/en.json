@@ -9,7 +9,8 @@
     "following": "Following",
     "optional": "Optional",
     "description": "Description",
-    "delete": "Delete"
+    "delete": "Delete",
+    "project": "Project"
   },
   "msg": {
     "networkError": "Something wrong with the network. :(",

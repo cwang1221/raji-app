@@ -1,5 +1,5 @@
 import { Layout, List, Avatar, Dropdown, Card, Button } from 'antd'
-import { HomeOutlined, ReadOutlined, FlagOutlined, BlockOutlined, RocketOutlined } from '@ant-design/icons'
+import { HomeOutlined, ReadOutlined, FlagOutlined, EnvironmentOutlined, RocketOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
@@ -50,7 +50,7 @@ export function SideMenu() {
             </Link>
             <Link to="/milestones">
               <Item className={menuSelectedKey === 'milestones' ? 'selected' : ''}>
-                <BlockOutlined className="icon" />
+                <EnvironmentOutlined className="icon" />
                 {t('sideMenu.milestones')}
               </Item>
             </Link>

@@ -1,4 +1,4 @@
-import { CaretDownOutlined, CaretRightOutlined, RocketOutlined, StopOutlined } from '@ant-design/icons'
+import { CaretDownOutlined, RightCircleFilled, RocketOutlined, StopOutlined } from '@ant-design/icons'
 import { Button, Dropdown, Input, Menu } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -97,7 +97,7 @@ export function ProjectFilter({ onChange, registerFilter }) {
         <Menu multiple selectedKeys={selectedProjects} onSelect={onSelect} onDeselect={onDeselect} style={{ borderRight: '0px' }}>
           {showAll && <Menu.Item key="all">{t('filterBar.allProjects')}</Menu.Item>}
           {filteredProjects.map((project) => (
-            <Menu.Item key={`${project.id}`} icon={<CaretRightOutlined style={{ color: project.color }} />}>{project.name}</Menu.Item>
+            <Menu.Item key={`${project.id}`} icon={<RightCircleFilled style={{ color: project.color }} />}>{project.name}</Menu.Item>
           ))}
         </Menu>
       </FilterPopup>
