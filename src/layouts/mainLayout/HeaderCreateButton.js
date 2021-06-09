@@ -28,6 +28,8 @@ export function HeaderCreateButton() {
 
   useEffect(() => {
     eventBus.subscribe(events.setCreateButton, setType)
+
+    return () => eventBus.unsubscribe(events.setCreateButton, setType)
   }, [])
 
   const createObject = (objectType) => {

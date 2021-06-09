@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CreateProjectModal } from '../../components'
 import { useDocumentTitle, useProject } from '../../hooks'
-import { clone, setHeaderCreateButton } from '../../utils'
+import { clone, eventBus, events, setHeaderCreateButton } from '../../utils'
 import { ProjectCard } from './ProjectCard'
 
 export function ProjectsPage() {
@@ -19,13 +19,20 @@ export function ProjectsPage() {
 
   useDocumentTitle(t('project.projects'))
 
-  useEffect(async () => {
+  useEffect(() => {
     setHeaderCreateButton('project')
+    getProjects()
 
+    eventBus.subscribe(events.projectCreated, getProjects)
+
+    return () => eventBus.unsubscribe(events.projectCreated, getProjects)
+  }, [])
+
+  const getProjects = async () => {
     const data = await getProjectList()
     setWebProjects(data.filter((project) => project.type === 'web'))
     setMobileProjects(data.filter((project) => project.type === 'mobile'))
-  }, [])
+  }
 
   const openCreateModal = async (projectType) => {
     setCreateType(projectType)

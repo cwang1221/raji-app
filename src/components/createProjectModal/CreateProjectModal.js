@@ -3,14 +3,14 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useProject } from '../../hooks'
-import { focusErrorInForm } from '../../utils'
+import { eventBus, events, focusErrorInForm } from '../../utils'
 import { ColorDropdown } from '../colorDropdown'
 import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
 
 export function CreateProjectModal({ visible, disableType, type = 'web', close }) {
   const { t } = useTranslation()
-  const [color, setColor] = useState('#00D38C')
+  const [color, setColor] = useState('#880000')
   const [projectNames, setProjectNames] = useState([])
   const formRef = useRef()
   const { getProjects, postProject } = useProject()
@@ -42,6 +42,7 @@ export function CreateProjectModal({ visible, disableType, type = 'web', close }
           totalPoint: 0
         })
 
+        eventBus.publish(events.projectCreated)
         close()
       })
       .catch(() => {
