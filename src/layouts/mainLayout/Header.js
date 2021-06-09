@@ -17,7 +17,7 @@ export function Header() {
   }, [])
 
   return (
-    <HeaderBar as={Layout.Header}>
+    <HeaderBar>
       <HeaderGroup>
         <Dropdown
           placement="bottomRight"
@@ -35,7 +35,7 @@ export function Header() {
     </HeaderBar>
   )
 }
-const HeaderBar = styled.div`
+const HeaderBar = styled(Layout.Header)`
   height: 42px;
   display: flex;
   align-items: center;

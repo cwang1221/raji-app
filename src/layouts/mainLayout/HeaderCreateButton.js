@@ -13,7 +13,7 @@ export function HeaderCreateButton() {
   const [dropdownWidth, setDropdownWidth] = useState('0')
   const leftButtonRef = useRef()
 
-  const objects = useRef({
+  const objectsRef = useRef({
     story: {
       text: t('header.createStory')
     },
@@ -52,8 +52,8 @@ export function HeaderCreateButton() {
 
   return (
     <>
-      <LeftButton as={Button} ref={leftButtonRef} type="primary" size="large" onClick={() => createObject(type)} className="headerCreateButtonLeft">
-        {objects.current[type].text}
+      <LeftButton ref={leftButtonRef} type="primary" size="large" onClick={() => createObject(type)} className="headerCreateButtonLeft">
+        {objectsRef.current[type].text}
       </LeftButton>
       <Dropdown
         placement="bottomRight"
@@ -68,14 +68,14 @@ export function HeaderCreateButton() {
           </Menu>
       )}
       >
-        <RightButton as={Button} type="primary" size="large" icon={<CaretDownOutlined />} />
+        <RightButton type="primary" size="large" icon={<CaretDownOutlined />} />
       </Dropdown>
       <CreateProjectModal visible={showProjectModal} disableType={false} close={() => setShowProjectModal(false)} />
     </>
   )
 }
 
-const LeftButton = styled.button`
+const LeftButton = styled(Button)`
   background: #13AE47 !important;
   border-color: #13AE47 !important;;
   height: 36px !important;
@@ -90,7 +90,7 @@ const LeftButton = styled.button`
   }
 `
 
-const RightButton = styled.button`
+const RightButton = styled(Button)`
   background: #13AE47 !important;
   border-color: #13AE47 !important;;
   height: 36px !important;

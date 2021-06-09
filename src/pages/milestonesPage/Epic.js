@@ -8,7 +8,7 @@ export function Epic({ name, state, countOfStories, countOfDoneStories, countOfI
   const { t } = useTranslation()
 
   return (
-    <EpicContainer as={List.Item}>
+    <EpicContainer>
       <Tooltip title={t(`milestones.${state}`)}>
         <EpicStateIcon state={state} />
       </Tooltip>
@@ -29,7 +29,6 @@ export function Epic({ name, state, countOfStories, countOfDoneStories, countOfI
             <Tooltip title={`${t('milestone.total')}: ${countOfStories}, ${t('milestone.inProgress')}: ${countOfInProgressStories}, ${t('milestone.done')}: ${countOfDoneStories}`}>
               <DataBackground>
                 <ProgressBar
-                  as={Progress}
                   percent={((countOfInProgressStories + countOfDoneStories) / countOfStories) * 100}
                   success={{ percent: (countOfDoneStories / countOfStories) * 100 }}
                   showInfo={false}
@@ -51,7 +50,7 @@ export function Epic({ name, state, countOfStories, countOfDoneStories, countOfI
   )
 }
 
-const EpicContainer = styled.div`
+const EpicContainer = styled(List.Item)`
   width: 100%;
   display: flex;
   padding: 1rem;
@@ -87,7 +86,7 @@ const Number = styled.span`
   margin-left: 0.1rem;
 `
 
-const ProgressBar = styled.div`
+const ProgressBar = styled(Progress)`
   width: 4rem;
   margin-top: -0.2rem;
 `

@@ -3,10 +3,10 @@ import styled from 'styled-components'
 
 export function MyCard(props = {}) {
   return (
-    <ShadowCard as={Card} {...props} />
+    <ShadowCard {...props} />
   )
 }
 
-const ShadowCard = styled.div`
+const ShadowCard = styled(Card)`
   box-shadow: 1px 2px 2px #DCDCDC;
 `

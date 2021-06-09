@@ -4,14 +4,14 @@ import { ArrowRightOutlined } from '@ant-design/icons'
 
 export function CreateButton({ text, onClick }) {
   return (
-    <Container as={Button} type="primary" size="large" onClick={onClick}>
+    <Container type="primary" size="large" onClick={onClick}>
       {text}
       <ArrowRightOutlined className="icon" />
     </Container>
   )
 }
 
-const Container = styled.button`
+const Container = styled(Button)`
   background: #13AE47 !important;
   border-color: #13AE47 !important;;
   height: 36px !important;

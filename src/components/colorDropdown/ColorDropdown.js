@@ -5,7 +5,7 @@ import { MyCard } from '..'
 import { rgbToHex } from '../../utils'
 
 export function ColorDropdown({ color, onColorChange, children }) {
-  const colors = useRef([
+  const colorsRef = useRef([
     ['#880000', '#CC0000', '#DD6E13', '#E2C534'],
     ['#37710C', '#54BA08', '#9DE061', '#CEEFAA'],
     ['#004C82', '#007CBD', '#08BBDF', '#7CDFCF'],
@@ -25,11 +25,8 @@ export function ColorDropdown({ color, onColorChange, children }) {
     <Dropdown
       overlay={(
         <div>
-          <ColorDropDownContainer
-            as={MyCard}
-            style={{ width: '130px' }}
-          >
-            {colors.current.map((row, rowIndex) => (
+          <ColorDropDownContainer style={{ width: '130px' }}>
+            {colorsRef.current.map((row, rowIndex) => (
               <Row key={rowIndex}>
                 {row.map((colorCode, index) => (
                   <ColorBlock
@@ -74,7 +71,7 @@ const ColorBlock = styled.div`
   }
 `
 
-const ColorDropDownContainer = styled.div`
+const ColorDropDownContainer = styled(MyCard)`
   & .ant-card-body {
     padding: 0.5rem;
   }

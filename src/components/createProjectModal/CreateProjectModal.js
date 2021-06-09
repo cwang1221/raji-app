@@ -99,7 +99,7 @@ export function CreateProjectModal({ visible, disableType, type = 'web', close }
           </Form.Item>
         </Form>
         <Space direction="vertical" size="middle">
-          <CreateInfo as={Alert} message={t('project.createModalInfo')} />
+          <CreateInfo message={t('project.createModalInfo')} />
 
           <ColorDropdown color={color} onColorChange={setColor}>
             <Button size="small" style={{ width: '100%', textAlign: 'start' }}>
@@ -114,7 +114,7 @@ export function CreateProjectModal({ visible, disableType, type = 'web', close }
   )
 }
 
-const CreateInfo = styled.div`
+const CreateInfo = styled(Alert)`
   margin-top: 2.5rem;
   background-color: rgb(232, 240, 253);
   border: 0;

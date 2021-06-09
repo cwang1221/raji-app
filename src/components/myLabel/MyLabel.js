@@ -7,12 +7,12 @@ export function MyLabel({ children, required = false }) {
   return (
     <>
       <Typography.Text>{children}</Typography.Text>
-      {!required && <Optional as={Typography.Text}>{t('general.optional')}</Optional>}
+      {!required && <Optional>{t('general.optional')}</Optional>}
     </>
   )
 }
 
-const Optional = styled.span`
+const Optional = styled(Typography.Text)`
   margin-left: 0.5rem;
   font-weight: 400;
   color: gray;

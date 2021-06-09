@@ -8,7 +8,7 @@ const ErrorPage = ({ title }) => {
   useDocumentTitle(t('general.error'))
   return (
     <Container>
-      <Content as={Typography.Title}>{title}</Content>
+      <Content>{title}</Content>
     </Container>
   )
 }
@@ -27,7 +27,7 @@ const Container = styled.div`
   height: 100vh;
 `
 
-const Content = styled.div`
+const Content = styled(Typography.Title)`
   position: relative;
   top: 50%;
   text-align: center;

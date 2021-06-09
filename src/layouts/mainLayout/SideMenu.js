@@ -28,8 +28,8 @@ export function SideMenu() {
     <Layout.Sider collapsed>
       <Container>
         <div>
-          <Logo as={Avatar} shape="square" size={40} src={logo} />
-          <SideList as={List}>
+          <Logo shape="square" size={40} src={logo} />
+          <SideList>
             <Link to="/home">
               <Item className={menuSelectedKey === 'home' ? 'selected' : ''}>
                 <HomeOutlined className="icon" />
@@ -101,11 +101,11 @@ const Container = styled.div`
   background-color: rgb(29, 29, 57);
 `
 
-const SideList = styled.div`
+const SideList = styled(List)`
   padding-top: 2.4rem !important;
 `
 
-const Logo = styled.div`
+const Logo = styled(Avatar)`
   margin-left: 1.1rem;
   margin-top: 1rem;
 `

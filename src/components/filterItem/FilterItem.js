@@ -7,7 +7,7 @@ import { MultiSelect } from './MultiSelect'
 export function FilterItemBase({ name, children }) {
   return (
     <Container>
-      <Label as={Typography.Text} type="secondary">{name.toUpperCase()}</Label>
+      <Label type="secondary">{name.toUpperCase()}</Label>
       {children}
     </Container>
   )
@@ -23,6 +23,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 `
-const Label = styled.div`
+const Label = styled(Typography.Text)`
   margin-bottom: 0.2rem;
 `

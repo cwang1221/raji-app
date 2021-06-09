@@ -46,7 +46,7 @@ export function MultiSelect({ name, items, value, icon, onChange }) {
           </Menu>
         )}
       >
-        <MultiSelectButton as={Button}>
+        <MultiSelectButton>
           <ButtonContent>
             {icon}
             <ShownText>{shownText}</ShownText>
@@ -58,7 +58,7 @@ export function MultiSelect({ name, items, value, icon, onChange }) {
   )
 }
 
-const MultiSelectButton = styled.div`
+const MultiSelectButton = styled(Button)`
   width: 9rem;
   padding-left: 0.7rem !important;
   padding-right: 0.7rem !important;

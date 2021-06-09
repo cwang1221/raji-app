@@ -16,7 +16,7 @@ function MainLayout({ children }) {
             <HeaderCreateButton />
           </SubHeader>
         </div>
-        <Content as={Layout.Content}>
+        <Content>
           {children}
         </Content>
       </Layout>
@@ -41,7 +41,7 @@ export function MainLayoutRoute({ component: Component, headerCreateType, ...res
   )
 }
 
-const Content = styled.div`
+const Content = styled(Layout.Content)`
   background-color: rgb(238, 238, 238);
   padding: 1rem 2rem;
   overflow: auto;

@@ -91,7 +91,7 @@ export function ProjectFilter({ onChange, registerFilter }) {
 
   const Popup = () => (
     <div>
-      <FilterPopup as={MyCard} onClick={(e) => stopPropagation(e)}>
+      <FilterPopup onClick={(e) => stopPropagation(e)}>
         <span style={{ fontSize: '10px' }}>{t('filterBar.projectHint')}</span>
         <Input.Search ref={searchBoxRef} onChange={onFilterProjects} />
         <Menu multiple selectedKeys={selectedProjects} onSelect={onSelect} onDeselect={onDeselect} style={{ borderRight: '0px' }}>
@@ -112,14 +112,14 @@ export function ProjectFilter({ onChange, registerFilter }) {
           {shownText}
           {selectedProjects.includes('all')
             ? <CaretDownOutlined />
-            : <ClearIcon as={StopOutlined} onClick={onClear} />}
+            : <ClearIcon onClick={onClear} />}
         </Button>
       </Dropdown>
     </FilterItemBase>
   )
 }
 
-const FilterPopup = styled.div`
+const FilterPopup = styled(MyCard)`
   width: 18rem;
   padding: 0.5rem;
 
@@ -128,7 +128,7 @@ const FilterPopup = styled.div`
   }
 `
 
-const ClearIcon = styled.div`
+const ClearIcon = styled(StopOutlined)`
   color: rgb(198, 107, 107);
 
   &:hover {

@@ -107,5 +107,8 @@
     "timeErrMsg": "Please input a number between 1 and 300",
     "seconds": "Seconds",
     "save": "Save"
+  },
+  "story": {
+    "storyTitle": "Story Title"
   }
 }

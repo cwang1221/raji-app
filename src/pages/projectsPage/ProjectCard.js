@@ -60,7 +60,7 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
           </Tooltip>
           <Typography.Text>{description}</Typography.Text>
           <div>
-            <Footer as={Space} size="middle">
+            <Footer size="middle">
               <Tooltip title={`${storyCount} ${t('general.stories')}`}>
                 <FileTextOutlined /> <span>{storyCount}</span>
               </Tooltip>
@@ -68,7 +68,7 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
                 <BorderlessTableOutlined /> <span>{point}</span>
               </Tooltip>
               <Tooltip title={t('project.zoomInTooltip')}>
-                <ZoomInIcon as={ZoomInOutlined} />
+                <ZoomInIcon />
               </Tooltip>
               <Button
                 type={followers.includes(user.id) ? 'primary' : 'default'}
@@ -115,7 +115,7 @@ const Container = styled.div`
   }
 `
 
-const Footer = styled.div`
+const Footer = styled(Space)`
   position: absolute;
   bottom: 0.8rem;
   color: gray;
@@ -130,7 +130,7 @@ const Indicator = styled.div`
   background-color: ${(props) => props.color};
 `
 
-const ZoomInIcon = styled.div`
+const ZoomInIcon = styled(ZoomInOutlined)`
   color: gray;
   
   &:hover {

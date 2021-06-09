@@ -93,7 +93,6 @@ export function MilestonesPage() {
         <Space align="start">
           {milestones.map((milestone) => (
             <MilestoneContainer
-              as={List}
               bordered
               key={milestone.id}
               header={milestone.name === 'BACKLOG'
@@ -163,6 +162,6 @@ export function MilestonesPage() {
   )
 }
 
-const MilestoneContainer = styled.div`
+const MilestoneContainer = styled(List)`
   width: 20rem;
 `

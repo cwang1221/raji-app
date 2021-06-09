@@ -63,7 +63,7 @@ export function MilestoneStateFilter({ onChange, registerFilter }) {
 
   const Popup = () => (
     <div>
-      <FilterPopup as={MyCard} onClick={(e) => stopPropagation(e)}>
+      <FilterPopup onClick={(e) => stopPropagation(e)}>
         <span style={{ fontSize: '10px' }}>{t('filterBar.milestoneStateHint')}</span>
         <Menu multiple selectedKeys={selectedStates} onSelect={onSelect} onDeselect={onDeselect} style={{ borderRight: '0px' }}>
           <Menu.Item key="all">{t('filterBar.allProjects')}</Menu.Item>
@@ -83,14 +83,14 @@ export function MilestoneStateFilter({ onChange, registerFilter }) {
           {shownText}
           {selectedStates.includes('all')
             ? <CaretDownOutlined />
-            : <ClearIcon as={StopOutlined} onClick={clear} />}
+            : <ClearIcon onClick={clear} />}
         </Button>
       </Dropdown>
     </FilterItemBase>
   )
 }
 
-const FilterPopup = styled.div`
+const FilterPopup = styled(MyCard)`
   width: 18rem;
   padding: 0.5rem;
 
@@ -99,7 +99,7 @@ const FilterPopup = styled.div`
   }
 `
 
-const ClearIcon = styled.div`
+const ClearIcon = styled(StopOutlined)`
   color: rgb(198, 107, 107);
 
   &:hover {
