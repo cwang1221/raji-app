@@ -10,7 +10,8 @@
     "optional": "Optional",
     "description": "Description",
     "delete": "Delete",
-    "project": "Project"
+    "project": "Project",
+    "story": "Story"
   },
   "msg": {
     "networkError": "Something wrong with the network. :(",
@@ -49,7 +50,8 @@
     "username": "Username",
     "usernameErrMsg": "Please input your username",
     "updateUsernameErrMsg": "Could not update the username, please try again later.",
-    "searchPlaceholder": "Search stories"
+    "searchPlaceholder": "Search stories",
+    "selectState": "Select State"
   },
   "project": {
     "projects": "Projects",
@@ -110,6 +112,12 @@
     "save": "Save"
   },
   "story": {
-    "storyTitle": "Story Title"
+    "storyTitle": "Story Title",
+    "unscheduled": "Unscheduled",
+    "readyForDevelopment": "Ready for Development",
+    "inDevelopment": "In Development",
+    "readyForReview": "Ready for Review",
+    "readyForDeploy": "Ready for Deploy",
+    "completed": "Completed"
   }
 }

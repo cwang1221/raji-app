@@ -1,12 +1,10 @@
-import { SearchOutlined } from '@ant-design/icons'
-import { Dropdown, Input, Menu } from 'antd'
+import { Dropdown, Menu } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { MyCard } from '../myCard'
 import { SearchInput } from '../searchInput'
 
 export function ObjectSelector({ title, items, selectedId, onSelect, popupTitle }) {
-  const searchBoxRef = useRef()
   const [searchText, setSearchText] = useState([])
   const [selectedItem, setSelectedItem] = useState({})
 
@@ -20,14 +18,14 @@ export function ObjectSelector({ title, items, selectedId, onSelect, popupTitle 
   }
 
   const select = ({ key }) => {
-    onSelect(parseInt(key, 10))
+    onSelect(typeof key === 'number' ? parseInt(key, 10) : key)
   }
 
   const Popup = () => (
     <div>
       <PopupContainer>
         <span style={{ fontSize: '12px' }}>{popupTitle}</span>
-        <SearchInput ref={searchBoxRef} onChange={(e) => setSearchText(e.currentTarget.value.toLowerCase())} onClick={(e) => stopPropagation(e)} />
+        <SearchInput onChange={(e) => setSearchText(e.currentTarget.value.toLowerCase())} onClick={(e) => stopPropagation(e)} />
         <Menu selectedKeys={[selectedId]} onSelect={select} style={{ borderRight: '0' }}>
           {items.filter((item) => item.name.toLowerCase().includes(searchText)).map((item) => (
             <Menu.Item key={`${item.id}`} icon={item.icon}>{item.name}</Menu.Item>
@@ -40,7 +38,7 @@ export function ObjectSelector({ title, items, selectedId, onSelect, popupTitle 
   return (
     <Dropdown overlay={Popup} trigger={['click']}>
       <Container>
-        {selectedItem.icon && React.cloneElement(selectedItem.icon, { className: 'icon' })}
+        {selectedItem.icon && React.cloneElement(selectedItem.icon, { className: 'selectedIcon' })}
         <TextContainer>
           <Title>{title}</Title>
           <Text>{selectedItem.name}</Text>
@@ -65,7 +63,7 @@ const Container = styled.div`
     cursor: pointer;
   }
 
-  & .icon {
+  & .selectedIcon {
     font-size: 24px;
   }
 `

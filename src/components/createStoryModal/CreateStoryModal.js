@@ -1,10 +1,12 @@
 import { Form, Modal, Space, Input } from 'antd'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
 import { useAuth } from '../../contexts/authContext'
 import { ProjectSelector } from './ProjectSelector'
+import { StoryStateSelector } from './StoryStateSelector'
 
 export function CreateStoryModal({ visible, close }) {
   const { t } = useTranslation()
@@ -48,11 +50,18 @@ export function CreateStoryModal({ visible, close }) {
             <Input.TextArea rows={5} maxLength={500} />
           </Form.Item>
         </Form>
-        <Space direction="vertical" size="middle" style={{ paddingTop: '40px' }}>
+        <RightContainer>
           <ProjectSelector projectId={projectId} onProjectIdChange={setProjectId} />
+          <StoryStateSelector state={state} onStateChange={setState} />
           <CreateButton text={t('header.createStory')} />
-        </Space>
+        </RightContainer>
       </Space>
     </Modal>
   )
 }
+
+const RightContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+`
