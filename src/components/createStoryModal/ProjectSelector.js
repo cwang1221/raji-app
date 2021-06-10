@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useProject } from '../../hooks/useRequest'
 import { ObjectSelector } from './ObjectSelector'
 
-export function ProjectSelector({ projectId, onProjectIdChange }) {
+export function ProjectSelector({ projectId, onProjectIdChange, style }) {
   const { t } = useTranslation()
   const [projects, setProjects] = useState([])
   const { getProjects } = useProject()
@@ -25,6 +25,7 @@ export function ProjectSelector({ projectId, onProjectIdChange }) {
       selectedId={projectId}
       popupTitle={t('filterBar.projectHint')}
       onSelect={onProjectIdChange}
+      style={style}
     />
   )
 }

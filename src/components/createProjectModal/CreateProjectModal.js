@@ -56,7 +56,7 @@ export function CreateProjectModal({ visible, disableType, type = 'web', close }
   }
 
   return (
-    <Modal visible={visible} footer={null} onCancel={onCancel} width="700px">
+    <Modal visible={visible} footer={null} onCancel={onCancel} width="700px" keyboard={false} style={{ minWidth: '700px' }}>
       <Space align="start" size="large">
         <Form
           ref={formRef}

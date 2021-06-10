@@ -4,9 +4,13 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
+import { EpicSelector } from './EpicSelector'
 import { useAuth } from '../../contexts/authContext'
 import { ProjectSelector } from './ProjectSelector'
+import { RequesterSelector } from './RequesterSelector'
 import { StoryStateSelector } from './StoryStateSelector'
+import { StoryTypeSelector } from './StoryTypeSelector'
+import { OwnerSelector } from './OwnerSelector'
 
 export function CreateStoryModal({ visible, close }) {
   const { t } = useTranslation()
@@ -18,14 +22,14 @@ export function CreateStoryModal({ visible, close }) {
   const [type, setType] = useState('feature')
   const [requesterId, setRequesterId] = useState(user.id)
   const [ownerId, setOwnerId] = useState(undefined)
-  const [estimate, setEstimate] = useState(undefined)
-  const [due, setDue] = useState(undefined)
-  const [followerIds, setFollowerIds] = useState([])
+  // const [estimate, setEstimate] = useState(undefined)
+  // const [due, setDue] = useState(undefined)
+  // const [followerIds, setFollowerIds] = useState([])
 
   const formRef = useRef()
 
   return (
-    <Modal visible={visible} footer={null} onCancel={close} width="700px">
+    <Modal visible={visible} footer={null} onCancel={close} width="700px" keyboard={false} style={{ minWidth: '700px' }}>
       <Space align="start" size="large">
         <Form
           ref={formRef}
@@ -52,7 +56,14 @@ export function CreateStoryModal({ visible, close }) {
         </Form>
         <RightContainer>
           <ProjectSelector projectId={projectId} onProjectIdChange={setProjectId} />
-          <StoryStateSelector state={state} onStateChange={setState} />
+          <StoryStateSelector state={state} onStateChange={setState} style={{ marginBottom: '1rem' }} />
+
+          <EpicSelector epicId={epicId} onEpicIdChange={setEpicId} />
+          <StoryTypeSelector type={type} onTypeChange={setType} style={{ marginBottom: '1rem' }} />
+
+          <RequesterSelector requesterId={requesterId} onRequesterIdChange={setRequesterId} />
+          <OwnerSelector ownerId={ownerId} onOwnerIdChange={setOwnerId} style={{ marginBottom: '1rem' }} />
+
           <CreateButton text={t('header.createStory')} />
         </RightContainer>
       </Space>

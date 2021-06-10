@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ObjectSelector } from './ObjectSelector'
 import { StoryStateIcon } from '..'
 
-export function StoryStateSelector({ state, onStateChange }) {
+export function StoryStateSelector({ state, onStateChange, style }) {
   const { t } = useTranslation()
   const statesRef = useRef(['unscheduled', 'readyForDevelopment', 'inDevelopment', 'readyForReview', 'readyForDeploy', 'completed'].map((state) => ({
     id: state,
@@ -22,6 +22,7 @@ export function StoryStateSelector({ state, onStateChange }) {
       selectedId={state}
       popupTitle={t('header.selectState')}
       onSelect={onStateChange}
+      style={style}
     />
   )
 }

@@ -99,30 +99,28 @@ const putSetting = async (settings) => {
 
 export const useSetting = () => ({ getSetting, putSetting })
 
-export const useEpics = async (states) => {
-  let url = '/epics'
-  if (states && states.length !== 0 && states.length !== 4) {
-    url += `?state=${states.join(',')}`
-  }
+//----------------------------------------------------------
+// Epic
+//----------------------------------------------------------
+const getEpics = async () => {
   const { data } = await axios.request({
-    url,
+    url: '/epics',
     method: 'get'
   })
   return data
 }
 
-export const useEpicList = async (states, projectIds) => {
-  let url = '/epics/ui/list'
+export const useEpic = () => ({ getEpics })
 
-  const queryStrings = []
-  states && states.length !== 0 && states.length !== 4 && queryStrings.push(`state=${states.join(',')}`)
-  projectIds && projectIds.length !== 0 && projectIds.length !== 4 && queryStrings.push(`projectId=${projectIds.join(',')}`)
-
-  queryStrings.length > 0 && (url += `?${queryStrings.join('&')}`)
-
+//----------------------------------------------------------
+// User
+//----------------------------------------------------------
+const getUsers = async () => {
   const { data } = await axios.request({
-    url,
+    url: '/users',
     method: 'get'
   })
   return data
 }
+
+export const useUser = () => ({ getUsers })

@@ -11,7 +11,11 @@
     "description": "Description",
     "delete": "Delete",
     "project": "Project",
-    "story": "Story"
+    "story": "Story",
+    "epic": "Epic",
+    "type": "Type",
+    "requester": "Requester",
+    "owner": "Owner"
   },
   "msg": {
     "networkError": "Something wrong with the network. :(",
@@ -51,7 +55,11 @@
     "usernameErrMsg": "Please input your username",
     "updateUsernameErrMsg": "Could not update the username, please try again later.",
     "searchPlaceholder": "Search stories",
-    "selectState": "Select State"
+    "selectState": "Select State",
+    "selectEpic": "Select Epic",
+    "selectStoryType": "Select Story Type",
+    "selectStoryRequester": "Select Story Requester",
+    "selectStoryOwner": "Select Story Owner"
   },
   "project": {
     "projects": "Projects",
@@ -118,6 +126,9 @@
     "inDevelopment": "In Development",
     "readyForReview": "Ready for Review",
     "readyForDeploy": "Ready for Deploy",
-    "completed": "Completed"
+    "completed": "Completed",
+    "feature": "Feature",
+    "bug": "Bug",
+    "chore": "Chore"
   }
 }
