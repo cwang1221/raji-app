@@ -49,7 +49,7 @@ export function CreateStoryModal({ visible, close }) {
           </Form.Item>
         </Form>
         <Space direction="vertical" size="middle" style={{ paddingTop: '40px' }}>
-          <ProjectSelector projectId={1} />
+          <ProjectSelector projectId={projectId} onProjectIdChange={setProjectId} />
           <CreateButton text={t('header.createStory')} />
         </Space>
       </Space>

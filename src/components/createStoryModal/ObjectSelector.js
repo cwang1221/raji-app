@@ -1,25 +1,36 @@
+import { SearchOutlined } from '@ant-design/icons'
 import { Dropdown, Input, Menu } from 'antd'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { MyCard } from '../myCard'
+import { SearchInput } from '../searchInput'
 
-export function ObjectSelector({ icon, title, text, items, selectedKey, popupTitle }) {
+export function ObjectSelector({ title, items, selectedId, onSelect, popupTitle }) {
   const searchBoxRef = useRef()
+  const [searchText, setSearchText] = useState([])
+  const [selectedItem, setSelectedItem] = useState({})
+
+  useEffect(() => {
+    setSelectedItem(items.find((item) => item.id === selectedId) || {})
+  }, [selectedId, items])
 
   const stopPropagation = (e) => {
     e.stopPropagation()
     e.nativeEvent.stopImmediatePropagation()
   }
 
+  const select = ({ key }) => {
+    onSelect(parseInt(key, 10))
+  }
+
   const Popup = () => (
     <div>
-      <PopupContainer onClick={(e) => stopPropagation(e)}>
-        <span style={{ fontSize: '10px' }}>{popupTitle}</span>
-        <Input.Search ref={searchBoxRef} onChange={onFilterProjects} />
-        <Menu selectedKeys={[selectedKey]} onSelect={onSelect} style={{ borderRight: '0px' }}>
-          {showAll && <Menu.Item key="all">{t('filterBar.allProjects')}</Menu.Item>}
-          {filteredProjects.map((project) => (
-            <Menu.Item key={`${project.id}`} icon={<RightCircleFilled style={{ color: project.color }} />}>{project.name}</Menu.Item>
+      <PopupContainer>
+        <span style={{ fontSize: '12px' }}>{popupTitle}</span>
+        <SearchInput ref={searchBoxRef} onChange={(e) => setSearchText(e.currentTarget.value.toLowerCase())} onClick={(e) => stopPropagation(e)} />
+        <Menu selectedKeys={[selectedId]} onSelect={select} style={{ borderRight: '0' }}>
+          {items.filter((item) => item.name.toLowerCase().includes(searchText)).map((item) => (
+            <Menu.Item key={`${item.id}`} icon={item.icon}>{item.name}</Menu.Item>
           ))}
         </Menu>
       </PopupContainer>
@@ -27,12 +38,12 @@ export function ObjectSelector({ icon, title, text, items, selectedKey, popupTit
   )
 
   return (
-    <Dropdown overlay={Popup}>
+    <Dropdown overlay={Popup} trigger={['click']}>
       <Container>
-        {React.cloneElement(icon, { className: 'icon' })}
+        {selectedItem.icon && React.cloneElement(selectedItem.icon, { className: 'icon' })}
         <TextContainer>
           <Title>{title}</Title>
-          <Text>{text}</Text>
+          <Text>{selectedItem.name}</Text>
         </TextContainer>
       </Container>
     </Dropdown>
@@ -77,7 +88,7 @@ const Text = styled.span`
 `
 
 const PopupContainer = styled(MyCard)`
-  width: 18rem;
+  width: 16rem;
   padding: 0.5rem;
 
   & .ant-card-body {
