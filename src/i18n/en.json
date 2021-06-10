@@ -15,7 +15,9 @@
     "epic": "Epic",
     "type": "Type",
     "requester": "Requester",
-    "owner": "Owner"
+    "owner": "Owner",
+    "none": "None",
+    "nobody": "Nobody"
   },
   "msg": {
     "networkError": "Something wrong with the network. :(",

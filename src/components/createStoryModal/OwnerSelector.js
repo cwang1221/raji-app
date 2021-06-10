@@ -1,3 +1,4 @@
+import { UserOutlined } from '@ant-design/icons'
 import { Avatar } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -13,6 +14,11 @@ export function OwnerSelector({ ownerId, onOwnerIdChange, style }) {
     const data = await getUsers()
     data.forEach((user) => {
       user.icon = <Avatar src={user.picture} size={24} />
+    })
+    data.unshift({
+      id: 'none',
+      name: t('general.nobody'),
+      icon: <UserOutlined />
     })
     setUsers(data)
   }, [])

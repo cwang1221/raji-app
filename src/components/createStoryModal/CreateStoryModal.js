@@ -18,10 +18,10 @@ export function CreateStoryModal({ visible, close }) {
 
   const [projectId, setProjectId] = useState(undefined)
   const [state, setState] = useState('unscheduled')
-  const [epicId, setEpicId] = useState(undefined)
+  const [epicId, setEpicId] = useState('none')
   const [type, setType] = useState('feature')
   const [requesterId, setRequesterId] = useState(user.id)
-  const [ownerId, setOwnerId] = useState(undefined)
+  const [ownerId, setOwnerId] = useState('none')
   // const [estimate, setEstimate] = useState(undefined)
   // const [due, setDue] = useState(undefined)
   // const [followerIds, setFollowerIds] = useState([])

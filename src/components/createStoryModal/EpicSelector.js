@@ -14,8 +14,12 @@ export function EpicSelector({ epicId, onEpicIdChange, style }) {
     data.forEach((epic) => {
       epic.icon = <EpicStateIcon state={epic.state} />
     })
+    data.unshift({
+      id: 'none',
+      name: t('general.none'),
+      icon: <EpicStateIcon state="todo" />
+    })
     setEpics(data)
-    epicId || onEpicIdChange(data[0].id)
   }, [])
 
   return (

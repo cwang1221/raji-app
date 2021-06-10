@@ -28,7 +28,13 @@ export function ObjectSelector({ title, items, selectedId, onSelect, popupTitle,
         {showSearch && <SearchInput onChange={(e) => setSearchText(e.currentTarget.value.toLowerCase())} onClick={(e) => stopPropagation(e)} />}
         <Menu selectedKeys={[selectedId]} onSelect={select} style={{ borderRight: '0', maxHeight: '20rem', overflow: 'auto' }}>
           {items.filter((item) => item.name.toLowerCase().includes(searchText)).map((item) => (
-            <Menu.Item key={`${item.id}`} icon={item.icon}>{item.name}</Menu.Item>
+            <Menu.Item
+              key={`${item.id}`}
+              icon={item.id !== 'none' && item.icon}
+              style={{ fontStyle: item.id === 'none' ? 'italic' : 'normal' }}
+            >
+              {item.name}
+            </Menu.Item>
           ))}
         </Menu>
       </PopupContainer>
@@ -43,7 +49,7 @@ export function ObjectSelector({ title, items, selectedId, onSelect, popupTitle,
         </span>
         <TextContainer>
           <Title>{title}</Title>
-          <Text>{selectedItem.name}</Text>
+          <Text isNone={selectedId === 'none'}>{selectedItem.name}</Text>
         </TextContainer>
       </Container>
     </Dropdown>
@@ -85,6 +91,8 @@ const Text = styled.span`
   text-overflow: ellipsis;
   overflow: hidden;
   width: 130px;
+  font-style: ${(props) => (props.isNone ? 'italic' : 'normal')};
+  color: ${(props) => (props.isNone && 'gray')};
 `
 
 const PopupContainer = styled(MyCard)`
