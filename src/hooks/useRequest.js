@@ -124,3 +124,17 @@ const getUsers = async () => {
 }
 
 export const useUser = () => ({ getUsers })
+
+//----------------------------------------------------------
+// Story
+//----------------------------------------------------------
+const postStory = async (payload) => {
+  const { data } = await axios.request({
+    url: '/stories',
+    method: 'post',
+    data: payload
+  })
+  return data
+}
+
+export const useStory = () => ({ postStory })

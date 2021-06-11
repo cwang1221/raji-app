@@ -17,7 +17,11 @@
     "requester": "Requester",
     "owner": "Owner",
     "none": "None",
-    "nobody": "Nobody"
+    "nobody": "Nobody",
+    "estimate": "Estimate",
+    "unestimated": "Unestimated",
+    "countPoints": "{{count}} Points",
+    "state": "State"
   },
   "msg": {
     "networkError": "Something wrong with the network. :(",
@@ -131,6 +135,7 @@
     "completed": "Completed",
     "feature": "Feature",
     "bug": "Bug",
-    "chore": "Chore"
+    "chore": "Chore",
+    "estimateStory": "Estimate Story"
   }
 }

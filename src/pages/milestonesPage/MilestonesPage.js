@@ -8,7 +8,7 @@ import { useDocumentTitle, useMilestone } from '../../hooks'
 import { Epic } from './Epic'
 import { BacklogHeader } from './BacklogHeader'
 import { MilestoneHeader } from './MilestoneHeader'
-import { clone, setHeaderCreateButton } from '../../utils'
+import { clone, eventBus, events, setHeaderCreateButton } from '../../utils'
 
 export function MilestonesPage() {
   const { t } = useTranslation()
@@ -21,6 +21,14 @@ export function MilestonesPage() {
 
   useEffect(() => {
     setHeaderCreateButton('milestone')
+
+    eventBus.subscribe(events.projectCreated, getMilestones)
+    eventBus.subscribe(events.storyCreated, getMilestones)
+
+    return () => {
+      eventBus.unsubscribe(events.projectCreated, getMilestones)
+      eventBus.unsubscribe(events.storyCreated, getMilestones)
+    }
   }, [])
 
   useEffect(() => {

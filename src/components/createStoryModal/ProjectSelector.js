@@ -15,8 +15,12 @@ export function ProjectSelector({ projectId, onProjectIdChange, style }) {
       project.icon = <RightCircleFilled style={{ color: project.color }} />
     })
     setProjects(data)
-    projectId || onProjectIdChange(data[0].id)
+    projectId || onProjectIdChange(`${data[0].id}`)
   }, [])
+
+  useEffect(async () => {
+    projectId || (projects.length && onProjectIdChange(`${projects[0].id}`))
+  }, [projectId])
 
   return (
     <ObjectSelector

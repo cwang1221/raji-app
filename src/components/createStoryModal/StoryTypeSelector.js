@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ObjectSelector } from './ObjectSelector'
 import { StoryTypeIcon } from '..'
@@ -11,13 +11,9 @@ export function StoryTypeSelector({ type, onTypeChange, style }) {
     icon: <StoryTypeIcon type={type} />
   })))
 
-  useEffect(async () => {
-    type || onTypeChange('feature')
-  }, [])
-
   return (
     <ObjectSelector
-      title={t('general.story')}
+      title={t('general.type')}
       items={typsRef.current}
       selectedId={type}
       popupTitle={t('header.selectStoryType')}

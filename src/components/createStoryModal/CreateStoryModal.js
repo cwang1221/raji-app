@@ -11,6 +11,9 @@ import { RequesterSelector } from './RequesterSelector'
 import { StoryStateSelector } from './StoryStateSelector'
 import { StoryTypeSelector } from './StoryTypeSelector'
 import { OwnerSelector } from './OwnerSelector'
+import { EstimateSelector } from '../estimateSelector'
+import { eventBus, events, focusErrorInForm } from '../../utils'
+import { useStory } from '../../hooks/useRequest'
 
 export function CreateStoryModal({ visible, close }) {
   const { t } = useTranslation()
@@ -20,13 +23,47 @@ export function CreateStoryModal({ visible, close }) {
   const [state, setState] = useState('unscheduled')
   const [epicId, setEpicId] = useState('none')
   const [type, setType] = useState('feature')
-  const [requesterId, setRequesterId] = useState(user.id)
+  const [requesterId, setRequesterId] = useState(`${user.id}`)
   const [ownerId, setOwnerId] = useState('none')
-  // const [estimate, setEstimate] = useState(undefined)
-  // const [due, setDue] = useState(undefined)
-  // const [followerIds, setFollowerIds] = useState([])
+  const [estimate, setEstimate] = useState('none')
 
   const formRef = useRef()
+
+  const { postStory } = useStory()
+
+  const createStory = () => {
+    const createForm = formRef.current
+    createForm.validateFields()
+      .then(async (values) => {
+        const payload = {
+          ...values,
+          projectId: parseInt(projectId, 10),
+          state,
+          requesterId: parseInt(requesterId, 10)
+        }
+
+        epicId !== 'none' && (payload.epicId = parseInt(epicId, 10))
+        ownerId !== 'none' && (payload.ownerId = parseInt(ownerId, 10))
+        estimate !== 'none' && (payload.estimate = parseInt(estimate, 10))
+
+        await postStory(payload)
+
+        eventBus.publish(events.storyCreated)
+        formRef.current.resetFields()
+        setProjectId(undefined)
+        setState('unscheduled')
+        setEpicId('none')
+        setType('feature')
+        setRequesterId(`${user.id}`)
+        setOwnerId('none')
+        setEstimate('none')
+
+        close()
+      })
+      .catch(() => {
+        focusErrorInForm(formRef)
+      })
+  }
 
   return (
     <Modal visible={visible} footer={null} onCancel={close} width="700px" keyboard={false} style={{ minWidth: '700px' }}>
@@ -36,6 +73,7 @@ export function CreateStoryModal({ visible, close }) {
           labelCol={{ span: 24 }}
           wrapperCol={{ span: 24 }}
           style={{ width: '420px' }}
+          initialValues={{ title: '', description: '' }}
         >
           <Form.Item
             label={<MyLabel required>{t('story.storyTitle')}</MyLabel>}
@@ -64,7 +102,9 @@ export function CreateStoryModal({ visible, close }) {
           <RequesterSelector requesterId={requesterId} onRequesterIdChange={setRequesterId} />
           <OwnerSelector ownerId={ownerId} onOwnerIdChange={setOwnerId} style={{ marginBottom: '1rem' }} />
 
-          <CreateButton text={t('header.createStory')} />
+          <EstimateSelector estimate={estimate} onEstimateChange={setEstimate} style={{ marginBottom: '1rem' }} />
+
+          <CreateButton text={t('header.createStory')} onClick={createStory} />
         </RightContainer>
       </Space>
     </Modal>
@@ -72,7 +112,5 @@ export function CreateStoryModal({ visible, close }) {
 }
 
 const RightContainer = styled.div`
-  display: flex;
-  flex-direction: column;
   margin-top: 40px;
 `

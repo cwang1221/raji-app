@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ObjectSelector } from './ObjectSelector'
 import { StoryStateIcon } from '..'
@@ -11,13 +11,9 @@ export function StoryStateSelector({ state, onStateChange, style }) {
     icon: <StoryStateIcon state={state} />
   })))
 
-  useEffect(async () => {
-    state || onStateChange('unscheduled')
-  }, [])
-
   return (
     <ObjectSelector
-      title={t('general.story')}
+      title={t('general.state')}
       items={statesRef.current}
       selectedId={state}
       popupTitle={t('header.selectState')}

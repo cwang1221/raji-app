@@ -53,6 +53,7 @@ export function Epic({ name, state, countOfStories, countOfDoneStories, countOfI
 const EpicContainer = styled(List.Item)`
   width: 100%;
   display: flex;
+  align-items: baseline;
   padding: 1rem;
   background-color: white;
   border: #f0f0f0 1px solid !important;

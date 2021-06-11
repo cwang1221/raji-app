@@ -24,8 +24,12 @@ export function ProjectsPage() {
     getProjects()
 
     eventBus.subscribe(events.projectCreated, getProjects)
+    eventBus.subscribe(events.storyCreated, getProjects)
 
-    return () => eventBus.unsubscribe(events.projectCreated, getProjects)
+    return () => {
+      eventBus.unsubscribe(events.projectCreated, getProjects)
+      eventBus.unsubscribe(events.storyCreated, getProjects)
+    }
   }, [])
 
   const getProjects = async () => {

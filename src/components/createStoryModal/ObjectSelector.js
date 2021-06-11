@@ -9,7 +9,7 @@ export function ObjectSelector({ title, items, selectedId, onSelect, popupTitle,
   const [selectedItem, setSelectedItem] = useState({})
 
   useEffect(() => {
-    setSelectedItem(items.find((item) => item.id === selectedId) || {})
+    setSelectedItem(items.find((item) => `${item.id}` === selectedId) || {})
   }, [selectedId, items])
 
   const stopPropagation = (e) => {
@@ -17,16 +17,14 @@ export function ObjectSelector({ title, items, selectedId, onSelect, popupTitle,
     e.nativeEvent.stopImmediatePropagation()
   }
 
-  const select = ({ key }) => {
-    onSelect(isNaN(key) ? key : parseInt(key, 10))
-  }
-
   const Popup = () => (
     <div>
       <PopupContainer>
-        <span style={{ fontSize: '12px' }}>{popupTitle}</span>
-        {showSearch && <SearchInput onChange={(e) => setSearchText(e.currentTarget.value.toLowerCase())} onClick={(e) => stopPropagation(e)} />}
-        <Menu selectedKeys={[selectedId]} onSelect={select} style={{ borderRight: '0', maxHeight: '20rem', overflow: 'auto' }}>
+        <PopupHeader>
+          <span style={{ fontSize: '12px' }}>{popupTitle}</span>
+          {showSearch && <SearchInput onChange={(e) => setSearchText(e.currentTarget.value.toLowerCase())} onClick={(e) => stopPropagation(e)} />}
+        </PopupHeader>
+        <Menu selectedKeys={[selectedId]} onSelect={({ key }) => onSelect(key)} style={{ borderRight: '0', maxHeight: '20rem', overflow: 'auto' }}>
           {items.filter((item) => item.name.toLowerCase().includes(searchText)).map((item) => (
             <Menu.Item
               key={`${item.id}`}
@@ -97,9 +95,12 @@ const Text = styled.span`
 
 const PopupContainer = styled(MyCard)`
   width: 16rem;
-  padding: 0.5rem;
 
   & .ant-card-body {
     padding: 0;
   }
+`
+
+const PopupHeader = styled.div`
+  padding: 0.5rem
 `
