@@ -88,7 +88,7 @@ const Number = styled.span`
 `
 
 const ProgressBar = styled(Progress)`
-  width: 4rem;
+  width: 3rem;
   margin-top: -0.2rem;
 `
 

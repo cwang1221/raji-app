@@ -24,10 +24,12 @@ export function MilestonesPage() {
 
     eventBus.subscribe(events.projectCreated, getMilestones)
     eventBus.subscribe(events.storyCreated, getMilestones)
+    eventBus.subscribe(events.epicCreated, getMilestones)
 
     return () => {
       eventBus.unsubscribe(events.projectCreated, getMilestones)
       eventBus.unsubscribe(events.storyCreated, getMilestones)
+      eventBus.unsubscribe(events.epicCreated, getMilestones)
     }
   }, [])
 
@@ -103,7 +105,7 @@ export function MilestonesPage() {
             <MilestoneContainer
               bordered
               key={milestone.id}
-              header={milestone.name === 'BACKLOG'
+              header={milestone.id === 1
                 ? <BacklogHeader countOfEpics={milestone.epics.length} />
                 : (() => {
                   let countOfStories = 0

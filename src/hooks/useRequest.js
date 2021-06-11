@@ -50,6 +50,14 @@ export const useProject = () => ({ getProjects, getProjectList, putProject, post
 //----------------------------------------------------------
 // Milestone
 //----------------------------------------------------------
+const getMilestones = async () => {
+  const { data } = await axios.request({
+    url: '/milestones',
+    method: 'get'
+  })
+  return data
+}
+
 const getMilestonesList = async (states, projectIds) => {
   let url = '/milestones/ui/list'
 
@@ -75,7 +83,18 @@ const putMilestone = async (id, milestone) => {
   return data
 }
 
-export const useMilestone = () => ({ getMilestonesList, putMilestone })
+const addEpic = async (id, epicId) => {
+  const { data } = await axios.request({
+    url: `/milestones/${id}/addEpic`,
+    method: 'post',
+    data: {
+      epicId
+    }
+  })
+  return data
+}
+
+export const useMilestone = () => ({ getMilestonesList, putMilestone, getMilestones, addEpic })
 
 //----------------------------------------------------------
 // Setting
@@ -110,7 +129,16 @@ const getEpics = async () => {
   return data
 }
 
-export const useEpic = () => ({ getEpics })
+const postEpic = async (payload) => {
+  const { data } = await axios.request({
+    url: '/epics',
+    method: 'post',
+    data: payload
+  })
+  return data
+}
+
+export const useEpic = () => ({ getEpics, postEpic })
 
 //----------------------------------------------------------
 // User

@@ -21,7 +21,8 @@
     "estimate": "Estimate",
     "unestimated": "Unestimated",
     "countPoints": "{{count}} Points",
-    "state": "State"
+    "state": "State",
+    "milestone": "Milestone"
   },
   "msg": {
     "networkError": "Something wrong with the network. :(",
@@ -99,9 +100,14 @@
     "percentageCompleted": "{{percentage}}% Completed"
   },
   "epic": {
+    "epicTitle": "Epic Title",
     "todo": "To Do",
     "inProgress": "In Progress",
-    "done": "Done"
+    "done": "Done",
+    "createModalInfo": "Epics are collections of Stories that together represent some major initiative or feature. Epics can span multiple Projects.",
+    "updateEpicMilestone": "Update Epic Milestone",
+    "updateEpicState": "Update Epic State",
+    "noMilestone": "No Milestone"
   },
   "filterBar": {
     "none": "None",

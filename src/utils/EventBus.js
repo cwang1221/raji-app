@@ -26,5 +26,6 @@ export const eventBus = {
 export const events = {
   setCreateButton: 'SET_CREATE_BUTTON',
   projectCreated: 'PROJECT_CREATED',
-  storyCreated: 'STORY_CREATED'
+  storyCreated: 'STORY_CREATED',
+  epicCreated: 'EPIC_CREATED'
 }

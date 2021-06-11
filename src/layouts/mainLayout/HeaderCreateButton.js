@@ -3,7 +3,7 @@ import { Button, Dropdown, Menu } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { CreateProjectModal, CreateStoryModal } from '../../components'
+import { CreateEpicModal, CreateProjectModal, CreateStoryModal } from '../../components'
 import { eventBus, events } from '../../utils'
 
 export function HeaderCreateButton() {
@@ -12,6 +12,7 @@ export function HeaderCreateButton() {
   const [dropdownWidth, setDropdownWidth] = useState('0')
   const [showStoryModal, setShowStoryModal] = useState(false)
   const [showProjectModal, setShowProjectModal] = useState(false)
+  const [showEpicModal, setShowEpicModal] = useState(false)
   const leftButtonRef = useRef()
 
   const objectsRef = useRef({
@@ -42,6 +43,9 @@ export function HeaderCreateButton() {
         break
       case 'project':
         setShowProjectModal(true)
+        break
+      case 'epic':
+        setShowEpicModal(true)
         break
       default:
         break
@@ -76,6 +80,7 @@ export function HeaderCreateButton() {
       </Dropdown>
       <CreateProjectModal visible={showProjectModal} disableType={false} close={() => setShowProjectModal(false)} />
       <CreateStoryModal visible={showStoryModal} close={() => setShowStoryModal(false)} />
+      <CreateEpicModal visible={showEpicModal} close={() => setShowEpicModal(false)} />
     </>
   )
 }
