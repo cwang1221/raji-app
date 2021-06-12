@@ -173,6 +173,21 @@ export const useUser = () => ({ getUsers })
 //----------------------------------------------------------
 // Story
 //----------------------------------------------------------
+const getStories = async () => {
+  const { data } = await axios.request({
+    url: '/stories',
+    method: 'get'
+  })
+  return data
+}
+const getStoryUiList = async () => {
+  const { data } = await axios.request({
+    url: '/stories/ui/list',
+    method: 'get'
+  })
+  return data
+}
+
 const postStory = async (payload) => {
   const { data } = await axios.request({
     url: '/stories',
@@ -182,4 +197,4 @@ const postStory = async (payload) => {
   return data
 }
 
-export const useStory = () => ({ postStory })
+export const useStory = () => ({ getStories, getStoryUiList, postStory })
