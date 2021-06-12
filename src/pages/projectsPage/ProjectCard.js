@@ -1,4 +1,4 @@
-import { Button, Space, Tooltip, Typography, message } from 'antd'
+import { Button, Space, Tooltip, Typography } from 'antd'
 import { FileTextOutlined, BorderlessTableOutlined, CloseOutlined, EyeOutlined, ZoomInOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'

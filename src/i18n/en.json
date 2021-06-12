@@ -22,7 +22,9 @@
     "unestimated": "Unestimated",
     "countPoints": "{{count}} Points",
     "state": "State",
-    "milestone": "Milestone"
+    "milestone": "Milestone",
+    "filters": "Filters",
+    "projects": "Projects"
   },
   "msg": {
     "networkError": "Something wrong with the network. :(",
@@ -144,6 +146,10 @@
     "feature": "Feature",
     "bug": "Bug",
     "chore": "Chore",
-    "estimateStory": "Estimate Story"
+    "estimateStory": "Estimate Story",
+    "unfinishedEpics": "Unfinished Epics",
+    "noEpic": "No Epic",
+    "otherEpics": "Other Epics",
+    "workflowState": "Workflow State"
   }
 }

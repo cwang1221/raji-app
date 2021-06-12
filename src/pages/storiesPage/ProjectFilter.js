@@ -1,0 +1,74 @@
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { clone } from 'lodash'
+import { FilterTitle } from './FilterTitle'
+import { useProject } from '../../hooks/useRequest'
+import { CheckItem } from './CheckItem'
+import { events, eventBus } from '../../utils/EventBus'
+
+export function ProjectFilter({ selectedProjectIds, onSelectionChange }) {
+  const { t } = useTranslation()
+  const [expanded, setExpanded] = useState(true)
+  const [projects, setProjects] = useState([])
+
+  const { getProjects } = useProject()
+
+  useEffect(() => {
+    getProjectData()
+
+    eventBus.subscribe(events.projectCreated, getProjectData)
+    eventBus.subscribe(events.projectDeleted, getProjectData)
+
+    return () => {
+      eventBus.unsubscribe(events.projectCreated, getProjectData)
+      eventBus.unsubscribe(events.projectDeleted, getProjectData)
+    }
+  }, [])
+
+  const getProjectData = async () => {
+    const data = await getProjects()
+    data.forEach((project) => { project.id = project.id.toString() })
+    setProjects(data)
+    selectedProjectIds.length === 0 && onSelectionChange(data.map((project) => project.id))
+  }
+
+  const onCheck = (id, checked) => {
+    const selectedProjectIdsClone = clone(selectedProjectIds)
+    if (checked) {
+      selectedProjectIdsClone.push(id)
+    } else {
+      const index = selectedProjectIdsClone.indexOf(id)
+      selectedProjectIdsClone.splice(index, 1)
+    }
+    onSelectionChange(selectedProjectIdsClone)
+  }
+
+  return (
+    <Container>
+      <FilterTitle expanded={expanded} title={t('general.projects').toLocaleUpperCase()} onExpandedChange={setExpanded} />
+      <ItemsContainer expanded={expanded} height={projects.length * 30}>
+        {projects.map((project) => (
+          <CheckItem key={project.id} checked={selectedProjectIds.includes(project.id)} color={project.color} onCheck={(checked) => onCheck(project.id, checked)}>
+            {project.name}
+          </CheckItem>
+        ))}
+      </ItemsContainer>
+    </Container>
+  )
+}
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0;
+`
+
+const ItemsContainer = styled.div`
+  overflow: hidden;
+  height: ${(props) => (props.expanded ? `${props.height}px` : '0')};
+  -webkit-transition:height 300ms ease-in-out;
+  -moz-transition:height 300ms ease-in-out;
+  -o-transition:height 300ms ease-in-out;
+  transition:height 300ms ease-in-out;
+`
