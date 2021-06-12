@@ -19,7 +19,7 @@ export function SignInPage() {
 
   const onFinish = async ({ email, password }) => {
     if (await postAuth(email, password)) {
-      history.push('/')
+      history.replace('/')
     }
   }
 
