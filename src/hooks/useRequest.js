@@ -103,7 +103,15 @@ const postMilestone = async (milestone) => {
   return data
 }
 
-export const useMilestone = () => ({ getMilestonesList, putMilestone, getMilestones, addEpic, postMilestone })
+const deleteMilestone = async (id) => {
+  const { data } = await axios.request({
+    url: `/milestones/${id}`,
+    method: 'delete'
+  })
+  return data
+}
+
+export const useMilestone = () => ({ getMilestonesList, putMilestone, getMilestones, addEpic, postMilestone, deleteMilestone })
 
 //----------------------------------------------------------
 // Setting

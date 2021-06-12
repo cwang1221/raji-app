@@ -34,10 +34,6 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
   }
 
   const deleteProject = () => {
-    if (storyCount) {
-      message.info(t('project.couldNotDeleteMsg'))
-      return
-    }
     onDelete(id)
   }
 
@@ -47,17 +43,18 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
         <Indicator color={color} />
         <div style={{ display: '' }}>
           <Typography.Title level={4} style={{ marginTop: '1rem' }}>{title}</Typography.Title>
-          <Tooltip title={t('general.delete')}>
-            <Button
-              type="text"
-              shape="circle"
-              size="small"
-              icon={<CloseOutlined />}
-              onClick={deleteProject}
-              className="deleteButton"
-              style={{ position: 'absolute', right: '1rem', top: '1rem' }}
-            />
-          </Tooltip>
+          {!storyCount && (
+            <Tooltip title={t('general.delete')}>
+              <Button
+                type="text"
+                shape="circle"
+                size="small"
+                icon={<CloseOutlined />}
+                onClick={deleteProject}
+                style={{ position: 'absolute', right: '1rem', top: '1rem' }}
+              />
+            </Tooltip>
+          )}
           <Typography.Text>{description}</Typography.Text>
           <div>
             <Footer size="middle">
@@ -104,14 +101,6 @@ const Container = styled.div`
 
   &:hover {
     transform: translate(-1px,-1px);
-  }
-
-  & .deleteButton {
-    display: none;
-  }
-
-  &:hover .deleteButton {
-    display: inline;
   }
 `
 

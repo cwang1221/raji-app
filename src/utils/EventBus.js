@@ -28,5 +28,7 @@ export const events = {
   projectCreated: 'PROJECT_CREATED',
   storyCreated: 'STORY_CREATED',
   epicCreated: 'EPIC_CREATED',
-  milestoneCreated: 'MILESTONE_CREATED'
+  milestoneCreated: 'MILESTONE_CREATED',
+  projectDeleted: 'PROJECT_DELETED',
+  milestoneDeleted: 'MILESTONE_DELETED'
 }

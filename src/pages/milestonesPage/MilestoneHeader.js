@@ -1,17 +1,38 @@
-import { Space, Typography, Progress, Tooltip, Dropdown, Menu } from 'antd'
+import { Space, Typography, Progress, Tooltip, Dropdown, Menu, Button } from 'antd'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { CheckOutlined, FlagOutlined, FileTextOutlined, BorderlessTableOutlined } from '@ant-design/icons'
+import { CheckOutlined, FlagOutlined, FileTextOutlined, BorderlessTableOutlined, CloseOutlined } from '@ant-design/icons'
 import { MilestoneStateIcon } from '../../components/milestoneStateIcon/MilestoneStateIcon'
+import { useMilestone } from '../../hooks/useRequest'
+import { eventBus, events } from '../../utils'
 
 export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countOfDoneStories, countOfInProgressStories, totalPoint, state, changeState }) {
   const { t } = useTranslation()
+
+  const { deleteMilestone } = useMilestone()
+
+  const onDeleteMilestone = async () => {
+    await deleteMilestone(id)
+    eventBus.publish(events.milestoneDeleted)
+  }
 
   return (
     <div style={{ width: '100%' }}>
       <Space style={{ width: '100%' }}>
         <Typography.Title level={4} style={{ color: '#316399' }}>{name}</Typography.Title>
         {state === 'done' && <CheckOutlined style={{ fontSize: '20px', marginBottom: '0.5rem', color: '#009D4D' }} />}
+        {!countOfEpics && (
+        <Tooltip title={t('general.delete')}>
+          <Button
+            type="text"
+            shape="circle"
+            size="small"
+            icon={<CloseOutlined />}
+            onClick={onDeleteMilestone}
+            style={{ position: 'absolute', right: '1rem', top: '1rem' }}
+          />
+        </Tooltip>
+        )}
       </Space>
       <Space>
         <Dropdown

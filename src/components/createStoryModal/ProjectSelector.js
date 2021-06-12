@@ -14,9 +14,11 @@ export function ProjectSelector({ projectId, onProjectIdChange }) {
     getProjectData()
 
     eventBus.subscribe(events.projectCreated, getProjectData)
+    eventBus.subscribe(events.projectDeleted, getProjectData)
 
     return () => {
       eventBus.unsubscribe(events.projectCreated, getProjectData)
+      eventBus.unsubscribe(events.projectDeleted, getProjectData)
     }
   }, [])
 

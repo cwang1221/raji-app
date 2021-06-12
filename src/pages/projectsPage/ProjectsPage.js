@@ -58,6 +58,8 @@ export function ProjectsPage() {
       projectsClone.splice(index, 1)
       setMobileProjects(projectsClone)
     }
+
+    eventBus.publish(events.projectDeleted)
   }
 
   return (

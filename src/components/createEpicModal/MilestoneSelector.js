@@ -19,9 +19,11 @@ export function MilestoneSelector({ milestoneId, onMilestoneIdChange }) {
     getMilestoneData()
 
     eventBus.subscribe(events.milestoneCreated, getMilestoneData)
+    eventBus.subscribe(events.milestoneDeleted, getMilestoneData)
 
     return () => {
       eventBus.unsubscribe(events.milestoneCreated, getMilestoneData)
+      eventBus.unsubscribe(events.milestoneDeleted, getMilestoneData)
     }
   }, [])
 
