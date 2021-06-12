@@ -1,40 +1,27 @@
 import { Form, Modal, Space, Input, Alert } from 'antd'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
 import { eventBus, events, focusErrorInForm } from '../../utils'
-import { useEpic, useMilestone } from '../../hooks/useRequest'
-import { MilestoneSelector } from './MilestoneSelector'
-import { StateSelector } from './StateSelector'
+import { useMilestone } from '../../hooks/useRequest'
 
-export function CreateEpicModal({ visible, close }) {
+export function CreateMilestoneModal({ visible, close }) {
   const { t } = useTranslation()
-
-  const [milestoneId, setMilestoneId] = useState('none')
-  const [state, setState] = useState('todo')
 
   const formRef = useRef()
 
-  const { postEpic } = useEpic()
-  const { addEpic } = useMilestone()
+  const { postMilestone } = useMilestone()
 
-  const createEpic = () => {
+  const createMilestone = () => {
     const createForm = formRef.current
     createForm.validateFields()
       .then(async (values) => {
-        const payload = {
-          ...values,
-          state
-        }
+        await postMilestone(values)
 
-        const createdEpic = await postEpic(payload)
-        await addEpic(milestoneId === 'none' ? 1 : parseInt(milestoneId, 10), createdEpic.id)
-
-        eventBus.publish(events.epicCreated)
+        eventBus.publish(events.milestoneCreated)
         formRef.current.resetFields()
-        setState('todo')
 
         close()
       })
@@ -54,7 +41,7 @@ export function CreateEpicModal({ visible, close }) {
           initialValues={{ name: '', description: '' }}
         >
           <Form.Item
-            label={<MyLabel required>{t('epic.epicTitle')}</MyLabel>}
+            label={<MyLabel required>{t('milestone.milestoneTitle')}</MyLabel>}
             name="name"
             rules={[{
               required: true,
@@ -71,13 +58,8 @@ export function CreateEpicModal({ visible, close }) {
           </Form.Item>
         </Form>
         <RightContainer>
-          <CreateInfo message={t('epic.createModalInfo')} />
-
-          <MilestoneSelector milestoneId={milestoneId} onMilestoneIdChange={setMilestoneId} />
-          <StateSelector state={state} onStateChange={setState} />
-          <BottomSpace />
-
-          <CreateButton text={t('header.createEpic')} onClick={createEpic} />
+          <CreateInfo message={t('milestone.createModalInfo')} />
+          <CreateButton text={t('header.createMilestone')} onClick={createMilestone} />
         </RightContainer>
       </Space>
     </Modal>
@@ -92,8 +74,4 @@ const CreateInfo = styled(Alert)`
   background-color: rgb(232, 240, 253);
   margin-bottom: 1rem;
   border: 0;
-`
-
-const BottomSpace = styled.div`
-  height: 1rem;
 `

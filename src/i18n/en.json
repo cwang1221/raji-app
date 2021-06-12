@@ -97,7 +97,9 @@
     "backlog": "Epic Backlog",
     "backlogDescription": "You have {{count}} unfinished Epics that don't already belong to a Milestone. They are listed here.",
     "total": "Total",
-    "percentageCompleted": "{{percentage}}% Completed"
+    "percentageCompleted": "{{percentage}}% Completed",
+    "milestoneTitle": "Milestone Title",
+    "createModalInfo": "Milestones are collections of Epics that can represent a large amount of work your organization wants to do over a longer period of time, such as a month or a quarter."
   },
   "epic": {
     "epicTitle": "Epic Title",

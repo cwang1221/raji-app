@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useUser } from '../../hooks/useRequest'
 import { ObjectSelector } from './ObjectSelector'
 
-export function RequesterSelector({ requesterId, onRequesterIdChange, style }) {
+export function RequesterSelector({ requesterId, onRequesterIdChange }) {
   const { t } = useTranslation()
   const [users, setUsers] = useState([])
   const { getUsers } = useUser()
@@ -24,7 +24,6 @@ export function RequesterSelector({ requesterId, onRequesterIdChange, style }) {
       selectedId={requesterId}
       popupTitle={t('header.selectStoryRequester')}
       onSelect={onRequesterIdChange}
-      style={style}
     />
   )
 }

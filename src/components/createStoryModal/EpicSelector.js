@@ -3,13 +3,24 @@ import { useTranslation } from 'react-i18next'
 import { useEpic } from '../../hooks/useRequest'
 import { ObjectSelector } from './ObjectSelector'
 import { EpicStateIcon } from '../epicStateIcon'
+import { eventBus, events } from '../../utils'
 
-export function EpicSelector({ epicId, onEpicIdChange, style }) {
+export function EpicSelector({ epicId, onEpicIdChange }) {
   const { t } = useTranslation()
   const [epics, setEpics] = useState([])
   const { getEpics } = useEpic()
 
-  useEffect(async () => {
+  useEffect(() => {
+    getEpicData()
+
+    eventBus.subscribe(events.epicCreated, getEpicData)
+
+    return () => {
+      eventBus.unsubscribe(events.epicCreated, getEpicData)
+    }
+  }, [])
+
+  const getEpicData = async () => {
     const data = await getEpics()
     data.forEach((epic) => {
       epic.icon = <EpicStateIcon state={epic.state} />
@@ -20,7 +31,7 @@ export function EpicSelector({ epicId, onEpicIdChange, style }) {
       icon: <EpicStateIcon state="todo" />
     })
     setEpics(data)
-  }, [])
+  }
 
   return (
     <ObjectSelector
@@ -29,7 +40,6 @@ export function EpicSelector({ epicId, onEpicIdChange, style }) {
       selectedId={epicId}
       popupTitle={t('header.selectEpic')}
       onSelect={onEpicIdChange}
-      style={style}
     />
   )
 }

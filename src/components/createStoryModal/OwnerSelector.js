@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useUser } from '../../hooks/useRequest'
 import { ObjectSelector } from './ObjectSelector'
 
-export function OwnerSelector({ ownerId, onOwnerIdChange, style }) {
+export function OwnerSelector({ ownerId, onOwnerIdChange }) {
   const { t } = useTranslation()
   const [users, setUsers] = useState([])
   const { getUsers } = useUser()
@@ -30,7 +30,6 @@ export function OwnerSelector({ ownerId, onOwnerIdChange, style }) {
       selectedId={ownerId}
       popupTitle={t('header.selectStoryOwner')}
       onSelect={onOwnerIdChange}
-      style={style}
     />
   )
 }

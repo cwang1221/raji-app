@@ -94,15 +94,19 @@ export function CreateStoryModal({ visible, close }) {
         </Form>
         <RightContainer>
           <ProjectSelector projectId={projectId} onProjectIdChange={setProjectId} />
-          <StoryStateSelector state={state} onStateChange={setState} style={{ marginBottom: '1rem' }} />
+          <StoryStateSelector state={state} onStateChange={setState} />
+          <BottomSpace />
 
           <EpicSelector epicId={epicId} onEpicIdChange={setEpicId} />
-          <StoryTypeSelector type={type} onTypeChange={setType} style={{ marginBottom: '1rem' }} />
+          <StoryTypeSelector type={type} onTypeChange={setType} />
+          <BottomSpace />
 
           <RequesterSelector requesterId={requesterId} onRequesterIdChange={setRequesterId} />
-          <OwnerSelector ownerId={ownerId} onOwnerIdChange={setOwnerId} style={{ marginBottom: '1rem' }} />
+          <OwnerSelector ownerId={ownerId} onOwnerIdChange={setOwnerId} />
+          <BottomSpace />
 
-          <EstimateSelector estimate={estimate} onEstimateChange={setEstimate} style={{ marginBottom: '1rem' }} />
+          <EstimateSelector estimate={estimate} onEstimateChange={setEstimate} />
+          <BottomSpace />
 
           <CreateButton text={t('header.createStory')} onClick={createStory} />
         </RightContainer>
@@ -113,4 +117,8 @@ export function CreateStoryModal({ visible, close }) {
 
 const RightContainer = styled.div`
   margin-top: 40px;
+`
+
+const BottomSpace = styled.div`
+  height: 1rem;
 `

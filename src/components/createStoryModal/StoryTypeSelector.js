@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ObjectSelector } from './ObjectSelector'
 import { StoryTypeIcon } from '..'
 
-export function StoryTypeSelector({ type, onTypeChange, style }) {
+export function StoryTypeSelector({ type, onTypeChange }) {
   const { t } = useTranslation()
   const typsRef = useRef(['feature', 'bug', 'chore'].map((type) => ({
     id: type,
@@ -19,7 +19,6 @@ export function StoryTypeSelector({ type, onTypeChange, style }) {
       popupTitle={t('header.selectStoryType')}
       onSelect={onTypeChange}
       showSearch={false}
-      style={style}
     />
   )
 }

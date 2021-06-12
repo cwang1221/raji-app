@@ -3,7 +3,7 @@ import { Button, Dropdown, Menu } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { CreateEpicModal, CreateProjectModal, CreateStoryModal } from '../../components'
+import { CreateEpicModal, CreateProjectModal, CreateStoryModal, CreateMilestoneModal } from '../../components'
 import { eventBus, events } from '../../utils'
 
 export function HeaderCreateButton() {
@@ -13,6 +13,7 @@ export function HeaderCreateButton() {
   const [showStoryModal, setShowStoryModal] = useState(false)
   const [showProjectModal, setShowProjectModal] = useState(false)
   const [showEpicModal, setShowEpicModal] = useState(false)
+  const [showMilestoneModal, setShowMilestoneModal] = useState(false)
   const leftButtonRef = useRef()
 
   const objectsRef = useRef({
@@ -46,6 +47,9 @@ export function HeaderCreateButton() {
         break
       case 'epic':
         setShowEpicModal(true)
+        break
+      case 'milestone':
+        setShowMilestoneModal(true)
         break
       default:
         break
@@ -81,6 +85,7 @@ export function HeaderCreateButton() {
       <CreateProjectModal visible={showProjectModal} disableType={false} close={() => setShowProjectModal(false)} />
       <CreateStoryModal visible={showStoryModal} close={() => setShowStoryModal(false)} />
       <CreateEpicModal visible={showEpicModal} close={() => setShowEpicModal(false)} />
+      <CreateMilestoneModal visible={showMilestoneModal} close={() => setShowMilestoneModal(false)} />
     </>
   )
 }

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { EpicStateIcon } from '../epicStateIcon'
 import { MyCard } from '../myCard'
 
-export function StateSelector({ state, onStateChange, style }) {
+export function StateSelector({ state, onStateChange }) {
   const { t } = useTranslation()
   const statesRef = useRef(['todo', 'inProgress', 'done'])
 
@@ -28,7 +28,7 @@ export function StateSelector({ state, onStateChange, style }) {
 
   return (
     <Dropdown overlay={Popup} trigger={['click']}>
-      <Button style={style}>
+      <Button>
         <Title>{t('general.state')}</Title>
         <Text>{t(`epic.${state}`)}</Text>
       </Button>

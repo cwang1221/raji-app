@@ -6,17 +6,31 @@ import { useMilestone } from '../../hooks/useRequest'
 import { MyCard } from '../myCard'
 import { MilestoneStateIcon } from '..'
 import { SearchInput } from '../searchInput'
+import { eventBus, events } from '../../utils'
 
-export function MilestoneSelector({ milestoneId, onMilestoneIdChange, style }) {
+export function MilestoneSelector({ milestoneId, onMilestoneIdChange }) {
   const { t } = useTranslation()
   const [searchText, setSearchText] = useState([])
   const [milestones, setMilestones] = useState([])
   const [selectedMilestone, setSelectedMilestone] = useState({})
   const { getMilestones } = useMilestone()
 
-  useEffect(async () => {
-    const data = await getMilestones()
+  useEffect(() => {
+    getMilestoneData()
 
+    eventBus.subscribe(events.milestoneCreated, getMilestoneData)
+
+    return () => {
+      eventBus.unsubscribe(events.milestoneCreated, getMilestoneData)
+    }
+  }, [])
+
+  useEffect(() => {
+    setSelectedMilestone(milestones.find((item) => `${item.id}` === milestoneId) || {})
+  }, [milestoneId, milestones])
+
+  const getMilestoneData = async () => {
+    const data = await getMilestones()
     const indexOfBacklog = data.findIndex((milestone) => milestone.id === 1)
     data.splice(indexOfBacklog, 1)
     data.forEach((milestone) => {
@@ -27,11 +41,7 @@ export function MilestoneSelector({ milestoneId, onMilestoneIdChange, style }) {
       name: t('epic.noMilestone')
     })
     setMilestones(data)
-  }, [])
-
-  useEffect(() => {
-    setSelectedMilestone(milestones.find((item) => `${item.id}` === milestoneId) || {})
-  }, [milestoneId, milestones])
+  }
 
   const stopPropagation = (e) => {
     e.stopPropagation()
@@ -62,7 +72,7 @@ export function MilestoneSelector({ milestoneId, onMilestoneIdChange, style }) {
 
   return (
     <Dropdown overlay={Popup} trigger={['click']}>
-      <Button style={style}>
+      <Button>
         <Title>{t('general.milestone')}</Title>
         <Text isNone={milestoneId === 'none'}>{selectedMilestone.name}</Text>
       </Button>

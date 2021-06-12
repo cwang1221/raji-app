@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { MyCard } from '../myCard'
 
-export function EstimateSelector({ estimate, onEstimateChange, style }) {
+export function EstimateSelector({ estimate, onEstimateChange }) {
   const { t } = useTranslation()
   const estimatesRef = useRef(['none', 0, 1, 2, 4, 8])
 
@@ -32,7 +32,7 @@ export function EstimateSelector({ estimate, onEstimateChange, style }) {
 
   return (
     <Dropdown overlay={Popup} trigger={['click']}>
-      <Button style={style}>
+      <Button>
         <Title>{t('general.estimate')}</Title>
         <Text isNone={estimate === 'none'}>{formatEstimate(estimate)}</Text>
       </Button>

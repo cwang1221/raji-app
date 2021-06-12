@@ -94,7 +94,16 @@ const addEpic = async (id, epicId) => {
   return data
 }
 
-export const useMilestone = () => ({ getMilestonesList, putMilestone, getMilestones, addEpic })
+const postMilestone = async (milestone) => {
+  const { data } = await axios.request({
+    url: '/milestones',
+    method: 'post',
+    data: milestone
+  })
+  return data
+}
+
+export const useMilestone = () => ({ getMilestonesList, putMilestone, getMilestones, addEpic, postMilestone })
 
 //----------------------------------------------------------
 // Setting

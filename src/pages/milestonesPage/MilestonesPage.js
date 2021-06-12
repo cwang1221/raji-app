@@ -25,11 +25,13 @@ export function MilestonesPage() {
     eventBus.subscribe(events.projectCreated, getMilestones)
     eventBus.subscribe(events.storyCreated, getMilestones)
     eventBus.subscribe(events.epicCreated, getMilestones)
+    eventBus.subscribe(events.milestoneCreated, getMilestones)
 
     return () => {
       eventBus.unsubscribe(events.projectCreated, getMilestones)
       eventBus.unsubscribe(events.storyCreated, getMilestones)
       eventBus.unsubscribe(events.epicCreated, getMilestones)
+      eventBus.unsubscribe(events.milestoneCreated, getMilestones)
     }
   }, [])
 
