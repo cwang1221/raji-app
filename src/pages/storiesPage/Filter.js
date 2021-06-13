@@ -2,7 +2,7 @@ import { Typography } from 'antd'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CaretDownFilled, CaretRightFilled } from '@ant-design/icons'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ProjectFilter } from './ProjectFilter'
 import { EpicFilter } from './EpicFilter'
 import { StateFilter } from './StateFilter'
@@ -13,6 +13,10 @@ export function Filter({ selectedProjectIds, selectedEpicIds, selectedStates, on
   const [projectExpanded, setProjectExpanded] = useState(true)
   const [epicExpanded, setEpicExpanded] = useState(false)
   const [stateExpanded, setStateExpanded] = useState(true)
+
+  useEffect(() => {
+    setFilterExpanded(projectExpanded && epicExpanded && stateExpanded)
+  }, [projectExpanded, epicExpanded, stateExpanded])
 
   return (
     <Container>

@@ -101,7 +101,13 @@ export function StoriesPage() {
       <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
         <Container>
           {statesRef.current.map((state) => (
-            <StoryContainer key={state} title={t(`story.${state}`)}>
+            selectedStates.includes(state) && (
+            <StoryContainer
+              key={state}
+              title={t(`story.${state}`)}
+              countOfStories={stories[state].length}
+              countOfContainers={selectedStates.length}
+            >
               <Droppable droppableId={state} isDropDisabled={state === dropDisabledState}>
                 {(provided) => (
                   <DropContainer
@@ -126,6 +132,7 @@ export function StoriesPage() {
                               type={story.type}
                               estimate={story.estimate}
                               ownerAvatar={story.owner?.picture}
+                              owner={story.owner?.name}
                             />
                           </div>
                         )}
@@ -136,6 +143,7 @@ export function StoriesPage() {
                 )}
               </Droppable>
             </StoryContainer>
+            )
           ))}
         </Container>
       </DragDropContext>
@@ -164,5 +172,9 @@ const DropContainer = styled.div`
   
   &.dropDisabled {
     background-color: rgb(255, 182, 193, 0.5);
+  }
+  
+  &.dropEnabled {
+    background-color: rgb(0,191,255, 0.2);
   }
 `

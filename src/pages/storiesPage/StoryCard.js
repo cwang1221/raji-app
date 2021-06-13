@@ -1,9 +1,12 @@
 import { CoffeeOutlined } from '@ant-design/icons'
-import { Avatar, Typography } from 'antd'
+import { Avatar, Tooltip, Typography } from 'antd'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { StoryTypeIcon } from '../../components'
 
-export function StoryCard({ id, name, epicName, projectColor, projectName, type, estimate, ownerAvatar }) {
+export function StoryCard({ id, name, epicName, projectColor, projectName, type, estimate, ownerAvatar, owner }) {
+  const { t } = useTranslation()
+
   return (
     <Container projectColor={projectColor}>
       <div style={{ padding: '0.5rem' }}>
@@ -12,15 +15,23 @@ export function StoryCard({ id, name, epicName, projectColor, projectName, type,
       </div>
       <Footer>
         <LeftFooter>
-          <StoryInfo type={type}>
-            <StoryTypeIcon type={type} />
-            <StoryId type={type}>#{id}</StoryId>
-          </StoryInfo>
-          <ProjectName>{projectName[0].toLocaleUpperCase()}</ProjectName>
-          {estimate !== undefined && <CoffeeOutlined />}
-          <span style={{ marginLeft: '0.2rem' }}>{estimate}</span>
+          <Tooltip title={t(`story.${type}`)}>
+            <StoryInfo type={type}>
+              <StoryTypeIcon type={type} />
+              <StoryId type={type}>#{id}</StoryId>
+            </StoryInfo>
+          </Tooltip>
+          <Tooltip title={projectName}>
+            <ProjectName>{projectName[0].toLocaleUpperCase()}</ProjectName>
+          </Tooltip>
+          <Tooltip title={t('general.points')}>
+            {estimate !== undefined && <CoffeeOutlined />}
+            <span style={{ marginLeft: '0.2rem' }}>{estimate}</span>
+          </Tooltip>
         </LeftFooter>
-        {ownerAvatar && <Avatar size="small" src={ownerAvatar} />}
+        <Tooltip title={`${t('general.owner')}: ${owner}`}>
+          {ownerAvatar && <Avatar size="small" src={ownerAvatar} />}
+        </Tooltip>
       </Footer>
     </Container>
   )

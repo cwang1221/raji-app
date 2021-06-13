@@ -100,6 +100,9 @@ const Container = styled.div`
   margin-bottom: 1rem;
 
   &:hover {
+    -webkit-transform: translate(-1px,-1px);
+    -moz-transform: translate(-1px,-1px);
+    -o-transform: translate(-1px,-1px);
     transform: translate(-1px,-1px);
   }
 `
