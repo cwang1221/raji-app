@@ -9,9 +9,8 @@ import { CheckItem } from './CheckItem'
 import { events, eventBus } from '../../utils/EventBus'
 import { EpicStateIcon } from '../../components'
 
-export function EpicFilter({ selectedEpicIds, onSelectionChange }) {
+export function EpicFilter({ selectedEpicIds, onSelectionChange, expanded, onExpandedChange }) {
   const { t } = useTranslation()
-  const [expanded, setExpanded] = useState(false)
   const [epics, setEpics] = useState([])
   const [showHidden, setShowHiden] = useState(false)
   const [itemsHeight, setItemsHeight] = useState('0')
@@ -41,7 +40,7 @@ export function EpicFilter({ selectedEpicIds, onSelectionChange }) {
     const data = await getEpics()
     data.forEach((epic) => { epic.id = epic.id.toString() })
     data.unshift({
-      id: 'none',
+      id: '0',
       name: t('story.noEpic')
     })
     setEpics(data)
@@ -61,12 +60,12 @@ export function EpicFilter({ selectedEpicIds, onSelectionChange }) {
 
   return (
     <Container>
-      <FilterTitle expanded={expanded} title={t('story.unfinishedEpics').toLocaleUpperCase()} onExpandedChange={setExpanded} />
+      <FilterTitle expanded={expanded} title={t('story.unfinishedEpics').toLocaleUpperCase()} onExpandedChange={onExpandedChange} />
       <ItemsContainer expanded={expanded} height={itemsHeight}>
         {epics.filter((epic) => epic.state !== 'done').map((epic) => (
           <CheckItem key={epic.id} checked={selectedEpicIds.includes(epic.id)} onCheck={(checked) => onCheck(epic.id, checked)} tooltip={epic.name}>
             {epic.state && <EpicStateIcon state={epic.state} />}
-            <EpicName style={{ fontStyle: epic.id === 'none' ? 'italic' : 'normal' }}>{epic.name}</EpicName>
+            <EpicName style={{ fontStyle: epic.id === '0' ? 'italic' : 'normal' }}>{epic.name}</EpicName>
           </CheckItem>
         ))}
 

@@ -7,23 +7,29 @@ import { ProjectFilter } from './ProjectFilter'
 import { EpicFilter } from './EpicFilter'
 import { StateFilter } from './StateFilter'
 
-export function Filter() {
+export function Filter({ selectedProjectIds, selectedEpicIds, selectedStates, onProjectIdsChange, onEpicIdsChange, onStatesChange }) {
   const { t } = useTranslation()
   const [filtersExpanded, setFilterExpanded] = useState(false)
-  const [selectedProjectIds, setSelectedProjectIds] = useState([])
-  const [selectedEpicIds, setSelectedEpicIds] = useState([])
-  const [selectedStates, setSelectedStates] = useState([])
+  const [projectExpanded, setProjectExpanded] = useState(true)
+  const [epicExpanded, setEpicExpanded] = useState(false)
+  const [stateExpanded, setStateExpanded] = useState(true)
 
   return (
     <Container>
-      <FilterAreaTitle onClick={() => setFilterExpanded(!filtersExpanded)}>
+      <FilterAreaTitle onClick={() => {
+        setFilterExpanded(!filtersExpanded)
+        setProjectExpanded(!filtersExpanded)
+        setEpicExpanded(!filtersExpanded)
+        setStateExpanded(!filtersExpanded)
+      }}
+      >
         <Typography.Title level={5} style={{ marginBottom: '0', marginRight: '0.5rem' }}>{t('general.filters')}</Typography.Title>
         {filtersExpanded ? <CaretDownFilled className="expandIcon" /> : <CaretRightFilled className="expandIcon" />}
       </FilterAreaTitle>
 
-      <ProjectFilter selectedProjectIds={selectedProjectIds} onSelectionChange={setSelectedProjectIds} />
-      <EpicFilter selectedEpicIds={selectedEpicIds} onSelectionChange={setSelectedEpicIds} />
-      <StateFilter selectedStates={selectedStates} onSelectionChange={setSelectedStates} />
+      <ProjectFilter selectedProjectIds={selectedProjectIds} onSelectionChange={onProjectIdsChange} expanded={projectExpanded} onExpandedChange={setProjectExpanded} />
+      <EpicFilter selectedEpicIds={selectedEpicIds} onSelectionChange={onEpicIdsChange} expanded={epicExpanded} onExpandedChange={setEpicExpanded} />
+      <StateFilter selectedStates={selectedStates} onSelectionChange={onStatesChange} expanded={stateExpanded} onExpandedChange={setStateExpanded} />
     </Container>
   )
 }

@@ -1,13 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { clone } from 'lodash'
 import { FilterTitle } from './FilterTitle'
 import { CheckItem } from './CheckItem'
 
-export function StateFilter({ selectedStates, onSelectionChange }) {
+export function StateFilter({ selectedStates, onSelectionChange, expanded, onExpandedChange }) {
   const { t } = useTranslation()
-  const [expanded, setExpanded] = useState(true)
   const statesRef = useRef(['unscheduled', 'readyForDevelopment', 'inDevelopment', 'readyForReview', 'readyForDeploy', 'completed'])
 
   useEffect(() => {
@@ -27,7 +26,7 @@ export function StateFilter({ selectedStates, onSelectionChange }) {
 
   return (
     <Container>
-      <FilterTitle expanded={expanded} title={t('story.workflowState').toLocaleUpperCase()} onExpandedChange={setExpanded} />
+      <FilterTitle expanded={expanded} title={t('story.workflowState').toLocaleUpperCase()} onExpandedChange={onExpandedChange} />
       <ItemsContainer expanded={expanded} height={180}>
         {statesRef.current.map((state) => (
           <CheckItem key={state} checked={selectedStates.includes(state)} onCheck={(checked) => onCheck(state, checked)}>

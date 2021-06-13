@@ -180,9 +180,20 @@ const getStories = async () => {
   })
   return data
 }
-const getStoryUiList = async () => {
+const getStoryUiList = async (projects, epics, states) => {
+  if (projects.length === 0 || epics.length === 0 || states.length === 0) {
+    return []
+  }
+
+  let url = '/stories/ui/list'
+  const queryStrings = []
+  queryStrings.push(`projectId=${projects.join(',')}`)
+  queryStrings.push(`epicId=${epics.join(',')}`)
+  queryStrings.push(`state=${states.join(',')}`)
+  url += `?${queryStrings.join('&')}`
+
   const { data } = await axios.request({
-    url: '/stories/ui/list',
+    url,
     method: 'get'
   })
   return data

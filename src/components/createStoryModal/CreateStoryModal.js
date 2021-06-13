@@ -39,10 +39,11 @@ export function CreateStoryModal({ visible, close }) {
           ...values,
           projectId: parseInt(projectId, 10),
           state,
+          type,
           requesterId: parseInt(requesterId, 10)
         }
 
-        epicId !== 'none' && (payload.epicId = parseInt(epicId, 10))
+        payload.epicId = epicId === 'none' ? 0 : parseInt(epicId, 10)
         ownerId !== 'none' && (payload.ownerId = parseInt(ownerId, 10))
         estimate !== 'none' && (payload.estimate = parseInt(estimate, 10))
 

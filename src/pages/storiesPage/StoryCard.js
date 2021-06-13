@@ -7,7 +7,7 @@ export function StoryCard({ id, name, epicName, projectColor, projectName, type,
   return (
     <Container projectColor={projectColor}>
       <div style={{ padding: '0.5rem' }}>
-        <EpicName>{epicName.toLocaleUpperCase()}</EpicName>
+        <EpicName>{epicName?.toLocaleUpperCase()}</EpicName>
         <Typography.Text strong>{name}</Typography.Text>
       </div>
       <Footer>
@@ -17,7 +17,7 @@ export function StoryCard({ id, name, epicName, projectColor, projectName, type,
             <StoryId type={type}>#{id}</StoryId>
           </StoryInfo>
           <ProjectName>{projectName[0].toLocaleUpperCase()}</ProjectName>
-          <CoffeeOutlined />
+          {estimate !== undefined && <CoffeeOutlined />}
           <span style={{ marginLeft: '0.2rem' }}>{estimate}</span>
         </LeftFooter>
         {ownerAvatar && <Avatar size="small" src={ownerAvatar} />}

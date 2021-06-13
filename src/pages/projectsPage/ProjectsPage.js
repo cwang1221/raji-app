@@ -24,11 +24,15 @@ export function ProjectsPage() {
     getProjects()
 
     eventBus.subscribe(events.projectCreated, getProjects)
+    eventBus.subscribe(events.projectDeleted, getProjects)
     eventBus.subscribe(events.storyCreated, getProjects)
+    eventBus.subscribe(events.storyDeleted, getProjects)
 
     return () => {
       eventBus.unsubscribe(events.projectCreated, getProjects)
+      eventBus.unsubscribe(events.projectDeleted, getProjects)
       eventBus.unsubscribe(events.storyCreated, getProjects)
+      eventBus.unsubscribe(events.storyDeleted, getProjects)
     }
   }, [])
 

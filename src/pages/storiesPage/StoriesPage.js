@@ -3,7 +3,7 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useStory } from '../../hooks'
-import { clone, setHeaderCreateButton } from '../../utils'
+import { clone, eventBus, events, setHeaderCreateButton } from '../../utils'
 import { Filter } from './Filter'
 import { StoryContainer } from './StoryContainer'
 import { StoryCard } from './StoryCard'
@@ -19,16 +19,35 @@ export function StoriesPage() {
     completed: []
   })
   const [dropDisabledState, setDropDisabledState] = useState('')
-
+  const [selectedProjectIds, setSelectedProjectIds] = useState([])
+  const [selectedEpicIds, setSelectedEpicIds] = useState([])
+  const [selectedStates, setSelectedStates] = useState(['unscheduled', 'readyForDevelopment', 'inDevelopment', 'readyForReview', 'readyForDeploy', 'completed'])
   const { getStoryUiList, putStory } = useStory()
-
   const statesRef = useRef(['unscheduled', 'readyForDevelopment', 'inDevelopment', 'readyForReview', 'readyForDeploy', 'completed'])
 
   useEffect(() => {
     setHeaderCreateButton('story')
 
-    getStoryData()
+    eventBus.subscribe(events.projectCreated, getStoryData)
+    eventBus.subscribe(events.projectDeleted, getStoryData)
+    eventBus.subscribe(events.storyCreated, getStoryData)
+    eventBus.subscribe(events.storyDeleted, getStoryData)
+    eventBus.subscribe(events.epicCreated, getStoryData)
+    eventBus.subscribe(events.epicDeleted, getStoryData)
+
+    return () => {
+      eventBus.unsubscribe(events.projectCreated, getStoryData)
+      eventBus.unsubscribe(events.projectDeleted, getStoryData)
+      eventBus.unsubscribe(events.storyCreated, getStoryData)
+      eventBus.unsubscribe(events.storyDeleted, getStoryData)
+      eventBus.unsubscribe(events.epicCreated, getStoryData)
+      eventBus.unsubscribe(events.epicDeleted, getStoryData)
+    }
   }, [])
+
+  useEffect(() => {
+    getStoryData()
+  }, [selectedProjectIds, selectedEpicIds, selectedStates])
 
   const getStoryData = async () => {
     const tempStories = {
@@ -40,12 +59,11 @@ export function StoriesPage() {
       completed: []
     }
 
-    const data = await getStoryUiList()
+    const data = await getStoryUiList(selectedProjectIds, selectedEpicIds, selectedStates)
     data.forEach((story) => {
       story.id = story.id.toString()
       tempStories[story.state].push(story)
     })
-
     setStories(tempStories)
   }
 
@@ -64,14 +82,20 @@ export function StoriesPage() {
     const story = storiesClone[result.source.droppableId].splice(result.source.index, 1)[0]
     storiesClone[result.destination.droppableId].splice(result.destination.index, 0, story)
     setStories(storiesClone)
-
     putStory(story.id, { state: result.destination.droppableId })
   }
 
   return (
     <Page>
       <FilterArea>
-        <Filter />
+        <Filter
+          selectedProjectIds={selectedProjectIds}
+          selectedEpicIds={selectedEpicIds}
+          selectedStates={selectedStates}
+          onProjectIdsChange={setSelectedProjectIds}
+          onEpicIdsChange={setSelectedEpicIds}
+          onStatesChange={setSelectedStates}
+        />
       </FilterArea>
 
       <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
@@ -96,7 +120,7 @@ export function StoriesPage() {
                             <StoryCard
                               id={story.id}
                               name={story.title}
-                              epicName={story.epic.name}
+                              epicName={story.epic?.name}
                               projectColor={story.project.color}
                               projectName={story.project.name}
                               type={story.type}

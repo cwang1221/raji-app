@@ -7,9 +7,8 @@ import { useProject } from '../../hooks/useRequest'
 import { CheckItem } from './CheckItem'
 import { events, eventBus } from '../../utils/EventBus'
 
-export function ProjectFilter({ selectedProjectIds, onSelectionChange }) {
+export function ProjectFilter({ selectedProjectIds, onSelectionChange, expanded, onExpandedChange }) {
   const { t } = useTranslation()
-  const [expanded, setExpanded] = useState(true)
   const [projects, setProjects] = useState([])
 
   const { getProjects } = useProject()
@@ -46,7 +45,7 @@ export function ProjectFilter({ selectedProjectIds, onSelectionChange }) {
 
   return (
     <Container>
-      <FilterTitle expanded={expanded} title={t('general.projects').toLocaleUpperCase()} onExpandedChange={setExpanded} />
+      <FilterTitle expanded={expanded} title={t('general.projects').toLocaleUpperCase()} onExpandedChange={onExpandedChange} />
       <ItemsContainer expanded={expanded} height={projects.length * 30}>
         {projects.map((project) => (
           <CheckItem key={project.id} checked={selectedProjectIds.includes(project.id)} color={project.color} onCheck={(checked) => onCheck(project.id, checked)}>
