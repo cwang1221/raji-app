@@ -1,7 +1,7 @@
 import { Space, Typography, Progress, Tooltip, Dropdown, Menu, Button } from 'antd'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { CheckOutlined, FlagOutlined, FileTextOutlined, BorderlessTableOutlined, CloseOutlined } from '@ant-design/icons'
+import { CheckOutlined, FlagOutlined, FileTextOutlined, CoffeeOutlined, CloseOutlined } from '@ant-design/icons'
 import { MilestoneStateIcon } from '../../components/milestoneStateIcon/MilestoneStateIcon'
 import { useMilestone } from '../../hooks/useRequest'
 import { eventBus, events } from '../../utils'
@@ -56,7 +56,7 @@ export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countO
           <DataContainer><FileTextOutlined /><Number>{countOfStories}</Number></DataContainer>
         </Tooltip>
         <Tooltip title={`${totalPoint} ${t('general.points')}`}>
-          <DataContainer><BorderlessTableOutlined /><Number>{totalPoint}</Number></DataContainer>
+          <DataContainer><CoffeeOutlined /><Number>{totalPoint}</Number></DataContainer>
         </Tooltip>
       </Space>
       <div style={{ marginTop: '0.5rem', marginBottom: '-0.5rem' }}>

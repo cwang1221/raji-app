@@ -197,4 +197,13 @@ const postStory = async (payload) => {
   return data
 }
 
-export const useStory = () => ({ getStories, getStoryUiList, postStory })
+const putStory = async (id, payload) => {
+  const { data } = await axios.request({
+    url: `/stories/${id}`,
+    method: 'put',
+    data: payload
+  })
+  return data
+}
+
+export const useStory = () => ({ getStories, getStoryUiList, postStory, putStory })

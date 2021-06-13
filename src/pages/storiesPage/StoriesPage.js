@@ -3,16 +3,24 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useStory } from '../../hooks'
-import { setHeaderCreateButton } from '../../utils'
+import { clone, setHeaderCreateButton } from '../../utils'
 import { Filter } from './Filter'
 import { StoryContainer } from './StoryContainer'
 import { StoryCard } from './StoryCard'
 
 export function StoriesPage() {
   const { t } = useTranslation()
-  const [stories, setStories] = useState([])
+  const [stories, setStories] = useState({
+    unscheduled: [],
+    readyForDevelopment: [],
+    inDevelopment: [],
+    readyForReview: [],
+    readyForDeploy: [],
+    completed: []
+  })
+  const [dropDisabledState, setDropDisabledState] = useState('')
 
-  const { getStoryUiList } = useStory()
+  const { getStoryUiList, putStory } = useStory()
 
   const statesRef = useRef(['unscheduled', 'readyForDevelopment', 'inDevelopment', 'readyForReview', 'readyForDeploy', 'completed'])
 
@@ -23,12 +31,42 @@ export function StoriesPage() {
   }, [])
 
   const getStoryData = async () => {
+    const tempStories = {
+      unscheduled: [],
+      readyForDevelopment: [],
+      inDevelopment: [],
+      readyForReview: [],
+      readyForDeploy: [],
+      completed: []
+    }
+
     const data = await getStoryUiList()
-    data.forEach((story) => { story.id = story.id.toString() })
-    setStories(data)
+    data.forEach((story) => {
+      story.id = story.id.toString()
+      tempStories[story.state].push(story)
+    })
+
+    setStories(tempStories)
   }
 
-  const onDragEnd = () => {}
+  const onDragStart = (start) => {
+    setDropDisabledState(start.source.droppableId)
+  }
+
+  const onDragEnd = (result) => {
+    setDropDisabledState('')
+
+    if (!result.destination) {
+      return
+    }
+
+    const storiesClone = clone(stories)
+    const story = storiesClone[result.source.droppableId].splice(result.source.index, 1)[0]
+    storiesClone[result.destination.droppableId].splice(result.destination.index, 0, story)
+    setStories(storiesClone)
+
+    putStory(story.id, { state: result.destination.droppableId })
+  }
 
   return (
     <Page>
@@ -36,14 +74,18 @@ export function StoriesPage() {
         <Filter />
       </FilterArea>
 
-      <DragDropContext onDragEnd={onDragEnd}>
+      <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
         <Container>
           {statesRef.current.map((state) => (
             <StoryContainer key={state} title={t(`story.${state}`)}>
-              <Droppable droppableId={state}>
+              <Droppable droppableId={state} isDropDisabled={state === dropDisabledState}>
                 {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps} style={{ minHeight: '4rem' }}>
-                    {stories.filter((story) => story.state === state).map((story, index) => (
+                  <DropContainer
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    className={dropDisabledState === '' ? '' : (state === dropDisabledState ? 'dropDisabled' : 'dropEnabled')}
+                  >
+                    {stories[state].map((story, index) => (
                       <Draggable key={story.id} draggableId={story.id} index={index}>
                         {(provided) => (
                           <div
@@ -66,7 +108,7 @@ export function StoriesPage() {
                       </Draggable>
                     ))}
                     {provided.placeholder}
-                  </div>
+                  </DropContainer>
                 )}
               </Droppable>
             </StoryContainer>
@@ -88,5 +130,15 @@ const FilterArea = styled.div`
 `
 
 const Container = styled.div`
+  width: calc(100% - 204px);
+  max-width: calc(100% - 204px);
   display: flex;
+`
+
+const DropContainer = styled.div`
+  min-height: 4rem;
+  
+  &.dropDisabled {
+    background-color: rgb(255, 182, 193, 0.5);
+  }
 `

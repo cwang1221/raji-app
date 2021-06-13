@@ -1,5 +1,5 @@
 import { Button, Space, Tooltip, Typography } from 'antd'
-import { FileTextOutlined, BorderlessTableOutlined, CloseOutlined, EyeOutlined, ZoomInOutlined } from '@ant-design/icons'
+import { FileTextOutlined, CoffeeOutlined, CloseOutlined, EyeOutlined, ZoomInOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useState } from 'react'
@@ -62,7 +62,7 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
                 <FileTextOutlined /> <span>{storyCount}</span>
               </Tooltip>
               <Tooltip title={`${point} ${t('general.points')}`}>
-                <BorderlessTableOutlined /> <span>{point}</span>
+                <CoffeeOutlined /> <span>{point}</span>
               </Tooltip>
               <Tooltip title={t('project.zoomInTooltip')}>
                 <ZoomInIcon />

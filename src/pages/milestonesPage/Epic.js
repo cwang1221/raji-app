@@ -1,6 +1,6 @@
 import { Typography, Progress, Avatar, Tooltip, List } from 'antd'
 import styled from 'styled-components'
-import { FileTextOutlined, BorderlessTableOutlined } from '@ant-design/icons'
+import { FileTextOutlined, CoffeeOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import { EpicStateIcon } from '../../components'
 
@@ -23,7 +23,7 @@ export function Epic({ name, state, countOfStories, countOfDoneStories, countOfI
             </Tooltip>
             <Tooltip title={`${totalPoint} ${t('general.points')}`}>
               <DataBackground>
-                <BorderlessTableOutlined /> <Number>{totalPoint}</Number>
+                <CoffeeOutlined /> <Number>{totalPoint}</Number>
               </DataBackground>
             </Tooltip>
             <Tooltip title={`${t('milestone.total')}: ${countOfStories}, ${t('milestone.inProgress')}: ${countOfInProgressStories}, ${t('milestone.done')}: ${countOfDoneStories}`}>

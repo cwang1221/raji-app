@@ -11,6 +11,7 @@ export function StoryContainer({ title, children }) {
 }
 
 const Container = styled.div`
+  width: calc(100% / 6);
   display: flex;
   flex-direction: column;
   margin-right: 1rem;
