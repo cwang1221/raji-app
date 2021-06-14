@@ -1,3 +1,5 @@
 export * from './FilterItem'
 export * from './ProjectFilter'
 export * from './MilestoneStateFilter'
+export * from './MilestoneFilter'
+export * from './EpicStateFilter'

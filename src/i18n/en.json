@@ -105,6 +105,7 @@
   },
   "epic": {
     "epicTitle": "Epic Title",
+    "epicStates": "Epic States",
     "todo": "To Do",
     "inProgress": "In Progress",
     "done": "Done",
@@ -119,10 +120,16 @@
     "countItems": "{{count}} items",
     "clearFilters": "Clear Filters",
     "projectHint": "Filter by Project",
+    "milestoneHint": "Filter by Milestone",
+    "epicStateHint": "Filter by Epic State",
     "allProjects": "All Projects",
+    "allMilestones": "All Milestones",
+    "noMilestone": "No Milestone",
     "countProjects": "{{count}} Projects",
+    "countMilestones": "{{count}} Milestones",
     "countStates": "{{count}} States",
-    "milestoneStateHint": "Filter by Milestate State"
+    "milestoneStateHint": "Filter by Milestate State",
+    "allStates": "All States"
   },
   "setting": {
     "profile": "Your Profile",

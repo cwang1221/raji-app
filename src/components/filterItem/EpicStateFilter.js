@@ -3,18 +3,18 @@ import { Button, Dropdown, Menu } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { MilestoneStateIcon } from '../milestoneStateIcon/MilestoneStateIcon'
+import { EpicStateIcon } from '../epicStateIcon/EpicStateIcon'
 import { MyCard } from '../myCard'
 import { FilterItemBase } from './FilterItem'
 
-export function MilestoneStateFilter({ onChange, registerFilter }) {
+export function EpicStateFilter({ onChange, registerFilter }) {
   const { t } = useTranslation()
   const [shownText, setShownText] = useState(t('filterBar.all'))
   const [selectedStates, setSelectedStates] = useState(['all'])
 
   useEffect(() => {
     registerFilter({
-      id: 'milestoneState',
+      id: 'epicState',
       clear: () => setSelectedStates(['all'])
     })
   }, [])
@@ -23,12 +23,12 @@ export function MilestoneStateFilter({ onChange, registerFilter }) {
     if (selectedStates.includes('all')) {
       setShownText(t('filterBar.all'))
     } else if (selectedStates.length === 1) {
-      setShownText(t(`milestone.${selectedStates[0]}`))
+      setShownText(t(`epic.${selectedStates[0]}`))
     } else {
       setShownText(t('filterBar.countStates', { count: selectedStates.length }))
     }
     onChange && onChange({
-      id: 'milestoneState',
+      id: 'epicState',
       items: selectedStates
     })
   }, [selectedStates])
@@ -64,19 +64,19 @@ export function MilestoneStateFilter({ onChange, registerFilter }) {
   const Popup = () => (
     <div>
       <FilterPopup onClick={(e) => stopPropagation(e)}>
-        <span style={{ fontSize: '10px' }}>{t('filterBar.milestoneStateHint')}</span>
+        <span style={{ fontSize: '10px' }}>{t('filterBar.epicStateHint')}</span>
         <Menu multiple selectedKeys={selectedStates} onSelect={onSelect} onDeselect={onDeselect} style={{ borderRight: '0px' }}>
           <Menu.Item key="all">{t('filterBar.allStates')}</Menu.Item>
-          <Menu.Item key="todo" icon={<MilestoneStateIcon state="todo" />}>{t('milestone.todo')}</Menu.Item>
-          <Menu.Item key="inProgress" icon={<MilestoneStateIcon state="inProgress" />}>{t('milestone.inProgress')}</Menu.Item>
-          <Menu.Item key="done" icon={<MilestoneStateIcon state="done" />}>{t('milestone.done')}</Menu.Item>
+          <Menu.Item key="todo" icon={<EpicStateIcon state="todo" />}>{t('epic.todo')}</Menu.Item>
+          <Menu.Item key="inProgress" icon={<EpicStateIcon state="inProgress" />}>{t('epic.inProgress')}</Menu.Item>
+          <Menu.Item key="done" icon={<EpicStateIcon state="done" />}>{t('epic.done')}</Menu.Item>
         </Menu>
       </FilterPopup>
     </div>
   )
 
   return (
-    <FilterItemBase name={t('milestone.states')}>
+    <FilterItemBase name={t('epic.epicStates')}>
       <Dropdown overlay={Popup} trigger={['click']}>
         <Button>
           <AppstoreFilled style={{ color: 'rgb(132, 131, 135)' }} />
