@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
-import { setHeaderCreateButton } from '../../utils'
+import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
 
 export function EpicsPage() {
+  const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
+
   useEffect(() => {
-    setHeaderCreateButton('epic')
+    setHeaderCreateButtonType('epic')
   }, [])
 
   return (

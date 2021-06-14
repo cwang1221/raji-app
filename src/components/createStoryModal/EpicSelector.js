@@ -3,22 +3,17 @@ import { useTranslation } from 'react-i18next'
 import { useEpic } from '../../hooks/useRequest'
 import { ObjectSelector } from './ObjectSelector'
 import { EpicStateIcon } from '../epicStateIcon'
-import { eventBus, events } from '../../utils'
+import { useEventContext } from '../../contexts/eventContext'
 
 export function EpicSelector({ epicId, onEpicIdChange }) {
   const { t } = useTranslation()
   const [epics, setEpics] = useState([])
   const { getEpics } = useEpic()
+  const { epicCreatedEvent } = useEventContext()
 
   useEffect(() => {
     getEpicData()
-
-    eventBus.subscribe(events.epicCreated, getEpicData)
-
-    return () => {
-      eventBus.unsubscribe(events.epicCreated, getEpicData)
-    }
-  }, [])
+  }, [epicCreatedEvent])
 
   const getEpicData = async () => {
     const data = await getEpics()

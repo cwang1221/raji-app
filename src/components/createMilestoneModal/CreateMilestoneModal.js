@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
-import { eventBus, events, focusErrorInForm } from '../../utils'
+import { focusErrorInForm } from '../../utils'
 import { useMilestone } from '../../hooks/useRequest'
+import { useEventContext } from '../../contexts/eventContext'
 
 export function CreateMilestoneModal({ visible, close }) {
   const { t } = useTranslation()
@@ -13,6 +14,7 @@ export function CreateMilestoneModal({ visible, close }) {
   const formRef = useRef()
 
   const { postMilestone } = useMilestone()
+  const { publishMilestoneCreatedEvent } = useEventContext()
 
   const createMilestone = () => {
     const createForm = formRef.current
@@ -20,7 +22,7 @@ export function CreateMilestoneModal({ visible, close }) {
       .then(async (values) => {
         await postMilestone(values)
 
-        eventBus.publish(events.milestoneCreated)
+        publishMilestoneCreatedEvent()
         formRef.current.resetFields()
 
         close()

@@ -1,4 +1,6 @@
 import { AuthProvider } from './authContext'
+import { EventProvider } from './eventContext'
+import { HeaderCreateButtonProvider } from './headerCreateButtonContext'
 import { LanguageProvider } from './languageContext'
 import { SettingProvider } from './settingContext'
 
@@ -7,7 +9,11 @@ export function AppProvider({ children }) {
     <AuthProvider>
       <LanguageProvider>
         <SettingProvider>
-          {children}
+          <EventProvider>
+            <HeaderCreateButtonProvider>
+              {children}
+            </HeaderCreateButtonProvider>
+          </EventProvider>
         </SettingProvider>
       </LanguageProvider>
     </AuthProvider>

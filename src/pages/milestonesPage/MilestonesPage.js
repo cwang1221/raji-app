@@ -8,7 +8,9 @@ import { useDocumentTitle, useMilestone } from '../../hooks'
 import { Epic } from './Epic'
 import { BacklogHeader } from './BacklogHeader'
 import { MilestoneHeader } from './MilestoneHeader'
-import { clone, eventBus, events, setHeaderCreateButton } from '../../utils'
+import { clone } from '../../utils'
+import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
+import { useEventContext } from '../../contexts/eventContext'
 
 export function MilestonesPage() {
   const { t } = useTranslation()
@@ -16,36 +18,29 @@ export function MilestonesPage() {
   const [filteredProjects, setFilteredProjects] = useState([])
   const [milestones, setMilestones] = useState([])
   const { getMilestonesList, putMilestone } = useMilestone()
+  const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
+  const { storyCreatedEvent, storyDeletedEvent, epicCreatedEvent, epicDeletedEvent, milestoneCreatedEvent, milestoneDeletedEvent, projectCreatedEvent, projectDeletedEvent } = useEventContext()
 
   useDocumentTitle(t('milestone.milestones'))
 
   useEffect(() => {
-    setHeaderCreateButton('milestone')
-
-    eventBus.subscribe(events.projectCreated, getMilestones)
-    eventBus.subscribe(events.projectDeleted, getMilestones)
-    eventBus.subscribe(events.storyCreated, getMilestones)
-    eventBus.subscribe(events.storyDeleted, getMilestones)
-    eventBus.subscribe(events.epicCreated, getMilestones)
-    eventBus.subscribe(events.epicDeleted, getMilestones)
-    eventBus.subscribe(events.milestoneCreated, getMilestones)
-    eventBus.subscribe(events.milestoneDeleted, getMilestones)
-
-    return () => {
-      eventBus.unsubscribe(events.projectCreated, getMilestones)
-      eventBus.unsubscribe(events.projectDeleted, getMilestones)
-      eventBus.unsubscribe(events.storyCreated, getMilestones)
-      eventBus.unsubscribe(events.storyDeleted, getMilestones)
-      eventBus.unsubscribe(events.epicCreated, getMilestones)
-      eventBus.unsubscribe(events.epicDeleted, getMilestones)
-      eventBus.unsubscribe(events.milestoneCreated, getMilestones)
-      eventBus.unsubscribe(events.milestoneDeleted, getMilestones)
-    }
+    setHeaderCreateButtonType('milestone')
   }, [])
 
   useEffect(() => {
     getMilestones()
-  }, [filteredStates, filteredProjects])
+  }, [
+    filteredStates,
+    filteredProjects,
+    storyCreatedEvent,
+    storyDeletedEvent,
+    epicCreatedEvent,
+    epicDeletedEvent,
+    milestoneCreatedEvent,
+    milestoneDeletedEvent,
+    projectCreatedEvent,
+    projectDeletedEvent
+  ])
 
   const getMilestones = async () => {
     const milestones = await getMilestonesList(filteredStates, filteredProjects)

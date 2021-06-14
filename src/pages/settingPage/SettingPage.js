@@ -1,11 +1,12 @@
 import { Typography, Form, Button, Input, Divider, InputNumber } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useRef, useEffect } from 'react'
-import { focusErrorInForm, setHeaderCreateButton } from '../../utils'
+import { focusErrorInForm } from '../../utils'
 import { useDocumentTitle, useSetting } from '../../hooks'
 import { useAuth } from '../../contexts/authContext'
 import { useSettingContext } from '../../contexts/settingContext'
 import { MyLabel } from '../../components/myLabel/MyLabel'
+import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
 
 export function SettingPage() {
   const { t } = useTranslation()
@@ -14,9 +15,10 @@ export function SettingPage() {
   const toolsFormRef = useRef()
   const { setting, setSetting } = useSettingContext()
   const { putSetting } = useSetting()
+  const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
 
   useEffect(() => {
-    setHeaderCreateButton('story')
+    setHeaderCreateButtonType('story')
   }, [])
 
   useEffect(() => {

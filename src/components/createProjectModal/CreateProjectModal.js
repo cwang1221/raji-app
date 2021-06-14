@@ -2,8 +2,9 @@ import { Form, Modal, Space, Input, Select, Button, Alert } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { useEventContext } from '../../contexts/eventContext'
 import { useProject } from '../../hooks'
-import { eventBus, events, focusErrorInForm } from '../../utils'
+import { focusErrorInForm } from '../../utils'
 import { ColorDropdown } from '../colorDropdown'
 import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
@@ -14,6 +15,7 @@ export function CreateProjectModal({ visible, disableType, type = 'web', close }
   const [projectNames, setProjectNames] = useState([])
   const formRef = useRef()
   const { getProjects, postProject } = useProject()
+  const { publishProjectCreatedEvent } = useEventContext()
 
   useEffect(async () => {
     const projects = await getProjects()
@@ -42,7 +44,7 @@ export function CreateProjectModal({ visible, disableType, type = 'web', close }
           totalPoint: 0
         })
 
-        eventBus.publish(events.projectCreated)
+        publishProjectCreatedEvent()
         close()
       })
       .catch(() => {

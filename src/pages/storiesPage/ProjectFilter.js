@@ -5,25 +5,18 @@ import { clone } from 'lodash'
 import { FilterTitle } from './FilterTitle'
 import { useProject } from '../../hooks/useRequest'
 import { CheckItem } from './CheckItem'
-import { events, eventBus } from '../../utils/EventBus'
+import { useEventContext } from '../../contexts/eventContext'
 
 export function ProjectFilter({ selectedProjectIds, onSelectionChange, expanded, onExpandedChange }) {
   const { t } = useTranslation()
   const [projects, setProjects] = useState([])
 
   const { getProjects } = useProject()
+  const { projectCreatedEvent, projectDeletedEvent } = useEventContext()
 
   useEffect(() => {
     getProjectData()
-
-    eventBus.subscribe(events.projectCreated, getProjectData)
-    eventBus.subscribe(events.projectDeleted, getProjectData)
-
-    return () => {
-      eventBus.unsubscribe(events.projectCreated, getProjectData)
-      eventBus.unsubscribe(events.projectDeleted, getProjectData)
-    }
-  }, [])
+  }, [projectCreatedEvent, projectDeletedEvent])
 
   const getProjectData = async () => {
     const data = await getProjects()

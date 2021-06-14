@@ -1,7 +1,4 @@
 import _ from 'lodash'
-import { eventBus, events } from './EventBus'
-
-export * from './EventBus'
 
 export function focusErrorInForm(formRef) {
   const firstErrorFieldName = formRef.current.getFieldsError()[0].name[0]
@@ -20,8 +17,4 @@ export function rgbToHex(rgb) {
     return (x.length === 1) ? `0${x}` : x
   })
   return `#${hexArray.join('')}`
-}
-
-export function setHeaderCreateButton(type) {
-  eventBus.publish(events.setCreateButton, type)
 }

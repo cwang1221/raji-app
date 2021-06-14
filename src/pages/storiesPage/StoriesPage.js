@@ -3,10 +3,12 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useStory } from '../../hooks'
-import { clone, eventBus, events, setHeaderCreateButton } from '../../utils'
+import { clone } from '../../utils'
 import { Filter } from './Filter'
 import { StoryContainer } from './StoryContainer'
 import { StoryCard } from './StoryCard'
+import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
+import { useEventContext } from '../../contexts/eventContext'
 
 export function StoriesPage() {
   const { t } = useTranslation()
@@ -24,30 +26,16 @@ export function StoriesPage() {
   const [selectedStates, setSelectedStates] = useState(['unscheduled', 'readyForDevelopment', 'inDevelopment', 'readyForReview', 'readyForDeploy', 'completed'])
   const { getStoryUiList, putStory } = useStory()
   const statesRef = useRef(['unscheduled', 'readyForDevelopment', 'inDevelopment', 'readyForReview', 'readyForDeploy', 'completed'])
+  const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
+  const { storyCreatedEvent, storyDeletedEvent, epicCreatedEvent, epicDeletedEvent, projectCreatedEvent, projectDeletedEvent } = useEventContext()
 
   useEffect(() => {
-    setHeaderCreateButton('story')
-
-    eventBus.subscribe(events.projectCreated, getStoryData)
-    eventBus.subscribe(events.projectDeleted, getStoryData)
-    eventBus.subscribe(events.storyCreated, getStoryData)
-    eventBus.subscribe(events.storyDeleted, getStoryData)
-    eventBus.subscribe(events.epicCreated, getStoryData)
-    eventBus.subscribe(events.epicDeleted, getStoryData)
-
-    return () => {
-      eventBus.unsubscribe(events.projectCreated, getStoryData)
-      eventBus.unsubscribe(events.projectDeleted, getStoryData)
-      eventBus.unsubscribe(events.storyCreated, getStoryData)
-      eventBus.unsubscribe(events.storyDeleted, getStoryData)
-      eventBus.unsubscribe(events.epicCreated, getStoryData)
-      eventBus.unsubscribe(events.epicDeleted, getStoryData)
-    }
+    setHeaderCreateButtonType('story')
   }, [])
 
   useEffect(() => {
     getStoryData()
-  }, [selectedProjectIds, selectedEpicIds, selectedStates])
+  }, [selectedProjectIds, selectedEpicIds, selectedStates, storyCreatedEvent, storyDeletedEvent, epicCreatedEvent, epicDeletedEvent, projectCreatedEvent, projectDeletedEvent])
 
   const getStoryData = async () => {
     const tempStories = {

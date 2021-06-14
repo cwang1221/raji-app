@@ -12,8 +12,9 @@ import { StoryStateSelector } from './StoryStateSelector'
 import { StoryTypeSelector } from './StoryTypeSelector'
 import { OwnerSelector } from './OwnerSelector'
 import { EstimateSelector } from '../estimateSelector'
-import { eventBus, events, focusErrorInForm } from '../../utils'
+import { focusErrorInForm } from '../../utils'
 import { useStory } from '../../hooks/useRequest'
+import { useEventContext } from '../../contexts/eventContext'
 
 export function CreateStoryModal({ visible, close }) {
   const { t } = useTranslation()
@@ -30,6 +31,7 @@ export function CreateStoryModal({ visible, close }) {
   const formRef = useRef()
 
   const { postStory } = useStory()
+  const { publishStoryCreatedEvent } = useEventContext()
 
   const createStory = () => {
     const createForm = formRef.current
@@ -49,7 +51,7 @@ export function CreateStoryModal({ visible, close }) {
 
         await postStory(payload)
 
-        eventBus.publish(events.storyCreated)
+        publishStoryCreatedEvent()
         formRef.current.resetFields()
         setProjectId(undefined)
         setState('unscheduled')

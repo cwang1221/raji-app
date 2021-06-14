@@ -6,7 +6,7 @@ import { useMilestone } from '../../hooks/useRequest'
 import { MyCard } from '../myCard'
 import { MilestoneStateIcon } from '..'
 import { SearchInput } from '../searchInput'
-import { eventBus, events } from '../../utils'
+import { useEventContext } from '../../contexts/eventContext'
 
 export function MilestoneSelector({ milestoneId, onMilestoneIdChange }) {
   const { t } = useTranslation()
@@ -14,18 +14,11 @@ export function MilestoneSelector({ milestoneId, onMilestoneIdChange }) {
   const [milestones, setMilestones] = useState([])
   const [selectedMilestone, setSelectedMilestone] = useState({})
   const { getMilestones } = useMilestone()
+  const { milestoneCreatedEvent, milestoneDeletedEvent } = useEventContext()
 
   useEffect(() => {
     getMilestoneData()
-
-    eventBus.subscribe(events.milestoneCreated, getMilestoneData)
-    eventBus.subscribe(events.milestoneDeleted, getMilestoneData)
-
-    return () => {
-      eventBus.unsubscribe(events.milestoneCreated, getMilestoneData)
-      eventBus.unsubscribe(events.milestoneDeleted, getMilestoneData)
-    }
-  }, [])
+  }, [milestoneCreatedEvent, milestoneDeletedEvent])
 
   useEffect(() => {
     setSelectedMilestone(milestones.find((item) => `${item.id}` === milestoneId) || {})

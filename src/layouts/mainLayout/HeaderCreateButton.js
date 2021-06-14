@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CreateEpicModal, CreateProjectModal, CreateStoryModal, CreateMilestoneModal } from '../../components'
-import { eventBus, events } from '../../utils'
+import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
 
 export function HeaderCreateButton() {
   const { t } = useTranslation()
@@ -15,6 +15,7 @@ export function HeaderCreateButton() {
   const [showEpicModal, setShowEpicModal] = useState(false)
   const [showMilestoneModal, setShowMilestoneModal] = useState(false)
   const leftButtonRef = useRef()
+  const { headerCreateButtonType } = useHeaderCreateButtonContext()
 
   const objectsRef = useRef({
     story: {
@@ -32,10 +33,8 @@ export function HeaderCreateButton() {
   })
 
   useEffect(() => {
-    eventBus.subscribe(events.setCreateButton, setType)
-
-    return () => eventBus.unsubscribe(events.setCreateButton, setType)
-  }, [])
+    setType(headerCreateButtonType)
+  }, [headerCreateButtonType])
 
   const createObject = (objectType) => {
     switch (objectType) {

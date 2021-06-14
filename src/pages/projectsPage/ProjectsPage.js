@@ -3,8 +3,10 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CreateProjectModal } from '../../components'
+import { useEventContext } from '../../contexts/eventContext'
+import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
 import { useDocumentTitle, useProject } from '../../hooks'
-import { clone, eventBus, events, setHeaderCreateButton } from '../../utils'
+import { clone } from '../../utils'
 import { ProjectCard } from './ProjectCard'
 
 export function ProjectsPage() {
@@ -16,25 +18,18 @@ export function ProjectsPage() {
   const [createType, setCreateType] = useState('web')
 
   const { getProjectList, deleteProject } = useProject()
+  const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
+  const { projectCreatedEvent, projectDeletedEvent, storyCreatedEvent, storyDeletedEvent, publishProjectDeletedEvent } = useEventContext()
 
   useDocumentTitle(t('project.projects'))
 
   useEffect(() => {
-    setHeaderCreateButton('project')
-    getProjects()
-
-    eventBus.subscribe(events.projectCreated, getProjects)
-    eventBus.subscribe(events.projectDeleted, getProjects)
-    eventBus.subscribe(events.storyCreated, getProjects)
-    eventBus.subscribe(events.storyDeleted, getProjects)
-
-    return () => {
-      eventBus.unsubscribe(events.projectCreated, getProjects)
-      eventBus.unsubscribe(events.projectDeleted, getProjects)
-      eventBus.unsubscribe(events.storyCreated, getProjects)
-      eventBus.unsubscribe(events.storyDeleted, getProjects)
-    }
+    setHeaderCreateButtonType('project')
   }, [])
+
+  useEffect(() => {
+    getProjects()
+  }, [projectCreatedEvent, projectDeletedEvent, storyCreatedEvent, storyDeletedEvent])
 
   const getProjects = async () => {
     const data = await getProjectList()
@@ -63,7 +58,7 @@ export function ProjectsPage() {
       setMobileProjects(projectsClone)
     }
 
-    eventBus.publish(events.projectDeleted)
+    publishProjectDeletedEvent()
   }
 
   return (

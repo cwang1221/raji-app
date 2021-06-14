@@ -4,16 +4,17 @@ import styled from 'styled-components'
 import { CheckOutlined, FlagOutlined, FileTextOutlined, CoffeeOutlined, CloseOutlined } from '@ant-design/icons'
 import { MilestoneStateIcon } from '../../components/milestoneStateIcon/MilestoneStateIcon'
 import { useMilestone } from '../../hooks/useRequest'
-import { eventBus, events } from '../../utils'
+import { useEventContext } from '../../contexts/eventContext'
 
 export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countOfDoneStories, countOfInProgressStories, totalPoint, state, changeState }) {
   const { t } = useTranslation()
 
   const { deleteMilestone } = useMilestone()
+  const { publishMilestoneDeletedEvent } = useEventContext()
 
   const onDeleteMilestone = async () => {
     await deleteMilestone(id)
-    eventBus.publish(events.milestoneDeleted)
+    publishMilestoneDeletedEvent()
   }
 
   return (

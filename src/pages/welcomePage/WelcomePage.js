@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
 import { Welcome } from '../../components'
-import { setHeaderCreateButton } from '../../utils'
+import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
 
 export function WelcomePage() {
+  const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
+
   useEffect(() => {
-    setHeaderCreateButton('story')
+    setHeaderCreateButtonType('story')
   }, [])
 
   return (

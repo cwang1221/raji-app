@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
-import { eventBus, events, focusErrorInForm } from '../../utils'
+import { focusErrorInForm } from '../../utils'
 import { useEpic, useMilestone } from '../../hooks/useRequest'
 import { MilestoneSelector } from './MilestoneSelector'
 import { StateSelector } from './StateSelector'
+import { useEventContext } from '../../contexts/eventContext'
 
 export function CreateEpicModal({ visible, close }) {
   const { t } = useTranslation()
@@ -19,6 +20,7 @@ export function CreateEpicModal({ visible, close }) {
 
   const { postEpic } = useEpic()
   const { addEpic } = useMilestone()
+  const { publishEpicCreatedEvent } = useEventContext()
 
   const createEpic = () => {
     const createForm = formRef.current
@@ -32,7 +34,7 @@ export function CreateEpicModal({ visible, close }) {
         const createdEpic = await postEpic(payload)
         await addEpic(milestoneId === 'none' ? 1 : parseInt(milestoneId, 10), createdEpic.id)
 
-        eventBus.publish(events.epicCreated)
+        publishEpicCreatedEvent()
         formRef.current.resetFields()
         setState('todo')
 

@@ -6,8 +6,8 @@ import { CaretDownFilled, CaretRightFilled } from '@ant-design/icons'
 import { FilterTitle } from './FilterTitle'
 import { useEpic } from '../../hooks/useRequest'
 import { CheckItem } from './CheckItem'
-import { events, eventBus } from '../../utils/EventBus'
 import { EpicStateIcon } from '../../components'
+import { useEventContext } from '../../contexts/eventContext'
 
 export function EpicFilter({ selectedEpicIds, onSelectionChange, expanded, onExpandedChange }) {
   const { t } = useTranslation()
@@ -16,18 +16,11 @@ export function EpicFilter({ selectedEpicIds, onSelectionChange, expanded, onExp
   const [itemsHeight, setItemsHeight] = useState('0')
 
   const { getEpics } = useEpic()
+  const { epicCreatedEvent, epicDeletedEvent } = useEventContext()
 
   useEffect(() => {
     getEpicData()
-
-    eventBus.subscribe(events.epicCreated, getEpicData)
-    eventBus.subscribe(events.epicDeleted, getEpicData)
-
-    return () => {
-      eventBus.unsubscribe(events.epicCreated, getEpicData)
-      eventBus.unsubscribe(events.epicDeleted, getEpicData)
-    }
-  }, [])
+  }, [epicCreatedEvent, epicDeletedEvent])
 
   useEffect(() => {
     const countOfEpics = epics.length
