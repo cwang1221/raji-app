@@ -24,6 +24,7 @@
     "state": "State",
     "milestone": "Milestone",
     "filters": "Filters",
+    "id": "ID",
     "projects": "Projects"
   },
   "msg": {
@@ -112,7 +113,8 @@
     "createModalInfo": "Epics are collections of Stories that together represent some major initiative or feature. Epics can span multiple Projects.",
     "updateEpicMilestone": "Update Epic Milestone",
     "updateEpicState": "Update Epic State",
-    "noMilestone": "No Milestone"
+    "noMilestone": "No Milestone",
+    "percentage": "{{completed}}% Completed, {{inProgress}}% In Progress"
   },
   "filterBar": {
     "none": "None",

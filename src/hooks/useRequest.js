@@ -146,6 +146,23 @@ const getEpics = async () => {
   return data
 }
 
+const getEpicsUiList = async (states, projectIds, milestoneIds) => {
+  let url = '/epics/ui/list'
+
+  const queryStrings = []
+  states && !states.includes('all') && queryStrings.push(`state=${states.join(',')}`)
+  projectIds && !projectIds.includes('all') && queryStrings.push(`projectId=${projectIds.join(',')}`)
+  milestoneIds && !milestoneIds.includes('all') && queryStrings.push(`milestoneId=${milestoneIds.join(',')}`)
+
+  queryStrings.length > 0 && (url += `?${queryStrings.join('&')}`)
+
+  const { data } = await axios.request({
+    url,
+    method: 'get'
+  })
+  return data
+}
+
 const postEpic = async (payload) => {
   const { data } = await axios.request({
     url: '/epics',
@@ -155,7 +172,7 @@ const postEpic = async (payload) => {
   return data
 }
 
-export const useEpic = () => ({ getEpics, postEpic })
+export const useEpic = () => ({ getEpics, getEpicsUiList, postEpic })
 
 //----------------------------------------------------------
 // User
@@ -180,6 +197,7 @@ const getStories = async () => {
   })
   return data
 }
+
 const getStoryUiList = async (projects, epics, states) => {
   if (projects.length === 0 || epics.length === 0 || states.length === 0) {
     return []
