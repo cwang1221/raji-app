@@ -36,6 +36,7 @@ export function CreateEpicModal({ visible, close }) {
 
         publishEpicCreatedEvent()
         formRef.current.resetFields()
+        setMilestoneId('none')
         setState('todo')
 
         close()
