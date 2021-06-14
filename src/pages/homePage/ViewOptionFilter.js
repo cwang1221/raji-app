@@ -12,8 +12,8 @@ export function ViewOptionFilter({ description, viewOptions, selectedViewOption,
           {Object.keys(viewOptions).map((key) => (
             <ViewOptionItme key={key}>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ fontSize: '13px', height: '1rem', marginTop: '-0.5rem' }}> {viewOptions[key].title}</div>
-                <div style={{ fontSize: '11px', color: 'gray' }}> {viewOptions[key].description}</div>
+                <Title>{viewOptions[key].title}</Title>
+                <Description>{viewOptions[key].description}</Description>
               </div>
             </ViewOptionItme>
           ))}
@@ -44,4 +44,16 @@ const FilterPopup = styled(MyCard)`
 const ViewOptionItme = styled(Menu.Item)`
   padding-top: 0;
   padding-bottom: 0;
+`
+
+const Title = styled.div`
+  font-size: 13px;
+  height: 1rem;
+  margin-top: -0.5rem;
+  font-weight: 500;
+`
+
+const Description = styled.div`
+  font-size: 11px;
+  color: gray;
 `

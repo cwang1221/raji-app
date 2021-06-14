@@ -25,7 +25,8 @@
     "milestone": "Milestone",
     "filters": "Filters",
     "id": "ID",
-    "projects": "Projects"
+    "projects": "Projects",
+    "notReady": "Not Ready :)"
   },
   "msg": {
     "networkError": "Something wrong with the network. :(",
@@ -170,6 +171,19 @@
     "unfinishedOnly": "Unfinished Only",
     "unfinishedOnlyDescription": "All Unfinished Stories Owned by Me",
     "everything": "Everything",
-    "everythingDescription": "All Unfinished and Recently Completed Stories Owned by Me"
+    "everythingDescription": "All Unfinished and Recently Completed Stories Owned by Me",
+    "myActiveTasks": "My Active Tasks",
+    "myTasksFIlterDescription": "Select which Tasks to show",
+    "startedOnlyTasksDescription": "Tasks Owned by Me from all Started Stories",
+    "unfinishedOnlyTasksDescription": "Tasks Owned by Me from all Unfinished Stories",
+    "upcomingDueDates": "Upcoming Due Dates",
+    "dueFilterDescription": "Select which due dates to show",
+    "ownedByMe": "Owned By Me",
+    "ownedByMeDescription": "Only Stories and Epics owned by me",
+    "everythingDateDescription": "All Stories and Epics",
+    "myActiveFeed": "My Active Feed",
+    "allFollowedActivity": "All Followed Activity",
+    "onlyComments": "Only Comments",
+    "onlyMentions": "Only Mentions"
   }
 }

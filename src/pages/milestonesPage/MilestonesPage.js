@@ -49,7 +49,7 @@ export function MilestonesPage() {
   }
 
   const onChangeView = () => {
-    message.info('Not ready :)')
+    message.info(t('general.notReady'))
   }
 
   const onDragStart = (result) => {

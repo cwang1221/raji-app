@@ -244,4 +244,24 @@ const putStory = async (id, payload) => {
   return data
 }
 
-export const useStory = () => ({ getStories, getStoryUiList, postStory, putStory })
+const getMyStories = async (userId, viewOption) => {
+  let states = ''
+  switch (viewOption) {
+    case 'startedOnly':
+      states = '&state=inDevelopment,readyForReview,readyForDeploy'
+      break
+    case 'unfinishedOnly':
+      states = '&state=unscheduled,readyForDevelopment,inDevelopment,readyForReview,readyForDeploy'
+      break
+    default:
+      break
+  }
+
+  const { data } = await axios.request({
+    url: `/stories/ui/list?ownerId=${userId}${states}`,
+    method: 'get'
+  })
+  return data
+}
+
+export const useStory = () => ({ getStories, getStoryUiList, postStory, putStory, getMyStories })

@@ -81,7 +81,7 @@ export function EpicsPage() {
               { text: t('milestone.table'), key: 'table' }
             ]}
             value="column"
-            onChange={() => message.info('Not ready :)')}
+            onChange={() => message.info(t('general.notReady'))}
           />
         ]}
       />

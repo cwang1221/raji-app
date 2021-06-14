@@ -3,21 +3,23 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { ViewOptionFilter } from './ViewOptionFilter'
 
-export function WorkArea({ title, viewOptions, selectedViewOption, onViewOptionChange, children }) {
+export function WorkArea({ title, viewFilterDescription, viewOptions, selectedViewOption, onViewOptionChange, children, style = {} }) {
   const { t } = useTranslation()
 
   return (
-    <Container>
+    <Container style={style}>
       <Typography.Title level={4}>{title}</Typography.Title>
-      <Filter>
-        <span>{t('home.showing')}</span>
-        <ViewOptionFilter
-          description={t('home.myWorkFilterDescription')}
-          viewOptions={viewOptions}
-          selectedViewOption={selectedViewOption}
-          onViewOptionChange={onViewOptionChange}
-        />
-      </Filter>
+      {viewFilterDescription ? (
+        <Filter>
+          <span>{t('home.showing')}</span>
+          <ViewOptionFilter
+            description={viewFilterDescription}
+            viewOptions={viewOptions}
+            selectedViewOption={selectedViewOption}
+            onViewOptionChange={onViewOptionChange}
+          />
+        </Filter>
+      ) : null}
       {children}
     </Container>
   )
@@ -37,4 +39,5 @@ const Container = styled.div`
 const Filter = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 1rem;
 `
