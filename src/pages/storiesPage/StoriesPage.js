@@ -159,10 +159,12 @@ const DropContainer = styled.div`
   min-height: 4rem;
   
   &.dropDisabled {
-    background-color: rgb(255, 182, 193, 0.5);
+    background-color: rgb(255, 182, 193, 0.3);
+    outline: rgb(255, 182, 193) dashed 3px;
   }
   
   &.dropEnabled {
-    background-color: rgb(0,191,255, 0.2);
+    background-color: rgb(0, 191, 255, 0.2);
+    outline: rgb(0, 191, 255, 0.4) dashed 3px;
   }
 `

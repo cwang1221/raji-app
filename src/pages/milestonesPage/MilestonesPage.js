@@ -17,6 +17,7 @@ export function MilestonesPage() {
   const [filteredStates, setFilteredStates] = useState([])
   const [filteredProjects, setFilteredProjects] = useState([])
   const [milestones, setMilestones] = useState([])
+  const [dragging, setDragging] = useState(false)
   const { getMilestonesList, putMilestone } = useMilestone()
   const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
   const { storyCreatedEvent, storyDeletedEvent, epicCreatedEvent, epicDeletedEvent, milestoneCreatedEvent, milestoneDeletedEvent, projectCreatedEvent, projectDeletedEvent } = useEventContext()
@@ -51,7 +52,13 @@ export function MilestonesPage() {
     message.info('Not ready :)')
   }
 
+  const onDragStart = (result) => {
+    setDragging(true)
+  }
+
   const onDragEnd = (result) => {
+    setDragging(false)
+
     if (!result.destination) {
       return
     }
@@ -104,7 +111,7 @@ export function MilestonesPage() {
         ]}
       />
 
-      <DragDropContext onDragEnd={onDragEnd}>
+      <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
         <Space align="start">
           {milestones.map((milestone) => (
             <MilestoneContainer
@@ -143,7 +150,7 @@ export function MilestonesPage() {
 
               <Droppable droppableId={`${milestone.id}`}>
                 {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps} style={{ minHeight: '4rem' }}>
+                  <DropContainer ref={provided.innerRef} {...provided.droppableProps} className={dragging ? 'dragging' : ''}>
                     {milestone.epics.map((epic, index) => (
                       <Draggable key={epic.id} draggableId={`${epic.id}`} index={index}>
                         {(provided) => (
@@ -166,7 +173,7 @@ export function MilestonesPage() {
                       </Draggable>
                     ))}
                     {provided.placeholder}
-                  </div>
+                  </DropContainer>
                 )}
               </Droppable>
             </MilestoneContainer>
@@ -179,4 +186,13 @@ export function MilestonesPage() {
 
 const MilestoneContainer = styled(List)`
   width: 20rem;
+`
+
+const DropContainer = styled.div`
+  min-height: 4rem;
+  
+  &.dragging {
+    background-color: rgb(0, 191, 255, 0.2);
+    outline: rgb(0, 191, 255, 0.4) dashed 3px;
+  }
 `
