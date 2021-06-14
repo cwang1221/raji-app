@@ -160,5 +160,16 @@
     "noEpic": "No Epic",
     "otherEpics": "Other Epics",
     "workflowState": "Workflow State"
+  },
+  "home": {
+    "myWork": "My Work",
+    "showing": "Showing:",
+    "myWorkFilterDescription": "Select which Stories to show",
+    "startedOnly": "Started Only",
+    "startedOnlyDescription": "All Started Stories Owned by Me",
+    "unfinishedOnly": "Unfinished Only",
+    "unfinishedOnlyDescription": "All Unfinished Stories Owned by Me",
+    "everything": "Everything",
+    "everythingDescription": "All Unfinished and Recently Completed Stories Owned by Me"
   }
 }
