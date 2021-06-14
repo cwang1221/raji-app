@@ -22,7 +22,8 @@ export function EpicsPage() {
   const [filteredProjects, setFilteredProjects] = useState(['all'])
   const [filteredMilestones, setFilteredMilestones] = useState(['all'])
   const [filteredStates, setFilteredStates] = useState(['all'])
-  const { getEpicsUiList } = useEpic()
+  const [dropDisabledState, setDropDisabledState] = useState('')
+  const { getEpicsUiList, putEpic } = useEpic()
   const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
   const { storyCreatedEvent, storyDeletedEvent, epicCreatedEvent, epicDeletedEvent, projectCreatedEvent, projectDeletedEvent } = useEventContext()
 
@@ -46,8 +47,19 @@ export function EpicsPage() {
     setEpics(tempEpics)
   }
 
-  const onDragEnd = () => {
+  const onDragStart = async (start) => {
+    setDropDisabledState(start.source.droppableId)
+  }
 
+  const onDragEnd = async (result) => {
+    setDropDisabledState('')
+
+    if (!result.destination) {
+      return
+    }
+
+    await putEpic(result.draggableId, { state: result.destination.droppableId })
+    getEpicData()
   }
 
   return (
@@ -74,13 +86,17 @@ export function EpicsPage() {
         ]}
       />
 
-      <DragDropContext onDragEnd={onDragEnd}>
+      <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
         <Container align="start">
           <ToDoArea>
             <AreaTitle title={t('epic.todo')} count={epics.todo.length} />
             <Droppable droppableId="todo">
               {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps} style={{ minHeight: '4rem', width: '100%' }}>
+                <DropContainer
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className={dropDisabledState === '' ? '' : (dropDisabledState === 'todo' ? 'dropDisabled' : 'dropEnabled')}
+                >
                   {epics.todo.map((epic, index) => (
                     <Draggable key={epic.id} draggableId={`${epic.id}`} index={index}>
                       {(provided) => (
@@ -100,7 +116,7 @@ export function EpicsPage() {
                     </Draggable>
                   ))}
                   {provided.placeholder}
-                </div>
+                </DropContainer>
               )}
             </Droppable>
           </ToDoArea>
@@ -109,7 +125,11 @@ export function EpicsPage() {
             <AreaTitle title={t('epic.inProgress')} count={epics.inProgress.length} />
             <Droppable droppableId="inProgress">
               {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps} style={{ minHeight: '4rem', width: '100%' }}>
+                <DropContainer
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className={dropDisabledState === '' ? '' : (dropDisabledState === 'inProgress' ? 'dropDisabled' : 'dropEnabled')}
+                >
                   {epics.inProgress.map((epic, index) => (
                     <Draggable key={epic.id} draggableId={`${epic.id}`} index={index}>
                       {(provided) => (
@@ -132,7 +152,7 @@ export function EpicsPage() {
                     </Draggable>
                   ))}
                   {provided.placeholder}
-                </div>
+                </DropContainer>
               )}
             </Droppable>
           </InProgressArea>
@@ -141,7 +161,11 @@ export function EpicsPage() {
             <AreaTitle title={t('epic.done')} count={epics.done.length} />
             <Droppable droppableId="done">
               {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps} style={{ minHeight: '4rem', width: '100%' }}>
+                <DropContainer
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className={dropDisabledState === '' ? '' : (dropDisabledState === 'done' ? 'dropDisabled' : 'dropEnabled')}
+                >
                   {epics.done.map((epic, index) => (
                     <Draggable key={epic.id} draggableId={`${epic.id}`} index={index}>
                       {(provided) => (
@@ -156,7 +180,7 @@ export function EpicsPage() {
                     </Draggable>
                   ))}
                   {provided.placeholder}
-                </div>
+                </DropContainer>
               )}
             </Droppable>
           </DoneArea>
@@ -191,4 +215,19 @@ const DoneArea = styled.div`
   flex-direction: column;
   align-items: center;
   width: 22%;
+`
+
+const DropContainer = styled.div`
+  min-height: 4rem;
+  width: 100%;
+  
+  &.dropDisabled {
+    background-color: rgb(255, 182, 193, 0.3);
+    outline: rgb(255, 182, 193) dashed 3px;
+  }
+  
+  &.dropEnabled {
+    background-color: rgb(0, 191, 255, 0.2);
+    outline: rgb(0, 191, 255, 0.4) dashed 3px;
+  }
 `

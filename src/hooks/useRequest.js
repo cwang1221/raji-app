@@ -172,7 +172,16 @@ const postEpic = async (payload) => {
   return data
 }
 
-export const useEpic = () => ({ getEpics, getEpicsUiList, postEpic })
+const putEpic = async (id, payload) => {
+  const { data } = await axios.request({
+    url: `/epics/${id}`,
+    method: 'put',
+    data: payload
+  })
+  return data
+}
+
+export const useEpic = () => ({ getEpics, getEpicsUiList, postEpic, putEpic })
 
 //----------------------------------------------------------
 // User
