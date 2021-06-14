@@ -16,7 +16,7 @@ export function HomePage() {
   const [selectedViewOption, setSelectedViewOption] = useState('startedOnly')
   const [taskFilter, setTaskFilter] = useState('startedOnly')
   const [dueFilter, setDueFilter] = useState('ownedByMe')
-  const { storyCreatedEvent, storyDeletedEvent } = useEventContext()
+  const { storyCreatedEvent, storyDeletedEvent, storyUpdatedEvent } = useEventContext()
   const [stories, setStories] = useState({
     unscheduled: [],
     readyForDevelopment: [],
@@ -34,7 +34,7 @@ export function HomePage() {
 
   useEffect(() => {
     getStoryData()
-  }, [selectedViewOption, storyCreatedEvent, storyDeletedEvent])
+  }, [selectedViewOption, storyCreatedEvent, storyDeletedEvent, storyUpdatedEvent])
 
   const getStoryData = async () => {
     const tempStories = {

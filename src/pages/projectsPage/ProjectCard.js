@@ -7,6 +7,7 @@ import { useProject } from '../../hooks'
 import { clone } from '../../utils'
 import { useAuth } from '../../contexts/authContext'
 import { ColorDropdown } from '../../components'
+import { useEventContext } from '../../contexts/eventContext'
 
 export function ProjectCard({ id, indicator, title, description, storyCount, point, followerIds, onDelete }) {
   const { t } = useTranslation()
@@ -14,10 +15,12 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
   const [color, setColor] = useState(indicator)
   const { putProject } = useProject()
   const { user } = useAuth()
+  const { publishProjectUpdatedEvent } = useEventContext()
 
   const changeColor = (color) => {
     putProject(id, { color })
     setColor(color)
+    publishProjectUpdatedEvent()
   }
 
   const onClickFollow = () => {
@@ -31,6 +34,7 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
 
     putProject(id, { followerIds: followersClone })
     setFollowers(followersClone)
+    publishProjectUpdatedEvent()
   }
 
   const deleteProject = () => {

@@ -20,7 +20,15 @@ export function MilestonesPage() {
   const [dragging, setDragging] = useState(false)
   const { getMilestonesList, putMilestone } = useMilestone()
   const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
-  const { storyCreatedEvent, storyDeletedEvent, epicCreatedEvent, epicDeletedEvent, milestoneCreatedEvent, milestoneDeletedEvent, projectCreatedEvent, projectDeletedEvent } = useEventContext()
+  const {
+    storyCreatedEvent,
+    storyDeletedEvent,
+    epicCreatedEvent,
+    epicDeletedEvent,
+    milestoneCreatedEvent,
+    milestoneDeletedEvent,
+    publishMilestoneUpdatedEvent
+  } = useEventContext()
 
   useDocumentTitle(t('milestone.milestones'))
 
@@ -38,9 +46,7 @@ export function MilestonesPage() {
     epicCreatedEvent,
     epicDeletedEvent,
     milestoneCreatedEvent,
-    milestoneDeletedEvent,
-    projectCreatedEvent,
-    projectDeletedEvent
+    milestoneDeletedEvent
   ])
 
   const getMilestones = async () => {
@@ -76,6 +82,7 @@ export function MilestonesPage() {
     setMilestones(milestonesClone)
     putMilestone(destinationMilestone.id, { epicIds: destinationMilestone.epicIds })
     sourceMilestone.id !== destinationMilestone.id && putMilestone(sourceMilestone.id, { epicIds: sourceMilestone.epicIds })
+    publishMilestoneUpdatedEvent()
   }
 
   const changeState = async (id, state) => {
@@ -84,7 +91,7 @@ export function MilestonesPage() {
 
     setMilestones(milestonesClone)
     await putMilestone(id, { state })
-    getMilestones()
+    publishMilestoneUpdatedEvent()
   }
 
   return (

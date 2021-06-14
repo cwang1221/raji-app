@@ -25,7 +25,7 @@ export function EpicsPage() {
   const [dropDisabledState, setDropDisabledState] = useState('')
   const { getEpicsUiList, putEpic } = useEpic()
   const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
-  const { storyCreatedEvent, storyDeletedEvent, epicCreatedEvent, epicDeletedEvent, projectCreatedEvent, projectDeletedEvent } = useEventContext()
+  const { storyCreatedEvent, storyDeletedEvent, epicCreatedEvent, epicDeletedEvent, publishEpicUpdatedEvent } = useEventContext()
 
   useEffect(() => {
     setHeaderCreateButtonType('epic')
@@ -33,7 +33,7 @@ export function EpicsPage() {
 
   useEffect(() => {
     getEpicData()
-  }, [filteredProjects, filteredMilestones, filteredStates, storyCreatedEvent, storyDeletedEvent, epicCreatedEvent, epicDeletedEvent, projectCreatedEvent, projectDeletedEvent])
+  }, [filteredProjects, filteredMilestones, filteredStates, storyCreatedEvent, storyDeletedEvent, epicCreatedEvent, epicDeletedEvent])
 
   const getEpicData = async () => {
     const tempEpics = {
@@ -60,6 +60,7 @@ export function EpicsPage() {
 
     await putEpic(result.draggableId, { state: result.destination.droppableId })
     getEpicData()
+    publishEpicUpdatedEvent()
   }
 
   return (
