@@ -14,8 +14,8 @@ import { useEventContext } from '../../contexts/eventContext'
 
 export function MilestonesPage() {
   const { t } = useTranslation()
-  const [filteredStates, setFilteredStates] = useState([])
-  const [filteredProjects, setFilteredProjects] = useState([])
+  const [filteredStates, setFilteredStates] = useState(['all'])
+  const [filteredProjects, setFilteredProjects] = useState(['all'])
   const [milestones, setMilestones] = useState([])
   const [dragging, setDragging] = useState(false)
   const { getMilestonesList, putMilestone } = useMilestone()
@@ -93,9 +93,9 @@ export function MilestonesPage() {
 
       <FilterBar
         leftChildren={[
-          <MilestoneStateFilter key="milestoneStateFilter" onChange={setFilteredStates} />,
+          <MilestoneStateFilter key="milestoneStateFilter" selectedStates={filteredStates} onChange={setFilteredStates} />,
           <FilterItem.Seperator key="seperator" />,
-          <ProjectFilter key="projectFilter" onChange={setFilteredProjects} />
+          <ProjectFilter key="projectFilter" selectedProjects={filteredProjects} onChange={setFilteredProjects} />
         ]}
         rightChildren={[
           <FilterItem.RadioGroupButton

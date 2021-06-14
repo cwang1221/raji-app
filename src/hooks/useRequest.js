@@ -146,13 +146,13 @@ const getEpics = async () => {
   return data
 }
 
-const getEpicsUiList = async (states, projectIds, milestoneIds) => {
+const getEpicsUiList = async (projectIds, milestoneIds, states) => {
   let url = '/epics/ui/list'
 
   const queryStrings = []
-  states && !states.includes('all') && queryStrings.push(`state=${states.join(',')}`)
-  projectIds && !projectIds.includes('all') && queryStrings.push(`projectId=${projectIds.join(',')}`)
-  milestoneIds && !milestoneIds.includes('all') && queryStrings.push(`milestoneId=${milestoneIds.join(',')}`)
+  projectIds.length && !projectIds.includes('all') && queryStrings.push(`projectId=${projectIds.join(',')}`)
+  milestoneIds.length && !milestoneIds.includes('all') && queryStrings.push(`milestoneId=${milestoneIds.join(',')}`)
+  states.length && !states.includes('all') && queryStrings.push(`state=${states.join(',')}`)
 
   queryStrings.length > 0 && (url += `?${queryStrings.join('&')}`)
 

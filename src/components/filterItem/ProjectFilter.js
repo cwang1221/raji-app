@@ -7,26 +7,32 @@ import { useProject } from '../../hooks'
 import { MyCard } from '../myCard'
 import { FilterItemBase } from './FilterItem'
 
-export function ProjectFilter({ onChange, registerFilter }) {
+export function ProjectFilter({ selectedProjects, onChange, registerFilter }) {
   const { t } = useTranslation()
   const { getProjects } = useProject()
   const [showAll, setShowAll] = useState(true)
   const [projects, setProjects] = useState([])
   const [filteredProjects, setFilteredProjects] = useState([])
   const [shownText, setShownText] = useState(t('filterBar.all'))
-  const [selectedProjects, setSelectedProjects] = useState(['all'])
   const searchBoxRef = useRef()
 
   useEffect(async () => {
     registerFilter({
       id: 'project',
-      clear: () => setSelectedProjects(['all'])
+      clear: () => filterChange(['all'])
     })
 
     const data = await getProjects()
     setProjects(data)
     setFilteredProjects(data)
   }, [])
+
+  const filterChange = (items) => {
+    onChange({
+      id: 'project',
+      items
+    })
+  }
 
   const onPopupVisibleChange = (visible) => {
     if (!visible) {
@@ -44,27 +50,23 @@ export function ProjectFilter({ onChange, registerFilter }) {
     } else {
       setShownText(t('filterBar.countProjects', { count: selectedProjects.length }))
     }
-    onChange && onChange({
-      id: 'project',
-      items: selectedProjects
-    })
   }, [selectedProjects])
 
   const onSelect = ({ key, selectedKeys }) => {
     if (key === 'all') {
-      setSelectedProjects(['all'])
+      filterChange(['all'])
     } else {
       const indexOfAll = selectedKeys.indexOf('all')
       indexOfAll > -1 && selectedKeys.splice(indexOfAll, 1)
-      setSelectedProjects(selectedKeys)
+      filterChange(selectedKeys)
     }
   }
 
   const onDeselect = ({ selectedKeys }) => {
     if (!selectedKeys.length) {
-      setSelectedProjects(['all'])
+      filterChange(['all'])
     } else {
-      setSelectedProjects(selectedKeys)
+      filterChange(selectedKeys)
     }
   }
 
@@ -86,7 +88,7 @@ export function ProjectFilter({ onChange, registerFilter }) {
 
   const onClear = (e) => {
     stopPropagation(e)
-    setSelectedProjects(['all'])
+    filterChange(['all'])
   }
 
   const Popup = () => (

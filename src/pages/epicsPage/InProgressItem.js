@@ -71,11 +71,11 @@ export function InProgressItem({ id, name, countOfStories, countOfInProgressStor
       <StoryContainer>
         {Object.keys(storyMap).map((key) => (
           storyMap[key].length ? (
-            <StoryStateContainer>
+            <StoryStateContainer key={key}>
               <StoryStateTitle state={key} count={storyMap[key].length} />
               <StoryCardContainer>
                 {storyMap[key].map((story) => (
-                  <Tooltip title={`#${story.id} ${story.title} (${t(`story.${story.type}`)})`}>
+                  <Tooltip key={`${story.id}`} title={`#${story.id} ${story.title} (${t(`story.${story.type}`)})`}>
                     <StoryCard projectColor={story.project.color} />
                   </Tooltip>
                 ))}

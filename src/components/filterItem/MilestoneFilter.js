@@ -8,20 +8,19 @@ import { MilestoneStateIcon } from '../milestoneStateIcon'
 import { MyCard } from '../myCard'
 import { FilterItemBase } from './FilterItem'
 
-export function MilestoneFilter({ onChange, registerFilter }) {
+export function MilestoneFilter({ selectedMilestones, onChange, registerFilter }) {
   const { t } = useTranslation()
   const { getMilestones } = useMilestone()
   const [showAll, setShowAll] = useState(true)
   const [milestones, setMilestones] = useState([])
   const [filteredMilestones, setFilteredMilestones] = useState([])
   const [shownText, setShownText] = useState(t('filterBar.all'))
-  const [selectedMilestones, setSelectedMilestones] = useState(['all'])
   const searchBoxRef = useRef()
 
   useEffect(async () => {
     registerFilter({
       id: 'milestone',
-      clear: () => setSelectedMilestones(['all'])
+      clear: () => filterChange(['all'])
     })
 
     const data = await getMilestones()
@@ -30,6 +29,13 @@ export function MilestoneFilter({ onChange, registerFilter }) {
     setMilestones(data)
     setFilteredMilestones(data)
   }, [])
+
+  const filterChange = (items) => {
+    onChange({
+      id: 'milestone',
+      items
+    })
+  }
 
   const onPopupVisibleChange = (visible) => {
     if (!visible) {
@@ -47,27 +53,23 @@ export function MilestoneFilter({ onChange, registerFilter }) {
     } else {
       setShownText(t('filterBar.countMilestones', { count: selectedMilestones.length }))
     }
-    onChange && onChange({
-      id: 'milestone',
-      items: selectedMilestones
-    })
   }, [selectedMilestones])
 
   const onSelect = ({ key, selectedKeys }) => {
     if (key === 'all') {
-      setSelectedMilestones(['all'])
+      filterChange(['all'])
     } else {
       const indexOfAll = selectedKeys.indexOf('all')
       indexOfAll > -1 && selectedKeys.splice(indexOfAll, 1)
-      setSelectedMilestones(selectedKeys)
+      filterChange(selectedKeys)
     }
   }
 
   const onDeselect = ({ selectedKeys }) => {
     if (!selectedKeys.length) {
-      setSelectedMilestones(['all'])
+      filterChange(['all'])
     } else {
-      setSelectedMilestones(selectedKeys)
+      filterChange(selectedKeys)
     }
   }
 
@@ -89,7 +91,7 @@ export function MilestoneFilter({ onChange, registerFilter }) {
 
   const onClear = (e) => {
     stopPropagation(e)
-    setSelectedMilestones(['all'])
+    filterChange(['all'])
   }
 
   const Popup = () => (

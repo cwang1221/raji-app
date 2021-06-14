@@ -7,15 +7,14 @@ import { EpicStateIcon } from '../epicStateIcon/EpicStateIcon'
 import { MyCard } from '../myCard'
 import { FilterItemBase } from './FilterItem'
 
-export function EpicStateFilter({ onChange, registerFilter }) {
+export function EpicStateFilter({ selectedStates, onChange, registerFilter }) {
   const { t } = useTranslation()
   const [shownText, setShownText] = useState(t('filterBar.all'))
-  const [selectedStates, setSelectedStates] = useState(['all'])
 
   useEffect(() => {
     registerFilter({
       id: 'epicState',
-      clear: () => setSelectedStates(['all'])
+      clear: () => filterChange(['all'])
     })
   }, [])
 
@@ -27,27 +26,30 @@ export function EpicStateFilter({ onChange, registerFilter }) {
     } else {
       setShownText(t('filterBar.countStates', { count: selectedStates.length }))
     }
-    onChange && onChange({
-      id: 'epicState',
-      items: selectedStates
-    })
   }, [selectedStates])
+
+  const filterChange = (items) => {
+    onChange({
+      id: 'epicState',
+      items
+    })
+  }
 
   const onSelect = ({ key, selectedKeys }) => {
     if (key === 'all') {
-      setSelectedStates(['all'])
+      filterChange(['all'])
     } else {
       const indexOfAll = selectedKeys.indexOf('all')
       indexOfAll > -1 && selectedKeys.splice(indexOfAll, 1)
-      setSelectedStates(selectedKeys)
+      filterChange(selectedKeys)
     }
   }
 
   const onDeselect = ({ selectedKeys }) => {
     if (!selectedKeys.length) {
-      setSelectedStates(['all'])
+      filterChange(['all'])
     } else {
-      setSelectedStates(selectedKeys)
+      filterChange(selectedKeys)
     }
   }
 
@@ -58,7 +60,7 @@ export function EpicStateFilter({ onChange, registerFilter }) {
 
   const clear = (e) => {
     stopPropagation(e)
-    setSelectedStates(['all'])
+    filterChange(['all'])
   }
 
   const Popup = () => (
