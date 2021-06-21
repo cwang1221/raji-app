@@ -9,7 +9,7 @@ export function DoneItem({ id, name }) {
     <Container>
       <Title>
         <EpicStateIcon state="done" />
-        <EpicName level={4} style={{ marginBottom: '0', marginLeft: '0.5rem' }} onClick={() => setShowModal(true)}>{name}</EpicName>
+        <EpicName level={4} onClick={() => setShowModal(true)}>{name}</EpicName>
       </Title>
       <CreateEpicModal
         visible={showModal}
@@ -36,6 +36,9 @@ const Container = styled.div`
 `
 
 const EpicName = styled(Typography.Title)`
+  margin-bottom: 0 !important;
+  margin-left: 0.5rem !important;
+
   &:hover {
     cursor: pointer;
   }

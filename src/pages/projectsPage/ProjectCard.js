@@ -6,20 +6,19 @@ import { useState } from 'react'
 import { useProject } from '../../hooks'
 import { clone } from '../../utils'
 import { useAuth } from '../../contexts/authContext'
-import { ColorDropdown } from '../../components'
+import { ColorDropdown, CreateProjectModal } from '../../components'
 import { useEventContext } from '../../contexts/eventContext'
 
 export function ProjectCard({ id, indicator, title, description, storyCount, point, followerIds, onDelete }) {
   const { t } = useTranslation()
   const [followers, setFollowers] = useState(followerIds)
-  const [color, setColor] = useState(indicator)
   const { putProject } = useProject()
   const { user } = useAuth()
   const { publishProjectUpdatedEvent } = useEventContext()
+  const [showModal, setShowModal] = useState(false)
 
   const changeColor = (color) => {
     putProject(id, { color })
-    setColor(color)
     publishProjectUpdatedEvent()
   }
 
@@ -44,9 +43,9 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
   return (
     <Container>
       <Space align="start">
-        <Indicator color={color} />
+        <Indicator color={indicator} />
         <div style={{ display: '' }}>
-          <Typography.Title level={4} style={{ marginTop: '1rem' }}>{title}</Typography.Title>
+          <ProjectName level={4} onClick={() => setShowModal(true)}>{title}</ProjectName>
           {!storyCount && (
             <Tooltip title={t('general.delete')}>
               <Button
@@ -79,15 +78,20 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
                 <EyeOutlined />
                 {t(followers.includes(user.id) ? 'general.following' : 'general.follow')}
               </Button>
-              <ColorDropdown color={color} onColorChange={changeColor}>
+              <ColorDropdown color={indicator} onColorChange={changeColor}>
                 <Button size="small">
-                  <div style={{ backgroundColor: color, width: '0.5rem', height: '0.5rem' }} />
+                  <div style={{ backgroundColor: indicator, width: '0.5rem', height: '0.5rem' }} />
                 </Button>
               </ColorDropdown>
             </Footer>
           </div>
         </div>
       </Space>
+      <CreateProjectModal
+        visible={showModal}
+        close={() => setShowModal(false)}
+        id={id}
+      />
     </Container>
   )
 }
@@ -108,6 +112,14 @@ const Container = styled.div`
     -moz-transform: translate(-1px,-1px);
     -o-transform: translate(-1px,-1px);
     transform: translate(-1px,-1px);
+  }
+`
+
+const ProjectName = styled(Typography.Title)`
+  margin-top: 1rem;
+
+  &:hover {
+    cursor: pointer;
   }
 `
 

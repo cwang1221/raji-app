@@ -19,7 +19,7 @@ export function ProjectsPage() {
 
   const { getProjectList, deleteProject } = useProject()
   const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
-  const { projectCreatedEvent, projectDeletedEvent, storyCreatedEvent, storyDeletedEvent, publishProjectDeletedEvent } = useEventContext()
+  const { projectCreatedEvent, projectDeletedEvent, projectUpdatedEvent, storyCreatedEvent, storyDeletedEvent, publishProjectDeletedEvent } = useEventContext()
 
   useDocumentTitle(t('project.projects'))
 
@@ -29,7 +29,7 @@ export function ProjectsPage() {
 
   useEffect(() => {
     getProjects()
-  }, [projectCreatedEvent, projectDeletedEvent, storyCreatedEvent, storyDeletedEvent])
+  }, [projectCreatedEvent, projectDeletedEvent, projectUpdatedEvent, storyCreatedEvent, storyDeletedEvent])
 
   const getProjects = async () => {
     const data = await getProjectList()

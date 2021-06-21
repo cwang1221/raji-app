@@ -12,7 +12,7 @@ export function TodoItem({ id, name, countOfStories, countOfInProgressStories, c
     <Container>
       <Title>
         <EpicStateIcon state="todo" />
-        <EpicName level={4} style={{ marginBottom: '0', marginLeft: '0.5rem' }} onClick={() => setShowModal(true)}>{name}</EpicName>
+        <EpicName level={4} onClick={() => setShowModal(true)}>{name}</EpicName>
       </Title>
       <div style={{ marginTop: '0.5rem', marginBottom: '-0.2rem' }}>
         <Typography.Text strong>{t('milestone.percentageCompleted', { percentage: countOfStories ? Math.round((countOfDoneStories / countOfStories) * 100) : 0 })}</Typography.Text>
@@ -50,6 +50,9 @@ const Container = styled.div`
 `
 
 const EpicName = styled(Typography.Title)`
+  margin-bottom: 0 !important;
+  margin-left: 0.5rem !important;
+
   &:hover {
     cursor: pointer;
   }

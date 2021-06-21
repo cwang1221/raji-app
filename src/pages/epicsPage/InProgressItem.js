@@ -46,7 +46,7 @@ export function InProgressItem({ id, name, countOfStories, countOfInProgressStor
       <InfoContainer>
         <Title>
           <EpicStateIcon state="inProgress" />
-          <EpicName level={4} style={{ marginBottom: '0', marginLeft: '0.5rem' }} onClick={() => setShowEpicModal(true)}>{name}</EpicName>
+          <EpicName level={4} onClick={() => setShowEpicModal(true)}>{name}</EpicName>
         </Title>
         <div style={{ marginTop: '0.5rem', marginBottom: '-0.2rem' }}>
           <Typography.Text strong>{t('epic.percentage', {
@@ -122,6 +122,9 @@ const Container = styled.div`
 `
 
 const EpicName = styled(Typography.Title)`
+  margin-bottom: 0 !important;
+  margin-left: 0.5rem !important;
+
   &:hover {
     cursor: pointer;
   }

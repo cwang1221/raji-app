@@ -9,26 +9,36 @@ import { ColorDropdown } from '../colorDropdown'
 import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
 
-export function CreateProjectModal({ visible, disableType, type = 'web', close }) {
+export function CreateProjectModal({ id, visible, disableType, type = 'web', close }) {
   const { t } = useTranslation()
   const [color, setColor] = useState('#880000')
   const [projectNames, setProjectNames] = useState([])
   const formRef = useRef()
-  const { getProjects, postProject } = useProject()
-  const { publishProjectCreatedEvent } = useEventContext()
+  const { getProjects, postProject, putProject, getProject } = useProject()
+  const { publishProjectCreatedEvent, publishProjectUpdatedEvent } = useEventContext()
 
   useEffect(async () => {
-    const projects = await getProjects()
-    setProjectNames(projects.map((project) => project.name))
-  }, [])
-
-  useEffect(() => {
     if (visible) {
-      formRef.current.setFieldsValue({
-        name: '',
-        description: '',
-        type
-      })
+      const projects = await getProjects()
+      if (!id) {
+        formRef.current.setFieldsValue({
+          name: '',
+          description: '',
+          type
+        })
+
+        setProjectNames(projects.map((project) => project.name))
+      } else {
+        const data = await getProject(id)
+        formRef.current.setFieldsValue({
+          name: data.name,
+          description: data.description,
+          type: data.type
+        })
+        setColor(data.color)
+
+        setProjectNames(projects.map((project) => project.name).filter((name) => name !== data.name))
+      }
     }
   }, [visible])
 
@@ -36,15 +46,21 @@ export function CreateProjectModal({ visible, disableType, type = 'web', close }
     const createForm = formRef.current
     createForm.validateFields()
       .then(async (values) => {
-        await postProject({
-          ...values,
-          color,
-          followerIds: [],
-          countOfStories: 0,
-          totalPoint: 0
-        })
+        if (id) {
+          await putProject(id, {
+            ...values,
+            color
+          })
+          publishProjectUpdatedEvent()
+        } else {
+          await postProject({
+            ...values,
+            color,
+            followerIds: []
+          })
+          publishProjectCreatedEvent()
+        }
 
-        publishProjectCreatedEvent()
         close()
       })
       .catch(() => {
@@ -109,7 +125,7 @@ export function CreateProjectModal({ visible, disableType, type = 'web', close }
               <span style={{ backgroundColor: color, width: '0.5rem', height: '0.5rem', marginLeft: '0.5rem' }} />
             </Button>
           </ColorDropdown>
-          <CreateButton text={t('project.createProject')} onClick={createProject} />
+          <CreateButton text={t(id ? 'header.udpateProject' : 'project.createProject')} onClick={createProject} />
         </Space>
       </Space>
     </Modal>
