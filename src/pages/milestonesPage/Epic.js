@@ -2,10 +2,12 @@ import { Typography, Progress, Avatar, Tooltip, List } from 'antd'
 import styled from 'styled-components'
 import { FileTextOutlined, CoffeeOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
-import { EpicStateIcon } from '../../components'
+import { useState } from 'react'
+import { EpicStateIcon, CreateEpicModal } from '../../components'
 
-export function Epic({ name, state, countOfStories, countOfDoneStories, countOfInProgressStories, totalPoint, owners }) {
+export function Epic({ id, name, state, countOfStories, countOfDoneStories, countOfInProgressStories, totalPoint, owners }) {
   const { t } = useTranslation()
+  const [showModal, setShowModal] = useState(false)
 
   return (
     <EpicContainer>
@@ -13,7 +15,7 @@ export function Epic({ name, state, countOfStories, countOfDoneStories, countOfI
         <EpicStateIcon state={state} />
       </Tooltip>
       <EpicMainContent>
-        <Typography.Title level={5}>{name}</Typography.Title>
+        <EpicName level={5} onClick={() => setShowModal(true)}>{name}</EpicName>
         <Footer>
           <DataContainer>
             <Tooltip title={`${countOfStories} ${t('general.stories')}`}>
@@ -46,6 +48,11 @@ export function Epic({ name, state, countOfStories, countOfDoneStories, countOfI
           </OwnerContainer>
         </Footer>
       </EpicMainContent>
+      <CreateEpicModal
+        visible={showModal}
+        close={() => setShowModal(false)}
+        id={id}
+      />
     </EpicContainer>
   )
 }
@@ -57,6 +64,12 @@ const EpicContainer = styled(List.Item)`
   padding: 1rem;
   background-color: white;
   border: #f0f0f0 1px solid !important;
+`
+
+const EpicName = styled(Typography.Title)`
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 const EpicMainContent = styled.div`
