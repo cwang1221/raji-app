@@ -1,14 +1,21 @@
 import { Typography } from 'antd'
+import { useState } from 'react'
 import styled from 'styled-components'
-import { EpicStateIcon } from '../../components'
+import { EpicStateIcon, CreateEpicModal } from '../../components'
 
-export function DoneItem({ name }) {
+export function DoneItem({ id, name }) {
+  const [showModal, setShowModal] = useState(false)
   return (
     <Container>
       <Title>
         <EpicStateIcon state="done" />
-        <Typography.Title level={4} style={{ marginBottom: '0', marginLeft: '0.5rem' }}>{name}</Typography.Title>
+        <EpicName level={4} style={{ marginBottom: '0', marginLeft: '0.5rem' }} onClick={() => setShowModal(true)}>{name}</EpicName>
       </Title>
+      <CreateEpicModal
+        visible={showModal}
+        close={() => setShowModal(false)}
+        id={id}
+      />
     </Container>
   )
 }
@@ -25,6 +32,12 @@ const Container = styled.div`
 
   &:hover {
     transform: translate(-1px,-1px);
+  }
+`
+
+const EpicName = styled(Typography.Title)`
+  &:hover {
+    cursor: pointer;
   }
 `
 

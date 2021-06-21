@@ -1,5 +1,5 @@
 import { Form, Modal, Space, Input, Alert } from 'antd'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CreateButton } from '../createButton'
@@ -10,17 +10,37 @@ import { MilestoneSelector } from './MilestoneSelector'
 import { StateSelector } from './StateSelector'
 import { useEventContext } from '../../contexts/eventContext'
 
-export function CreateEpicModal({ visible, close }) {
+export function CreateEpicModal({ visible, close, id }) {
   const { t } = useTranslation()
 
   const [milestoneId, setMilestoneId] = useState('none')
   const [state, setState] = useState('todo')
+  const [originalMilestone, setOriginalMilestone] = useState(undefined)
 
   const formRef = useRef()
 
-  const { postEpic } = useEpic()
-  const { addEpic } = useMilestone()
-  const { publishEpicCreatedEvent } = useEventContext()
+  const { postEpic, getEpic, putEpic } = useEpic()
+  const { addEpic, changeEpic } = useMilestone()
+  const { publishEpicCreatedEvent, publishEpicUpdatedEvent } = useEventContext()
+
+  useEffect(async () => {
+    if (visible) {
+      if (id) {
+        const data = await getEpic(id)
+        formRef.current.setFieldsValue({
+          name: data.name,
+          description: data.description
+        })
+        setState(data.state)
+
+        const milestoneId = data.milestone.id === 1 ? 'none' : data.milestone.id.toString()
+        setMilestoneId(milestoneId)
+        setOriginalMilestone(milestoneId)
+      } else {
+        setOriginalMilestone(undefined)
+      }
+    }
+  }, [visible])
 
   const createEpic = () => {
     const createForm = formRef.current
@@ -31,10 +51,16 @@ export function CreateEpicModal({ visible, close }) {
           state
         }
 
-        const createdEpic = await postEpic(payload)
-        await addEpic(milestoneId === 'none' ? 1 : parseInt(milestoneId, 10), createdEpic.id)
+        if (!id) {
+          const createdEpic = await postEpic(payload)
+          await addEpic(milestoneId === 'none' ? 1 : parseInt(milestoneId, 10), createdEpic.id)
+          publishEpicCreatedEvent()
+        } else {
+          await putEpic(id, payload)
+          originalMilestone !== milestoneId && await changeEpic(milestoneId === 'none' ? 1 : parseInt(milestoneId, 10), id)
+          publishEpicUpdatedEvent()
+        }
 
-        publishEpicCreatedEvent()
         formRef.current.resetFields()
         setMilestoneId('none')
         setState('todo')
@@ -80,7 +106,7 @@ export function CreateEpicModal({ visible, close }) {
           <StateSelector state={state} onStateChange={setState} />
           <BottomSpace />
 
-          <CreateButton text={t('header.createEpic')} onClick={createEpic} />
+          <CreateButton text={t(id ? 'header.updateEpic' : 'header.createEpic')} onClick={createEpic} />
         </RightContainer>
       </Space>
     </Modal>

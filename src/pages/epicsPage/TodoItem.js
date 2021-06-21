@@ -1,16 +1,18 @@
 import { Typography, Progress, Tooltip } from 'antd'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { EpicStateIcon } from '../../components'
+import { CreateEpicModal, EpicStateIcon } from '../../components'
 
-export function TodoItem({ name, countOfStories, countOfInProgressStories, countOfDoneStories }) {
+export function TodoItem({ id, name, countOfStories, countOfInProgressStories, countOfDoneStories }) {
   const { t } = useTranslation()
+  const [showModal, setShowModal] = useState(false)
 
   return (
     <Container>
       <Title>
         <EpicStateIcon state="todo" />
-        <Typography.Title level={4} style={{ marginBottom: '0', marginLeft: '0.5rem' }}>{name}</Typography.Title>
+        <EpicName level={4} style={{ marginBottom: '0', marginLeft: '0.5rem' }} onClick={() => setShowModal(true)}>{name}</EpicName>
       </Title>
       <div style={{ marginTop: '0.5rem', marginBottom: '-0.2rem' }}>
         <Typography.Text strong>{t('milestone.percentageCompleted', { percentage: countOfStories ? Math.round((countOfDoneStories / countOfStories) * 100) : 0 })}</Typography.Text>
@@ -23,6 +25,11 @@ export function TodoItem({ name, countOfStories, countOfInProgressStories, count
           trailColor="#D9EAF0"
         />
       </Tooltip>
+      <CreateEpicModal
+        visible={showModal}
+        close={() => setShowModal(false)}
+        id={id}
+      />
     </Container>
   )
 }
@@ -39,6 +46,12 @@ const Container = styled.div`
 
   &:hover {
     transform: translate(-1px,-1px);
+  }
+`
+
+const EpicName = styled(Typography.Title)`
+  &:hover {
+    cursor: pointer;
   }
 `
 

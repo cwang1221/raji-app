@@ -25,6 +25,7 @@ export function MilestonesPage() {
     storyDeletedEvent,
     epicCreatedEvent,
     epicDeletedEvent,
+    epicUpdatedEvent,
     milestoneCreatedEvent,
     milestoneDeletedEvent,
     publishMilestoneUpdatedEvent
@@ -45,6 +46,7 @@ export function MilestonesPage() {
     storyDeletedEvent,
     epicCreatedEvent,
     epicDeletedEvent,
+    epicUpdatedEvent,
     milestoneCreatedEvent,
     milestoneDeletedEvent
   ])
@@ -167,6 +169,7 @@ export function MilestonesPage() {
                             {...provided.dragHandleProps}
                           >
                             <Epic
+                              id={epic.id}
                               name={epic.name}
                               state={epic.state}
                               countOfStories={epic.countOfStories}

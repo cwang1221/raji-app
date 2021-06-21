@@ -25,7 +25,7 @@ export function EpicsPage() {
   const [dropDisabledState, setDropDisabledState] = useState('')
   const { getEpicsUiList, putEpic } = useEpic()
   const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
-  const { storyCreatedEvent, storyDeletedEvent, storyUpdatedEvent, epicCreatedEvent, epicDeletedEvent, publishEpicUpdatedEvent } = useEventContext()
+  const { storyCreatedEvent, storyDeletedEvent, storyUpdatedEvent, epicCreatedEvent, epicDeletedEvent, epicUpdatedEvent, publishEpicUpdatedEvent } = useEventContext()
 
   useEffect(() => {
     setHeaderCreateButtonType('epic')
@@ -33,7 +33,7 @@ export function EpicsPage() {
 
   useEffect(() => {
     getEpicData()
-  }, [filteredProjects, filteredMilestones, filteredStates, storyCreatedEvent, storyDeletedEvent, storyUpdatedEvent, epicCreatedEvent, epicDeletedEvent])
+  }, [filteredProjects, filteredMilestones, filteredStates, storyCreatedEvent, storyDeletedEvent, storyUpdatedEvent, epicCreatedEvent, epicDeletedEvent, epicUpdatedEvent])
 
   const getEpicData = async () => {
     const tempEpics = {
@@ -107,6 +107,7 @@ export function EpicsPage() {
                           {...provided.dragHandleProps}
                         >
                           <TodoItem
+                            id={epic.id}
                             name={epic.name}
                             countOfStories={epic.countOfStories}
                             countOfInProgressStories={epic.countOfInProgressStories}
@@ -175,7 +176,10 @@ export function EpicsPage() {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                         >
-                          <DoneItem name={epic.name} />
+                          <DoneItem
+                            id={epic.id}
+                            name={epic.name}
+                          />
                         </div>
                       )}
                     </Draggable>

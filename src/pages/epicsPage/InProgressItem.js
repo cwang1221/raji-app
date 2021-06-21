@@ -3,12 +3,13 @@ import { Typography, Progress, Tooltip } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { CreateStoryModal, EpicStateIcon } from '../../components'
+import { CreateStoryModal, EpicStateIcon, CreateEpicModal } from '../../components'
 
 export function InProgressItem({ id, name, countOfStories, countOfInProgressStories, countOfDoneStories, totalPoint, stories }) {
   const { t } = useTranslation()
   const [showModal, setShowModal] = useState(false)
   const [editStoryId, setEditStoryId] = useState(undefined)
+  const [showEpicModal, setShowEpicModal] = useState(false)
 
   const editStory = (id) => {
     setEditStoryId(id)
@@ -45,7 +46,7 @@ export function InProgressItem({ id, name, countOfStories, countOfInProgressStor
       <InfoContainer>
         <Title>
           <EpicStateIcon state="inProgress" />
-          <Typography.Title level={4} style={{ marginBottom: '0', marginLeft: '0.5rem' }}>{name}</Typography.Title>
+          <EpicName level={4} style={{ marginBottom: '0', marginLeft: '0.5rem' }} onClick={() => setShowEpicModal(true)}>{name}</EpicName>
         </Title>
         <div style={{ marginTop: '0.5rem', marginBottom: '-0.2rem' }}>
           <Typography.Text strong>{t('epic.percentage', {
@@ -97,6 +98,11 @@ export function InProgressItem({ id, name, countOfStories, countOfInProgressStor
         close={() => setShowModal(false)}
         id={editStoryId}
       />
+      <CreateEpicModal
+        visible={showEpicModal}
+        close={() => setShowEpicModal(false)}
+        id={id}
+      />
     </Container>
   )
 }
@@ -112,6 +118,12 @@ const Container = styled.div`
 
   &:hover {
     transform: translate(-1px,-1px);
+  }
+`
+
+const EpicName = styled(Typography.Title)`
+  &:hover {
+    cursor: pointer;
   }
 `
 
