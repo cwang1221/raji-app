@@ -2,12 +2,15 @@ import { Space, Typography, Progress, Tooltip, Dropdown, Menu, Button } from 'an
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CheckOutlined, FlagOutlined, FileTextOutlined, CoffeeOutlined, CloseOutlined } from '@ant-design/icons'
+import { useState } from 'react'
 import { MilestoneStateIcon } from '../../components/milestoneStateIcon/MilestoneStateIcon'
 import { useMilestone } from '../../hooks/useRequest'
 import { useEventContext } from '../../contexts/eventContext'
+import { CreateMilestoneModal } from '../../components'
 
 export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countOfDoneStories, countOfInProgressStories, totalPoint, state, changeState }) {
   const { t } = useTranslation()
+  const [showModal, setShowModal] = useState(false)
 
   const { deleteMilestone } = useMilestone()
   const { publishMilestoneDeletedEvent } = useEventContext()
@@ -20,7 +23,7 @@ export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countO
   return (
     <div style={{ width: '100%' }}>
       <Space style={{ width: '100%' }}>
-        <Typography.Title level={4} style={{ color: '#316399' }}>{name}</Typography.Title>
+        <MilestoneName level={4} onClick={() => setShowModal(true)}>{name}</MilestoneName>
         {state === 'done' && <CheckOutlined style={{ fontSize: '20px', marginBottom: '0.5rem', color: '#009D4D' }} />}
         {!countOfEpics && (
         <Tooltip title={t('general.delete')}>
@@ -72,6 +75,11 @@ export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countO
           style={{ paddingTop: '-1rem' }}
         />
       </Tooltip>
+      <CreateMilestoneModal
+        visible={showModal}
+        close={() => setShowModal(false)}
+        id={id}
+      />
     </div>
   )
 }
@@ -88,6 +96,14 @@ const State = styled.span`
   &:hover{
     box-shadow: 1px 1px 1px lightgray;
     border: 1px solid gray;
+    cursor: pointer;
+  }
+`
+
+const MilestoneName = styled(Typography.Title)`
+  color: #316399 !important;
+
+  &:hover {
     cursor: pointer;
   }
 `

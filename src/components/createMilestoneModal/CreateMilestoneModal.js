@@ -1,5 +1,5 @@
 import { Form, Modal, Space, Input, Alert } from 'antd'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CreateButton } from '../createButton'
@@ -8,21 +8,35 @@ import { focusErrorInForm } from '../../utils'
 import { useMilestone } from '../../hooks/useRequest'
 import { useEventContext } from '../../contexts/eventContext'
 
-export function CreateMilestoneModal({ visible, close }) {
+export function CreateMilestoneModal({ id, visible, close }) {
   const { t } = useTranslation()
 
   const formRef = useRef()
 
-  const { postMilestone } = useMilestone()
-  const { publishMilestoneCreatedEvent } = useEventContext()
+  const { postMilestone, getMilestone, putMilestone } = useMilestone()
+  const { publishMilestoneCreatedEvent, publishMilestoneUpdatedEvent } = useEventContext()
+
+  useEffect(async () => {
+    if (visible && id) {
+      const data = await getMilestone(id)
+      formRef.current.setFieldsValue({
+        name: data.name,
+        description: data.description
+      })
+    }
+  }, [visible])
 
   const createMilestone = () => {
     const createForm = formRef.current
     createForm.validateFields()
       .then(async (values) => {
-        await postMilestone(values)
-
-        publishMilestoneCreatedEvent()
+        if (id) {
+          await putMilestone(id, values)
+          publishMilestoneUpdatedEvent()
+        } else {
+          await postMilestone(values)
+          publishMilestoneCreatedEvent()
+        }
         formRef.current.resetFields()
 
         close()
@@ -61,7 +75,7 @@ export function CreateMilestoneModal({ visible, close }) {
         </Form>
         <RightContainer>
           <CreateInfo message={t('milestone.createModalInfo')} />
-          <CreateButton text={t('header.createMilestone')} onClick={createMilestone} />
+          <CreateButton text={t(id ? 'header.updateMilestone' : 'header.createMilestone')} onClick={createMilestone} />
         </RightContainer>
       </Space>
     </Modal>

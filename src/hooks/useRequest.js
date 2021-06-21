@@ -57,6 +57,13 @@ const getMilestones = async () => {
   })
   return data
 }
+const getMilestone = async (id) => {
+  const { data } = await axios.request({
+    url: `/milestones/${id}`,
+    method: 'get'
+  })
+  return data
+}
 
 const getMilestonesList = async (states, projectIds) => {
   let url = '/milestones/ui/list'
@@ -122,7 +129,7 @@ const deleteMilestone = async (id) => {
   return data
 }
 
-export const useMilestone = () => ({ getMilestonesList, putMilestone, getMilestones, addEpic, postMilestone, deleteMilestone, changeEpic })
+export const useMilestone = () => ({ getMilestonesList, getMilestone, putMilestone, getMilestones, addEpic, postMilestone, deleteMilestone, changeEpic })
 
 //----------------------------------------------------------
 // Setting

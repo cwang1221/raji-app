@@ -28,6 +28,7 @@ export function MilestonesPage() {
     epicUpdatedEvent,
     milestoneCreatedEvent,
     milestoneDeletedEvent,
+    milestoneUpdatedEvent,
     publishMilestoneUpdatedEvent
   } = useEventContext()
 
@@ -48,7 +49,8 @@ export function MilestonesPage() {
     epicDeletedEvent,
     epicUpdatedEvent,
     milestoneCreatedEvent,
-    milestoneDeletedEvent
+    milestoneDeletedEvent,
+    milestoneUpdatedEvent
   ])
 
   const getMilestones = async () => {
