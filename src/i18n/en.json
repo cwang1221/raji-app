@@ -57,9 +57,13 @@
   },
   "header": {
     "createStory": "Create Story",
+    "updateStory": "Update Story",
     "createEpic": "Create Epic",
+    "updateEpic": "Update Epic",
     "createMilestone": "Create Milestone",
+    "updateMilestone": "Update Milestone",
     "createProject": "Create Project",
+    "udpateProject": "Update Project",
     "setting": "Setting",
     "signOut": "Sign Out",
     "username": "Username",

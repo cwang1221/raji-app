@@ -3,10 +3,18 @@ import { Typography, Progress, Tooltip } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { EpicStateIcon } from '../../components'
+import { CreateStoryModal, EpicStateIcon } from '../../components'
 
 export function InProgressItem({ id, name, countOfStories, countOfInProgressStories, countOfDoneStories, totalPoint, stories }) {
   const { t } = useTranslation()
+  const [showModal, setShowModal] = useState(false)
+  const [editStoryId, setEditStoryId] = useState(undefined)
+
+  const editStory = (id) => {
+    setEditStoryId(id)
+    setShowModal(true)
+  }
+
   const [storyMap, setStoryMap] = useState({
     unscheduled: [],
     readyForDevelopment: [],
@@ -76,7 +84,7 @@ export function InProgressItem({ id, name, countOfStories, countOfInProgressStor
               <StoryCardContainer>
                 {storyMap[key].map((story) => (
                   <Tooltip key={`${story.id}`} title={`#${story.id} ${story.title} (${t(`story.${story.type}`)})`}>
-                    <StoryCard projectColor={story.project.color} />
+                    <StoryCard projectColor={story.project.color} onClick={() => editStory(story.id)} />
                   </Tooltip>
                 ))}
               </StoryCardContainer>
@@ -84,6 +92,11 @@ export function InProgressItem({ id, name, countOfStories, countOfInProgressStor
           ) : null
         ))}
       </StoryContainer>
+      <CreateStoryModal
+        visible={showModal}
+        close={() => setShowModal(false)}
+        id={editStoryId}
+      />
     </Container>
   )
 }

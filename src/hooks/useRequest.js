@@ -207,6 +207,14 @@ const getStories = async () => {
   return data
 }
 
+const getStory = async (id) => {
+  const { data } = await axios.request({
+    url: `/stories/${id}`,
+    method: 'get'
+  })
+  return data
+}
+
 const getStoryUiList = async (projects, epics, states) => {
   if (projects.length === 0 || epics.length === 0 || states.length === 0) {
     return []
@@ -264,4 +272,4 @@ const getMyStories = async (userId, viewOption) => {
   return data
 }
 
-export const useStory = () => ({ getStories, getStoryUiList, postStory, putStory, getMyStories })
+export const useStory = () => ({ getStories, getStoryUiList, postStory, putStory, getMyStories, getStory })

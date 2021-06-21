@@ -1,17 +1,23 @@
 import { CoffeeOutlined } from '@ant-design/icons'
 import { Avatar, Tooltip, Typography } from 'antd'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { StoryTypeIcon } from '../../components'
+import { CreateStoryModal, StoryTypeIcon } from '../../components'
 
 export function StoryCard({ id, name, epicName, projectColor, projectName, type, estimate, ownerAvatar, owner }) {
   const { t } = useTranslation()
+  const [showModal, setShowModal] = useState(false)
+
+  const editStory = () => {
+    setShowModal(true)
+  }
 
   return (
     <Container projectColor={projectColor}>
       <div style={{ padding: '0.5rem' }}>
         <EpicName>{epicName?.toLocaleUpperCase()}</EpicName>
-        <Typography.Text strong>{name}</Typography.Text>
+        <StoryName strong onClick={editStory}>{name}</StoryName>
       </div>
       <Footer>
         <LeftFooter>
@@ -33,6 +39,11 @@ export function StoryCard({ id, name, epicName, projectColor, projectName, type,
           {ownerAvatar && <Avatar size="small" src={ownerAvatar} />}
         </Tooltip>
       </Footer>
+      <CreateStoryModal
+        visible={showModal}
+        close={() => setShowModal(false)}
+        id={id}
+      />
     </Container>
   )
 }
@@ -57,6 +68,12 @@ const Container = styled.div`
 const EpicName = styled.div`
   font-size: 10px;
   color: gray
+`
+
+const StoryName = styled(Typography.Text)`
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 const Footer = styled.div`

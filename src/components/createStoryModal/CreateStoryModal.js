@@ -1,5 +1,5 @@
 import { Form, Modal, Space, Input } from 'antd'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CreateButton } from '../createButton'
@@ -16,7 +16,7 @@ import { focusErrorInForm } from '../../utils'
 import { useStory } from '../../hooks/useRequest'
 import { useEventContext } from '../../contexts/eventContext'
 
-export function CreateStoryModal({ visible, close }) {
+export function CreateStoryModal({ visible, close, id }) {
   const { t } = useTranslation()
   const { user } = useAuth()
 
@@ -30,8 +30,25 @@ export function CreateStoryModal({ visible, close }) {
 
   const formRef = useRef()
 
-  const { postStory } = useStory()
-  const { publishStoryCreatedEvent } = useEventContext()
+  const { postStory, getStory, putStory } = useStory()
+  const { publishStoryCreatedEvent, publishStoryUpdatedEvent } = useEventContext()
+
+  useEffect(async () => {
+    if (visible && id) {
+      const data = await getStory(id)
+      formRef.current.setFieldsValue({
+        title: data.title,
+        description: data.description
+      })
+      setProjectId(data.projectId.toString())
+      setState(data.state)
+      setEpicId(data.epicId.toString())
+      setType(data.type)
+      setRequesterId(data.requesterId.toString())
+      setOwnerId(data.ownerId?.toString() || 'none')
+      setEstimate(data.estimate?.toString() || 'none')
+    }
+  }, [visible])
 
   const createStory = () => {
     const createForm = formRef.current
@@ -49,9 +66,14 @@ export function CreateStoryModal({ visible, close }) {
         ownerId !== 'none' && (payload.ownerId = parseInt(ownerId, 10))
         estimate !== 'none' && (payload.estimate = parseInt(estimate, 10))
 
-        await postStory(payload)
+        if (id) {
+          await putStory(id, payload)
+          publishStoryUpdatedEvent()
+        } else {
+          await postStory(payload)
+          publishStoryCreatedEvent()
+        }
 
-        publishStoryCreatedEvent()
         formRef.current.resetFields()
         setProjectId(undefined)
         setState('unscheduled')
@@ -111,7 +133,7 @@ export function CreateStoryModal({ visible, close }) {
           <EstimateSelector estimate={estimate} onEstimateChange={setEstimate} />
           <BottomSpace />
 
-          <CreateButton text={t('header.createStory')} onClick={createStory} />
+          <CreateButton text={t(id ? 'header.updateStory' : 'header.createStory')} onClick={createStory} />
         </RightContainer>
       </Space>
     </Modal>
