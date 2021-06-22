@@ -62,7 +62,7 @@ export function HeaderCreateButton() {
   }
 
   return (
-    <>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
       <LeftButton ref={leftButtonRef} type="primary" size="large" onClick={() => createObject(type)} className="headerCreateButtonLeft">
         {objectsRef.current[type].text}
       </LeftButton>
@@ -85,7 +85,7 @@ export function HeaderCreateButton() {
       <CreateStoryModal visible={showStoryModal} close={() => setShowStoryModal(false)} />
       <CreateEpicModal visible={showEpicModal} close={() => setShowEpicModal(false)} />
       <CreateMilestoneModal visible={showMilestoneModal} close={() => setShowMilestoneModal(false)} />
-    </>
+    </div>
   )
 }
 

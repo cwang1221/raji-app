@@ -74,7 +74,10 @@
     "selectEpic": "Select Epic",
     "selectStoryType": "Select Story Type",
     "selectStoryRequester": "Select Story Requester",
-    "selectStoryOwner": "Select Story Owner"
+    "selectStoryOwner": "Select Story Owner",
+    "startMeeting": "Start Meeting",
+    "nextTopic": "Next Topic",
+    "stopMeeting": "Stop Meeting"
   },
   "project": {
     "projects": "Projects",
