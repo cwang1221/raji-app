@@ -3,6 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY public public/
+COPY craco.config.js ./
 COPY src src/
 ENV REACT_APP_SERVICE_URL http://39.103.224.134:8080
 RUN npm run build
