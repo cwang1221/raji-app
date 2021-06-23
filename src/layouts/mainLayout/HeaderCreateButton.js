@@ -8,7 +8,7 @@ import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonC
 
 export function HeaderCreateButton() {
   const { t } = useTranslation()
-  const [type, setType] = useState('story')
+  const [buttonText, setButtonText] = useState('')
   const [dropdownWidth, setDropdownWidth] = useState('0')
   const [showStoryModal, setShowStoryModal] = useState(false)
   const [showProjectModal, setShowProjectModal] = useState(false)
@@ -17,24 +17,10 @@ export function HeaderCreateButton() {
   const leftButtonRef = useRef()
   const { headerCreateButtonType } = useHeaderCreateButtonContext()
 
-  const objectsRef = useRef({
-    story: {
-      text: t('header.createStory')
-    },
-    epic: {
-      text: t('header.createEpic')
-    },
-    milestone: {
-      text: t('header.createMilestone')
-    },
-    project: {
-      text: t('header.createProject')
-    }
-  })
-
   useEffect(() => {
-    setType(headerCreateButtonType)
-  }, [headerCreateButtonType])
+    const i18nKey = `header.create${headerCreateButtonType.substring(0, 1).toUpperCase()}${headerCreateButtonType.substring(1)}`
+    setButtonText(t(i18nKey))
+  }, [headerCreateButtonType, t])
 
   const createObject = (objectType) => {
     switch (objectType) {
@@ -63,8 +49,8 @@ export function HeaderCreateButton() {
 
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <LeftButton ref={leftButtonRef} type="primary" size="large" onClick={() => createObject(type)} className="headerCreateButtonLeft">
-        {objectsRef.current[type].text}
+      <LeftButton ref={leftButtonRef} type="primary" size="large" onClick={() => createObject(headerCreateButtonType)} className="headerCreateButtonLeft">
+        {buttonText}
       </LeftButton>
       <Dropdown
         placement="bottomRight"

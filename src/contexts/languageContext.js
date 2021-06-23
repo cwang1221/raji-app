@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useEffect } from 'react'
 import { useLocalStorage } from '../hooks'
 import i18n from '../libs/i18n'
 
@@ -8,6 +8,10 @@ const LanguageContext = createContext()
 
 export function LanguageProvider({ children }) {
   const [language, setLanguage] = useLocalStorage(LOCAL_STORAGE_LANGUAGE_KEY, 'en')
+
+  useEffect(() => {
+    changeLanguage(language)
+  }, [])
 
   const changeLanguage = (newLanguage) => {
     i18n.changeLanguage(newLanguage)
