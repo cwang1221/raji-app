@@ -71,10 +71,12 @@ export function InProgressItem({ id, name, countOfStories, countOfInProgressStor
             <FileTextOutlined style={{ marginLeft: '1.2rem', marginRight: '0.3rem' }} />
             {countOfStories}
           </Tooltip>
-          <Tooltip title={`${totalPoint} ${t('general.points')}`}>
-            <CoffeeOutlined style={{ marginLeft: '1.2rem', marginRight: '0.3rem' }} />
-            {totalPoint}
-          </Tooltip>
+          {typeof totalPoint !== 'undefined' && totalPoint !== null && (
+            <Tooltip title={`${totalPoint} ${t('general.points')}`}>
+              <CoffeeOutlined style={{ marginLeft: '1.2rem', marginRight: '0.3rem' }} />
+              {totalPoint}
+            </Tooltip>
+          )}
         </InfoBar>
       </InfoContainer>
       <StoryContainer>

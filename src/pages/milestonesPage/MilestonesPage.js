@@ -84,9 +84,13 @@ export function MilestonesPage() {
     destinationMilestone.epics.splice(result.destination.index, 0, draggableEpic)
 
     setMilestones(milestonesClone)
-    putMilestone(destinationMilestone.id, { epicIds: destinationMilestone.epicIds })
-    sourceMilestone.id !== destinationMilestone.id && putMilestone(sourceMilestone.id, { epicIds: sourceMilestone.epicIds })
-    publishMilestoneUpdatedEvent()
+    const promise1 = putMilestone(destinationMilestone.id, { epicIds: destinationMilestone.epicIds })
+    if (sourceMilestone.id !== destinationMilestone.id) {
+      const promise2 = putMilestone(sourceMilestone.id, { epicIds: sourceMilestone.epicIds })
+      Promise.all([promise1, promise2]).then(() => publishMilestoneUpdatedEvent())
+    } else {
+      promise1.then(() => publishMilestoneUpdatedEvent())
+    }
   }
 
   const changeState = async (id, state) => {
