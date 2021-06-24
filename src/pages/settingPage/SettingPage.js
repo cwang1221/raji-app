@@ -14,11 +14,13 @@ export function SettingPage() {
   const profileFormRef = useRef()
   const toolsFormRef = useRef()
   const { setting, setSetting } = useSettingContext()
-  const { putSetting } = useSetting()
+  const { putSetting, getSetting } = useSetting()
   const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
 
-  useEffect(() => {
+  useEffect(async () => {
     setHeaderCreateButtonType('story')
+    const data = await getSetting()
+    setSetting(data)
   }, [])
 
   useEffect(() => {
