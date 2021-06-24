@@ -59,7 +59,6 @@ export function EpicsPage() {
     }
 
     await putEpic(result.draggableId, { state: result.destination.droppableId })
-    getEpicData()
     publishEpicUpdatedEvent()
   }
 
@@ -91,7 +90,7 @@ export function EpicsPage() {
         <Container align="start">
           <ToDoArea>
             <AreaTitle title={t('epic.todo')} count={epics.todo.length} />
-            <Droppable droppableId="todo">
+            <Droppable droppableId="todo" isDropDisabled={dropDisabledState === 'todo'}>
               {(provided) => (
                 <DropContainer
                   ref={provided.innerRef}
@@ -125,7 +124,7 @@ export function EpicsPage() {
 
           <InProgressArea>
             <AreaTitle title={t('epic.inProgress')} count={epics.inProgress.length} />
-            <Droppable droppableId="inProgress">
+            <Droppable droppableId="inProgress" isDropDisabled={dropDisabledState === 'inProgress'}>
               {(provided) => (
                 <DropContainer
                   ref={provided.innerRef}
@@ -161,7 +160,7 @@ export function EpicsPage() {
 
           <DoneArea>
             <AreaTitle title={t('epic.done')} count={epics.done.length} />
-            <Droppable droppableId="done">
+            <Droppable droppableId="done" isDropDisabled={dropDisabledState === 'done'}>
               {(provided) => (
                 <DropContainer
                   ref={provided.innerRef}

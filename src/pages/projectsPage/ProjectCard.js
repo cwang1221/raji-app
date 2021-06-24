@@ -17,12 +17,12 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
   const { publishProjectUpdatedEvent } = useEventContext()
   const [showModal, setShowModal] = useState(false)
 
-  const changeColor = (color) => {
-    putProject(id, { color })
+  const changeColor = async (color) => {
+    await putProject(id, { color })
     publishProjectUpdatedEvent()
   }
 
-  const onClickFollow = () => {
+  const onClickFollow = async () => {
     const index = followers.indexOf(user.id)
     const followersClone = clone(followers)
     if (index >= 0) {
@@ -31,8 +31,8 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
       followersClone.push(user.id)
     }
 
-    putProject(id, { followerIds: followersClone })
     setFollowers(followersClone)
+    await putProject(id, { followerIds: followersClone })
     publishProjectUpdatedEvent()
   }
 
