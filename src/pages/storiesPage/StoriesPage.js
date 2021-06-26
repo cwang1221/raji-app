@@ -6,9 +6,9 @@ import { useStory } from '../../hooks'
 import { clone } from '../../utils'
 import { Filter } from './Filter'
 import { StoryContainer } from './StoryContainer'
-import { StoryCard } from './StoryCard'
 import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
 import { useEventContext } from '../../contexts/eventContext'
+import { StoryCard } from '../../components'
 
 export function StoriesPage() {
   const { t } = useTranslation()

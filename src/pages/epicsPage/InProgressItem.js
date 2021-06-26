@@ -1,82 +1,58 @@
-import { CoffeeOutlined, FileTextOutlined } from '@ant-design/icons'
-import { Typography, Progress, Tooltip } from 'antd'
+import { Typography, Tooltip } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { CreateStoryModal, EpicStateIcon, CreateEpicModal } from '../../components'
+import { CreateStoryModal, CreateEpicModal, ProgressBar, IdProperty, StoryProperty, PointProperty } from '../../components'
+import { clone } from '../../utils'
+import { EpicTitle } from './EpicTitle'
+
+const initStoryMap = {
+  unscheduled: [],
+  readyForDevelopment: [],
+  inDevelopment: [],
+  readyForReview: [],
+  readyForDeploy: [],
+  completed: []
+}
 
 export function InProgressItem({ id, name, countOfStories, countOfInProgressStories, countOfDoneStories, totalPoint, stories }) {
   const { t } = useTranslation()
   const [showModal, setShowModal] = useState(false)
   const [editStoryId, setEditStoryId] = useState(undefined)
   const [showEpicModal, setShowEpicModal] = useState(false)
+  const [storyMap, setStoryMap] = useState(initStoryMap)
+
+  useEffect(() => {
+    const tempStoryMap = clone(initStoryMap)
+
+    stories.forEach((story) => tempStoryMap[story.state].push(story))
+    setStoryMap(tempStoryMap)
+  }, [stories])
 
   const editStory = (id) => {
     setEditStoryId(id)
     setShowModal(true)
   }
 
-  const [storyMap, setStoryMap] = useState({
-    unscheduled: [],
-    readyForDevelopment: [],
-    inDevelopment: [],
-    readyForReview: [],
-    readyForDeploy: [],
-    completed: []
-  })
-
-  useEffect(() => {
-    const tempStoryMap = {
-      unscheduled: [],
-      readyForDevelopment: [],
-      inDevelopment: [],
-      readyForReview: [],
-      readyForDeploy: [],
-      completed: []
-    }
-
-    stories.forEach((story) => tempStoryMap[story.state].push(story))
-    setStoryMap(tempStoryMap)
-  }, [stories])
-
   const StoryStateTitle = ({ state, count }) => <Typography.Text>{`${t(`story.${state}`)} (${count})`}</Typography.Text>
 
   return (
     <Container>
       <InfoContainer>
-        <Title>
-          <EpicStateIcon state="inProgress" />
-          <EpicName level={4} onClick={() => setShowEpicModal(true)}>{name}</EpicName>
-        </Title>
-        <div style={{ marginTop: '0.5rem', marginBottom: '-0.2rem' }}>
-          <Typography.Text strong>{t('epic.percentage', {
-            completed: countOfStories ? Math.round((countOfDoneStories / countOfStories) * 100) : 0,
-            inProgress: countOfStories ? Math.round((countOfInProgressStories / countOfStories) * 100) : 0
-          })}
-          </Typography.Text>
-        </div>
-        <Tooltip title={`${t('milestone.total')}: ${countOfStories}, ${t('milestone.inProgress')}: ${countOfInProgressStories}, ${t('milestone.done')}: ${countOfDoneStories}`}>
-          <ProgressBar
-            percent={((countOfInProgressStories + countOfDoneStories) / countOfStories) * 100}
-            success={{ percent: (countOfDoneStories / countOfStories) * 100 }}
-            showInfo={false}
-            trailColor="#D9EAF0"
-          />
-        </Tooltip>
+        <EpicTitle
+          state="inProgress"
+          epicName={name}
+          onClickName={() => setShowEpicModal(true)}
+        />
+        <ProgressBar
+          countOfStories={countOfStories}
+          countOfInProgressStories={countOfInProgressStories}
+          countOfDoneStories={countOfDoneStories}
+        />
         <InfoBar>
-          <Tooltip title={t('general.id')}>
-            {`#${id}`}
-          </Tooltip>
-          <Tooltip title={`${countOfStories} ${t('general.stories')}`}>
-            <FileTextOutlined style={{ marginLeft: '1.2rem', marginRight: '0.3rem' }} />
-            {countOfStories}
-          </Tooltip>
-          {typeof totalPoint !== 'undefined' && totalPoint !== null && (
-            <Tooltip title={`${totalPoint} ${t('general.points')}`}>
-              <CoffeeOutlined style={{ marginLeft: '1.2rem', marginRight: '0.3rem' }} />
-              {totalPoint}
-            </Tooltip>
-          )}
+          <IdProperty id={id} />
+          <StoryProperty countOfStories={countOfStories} />
+          <PointProperty point={totalPoint} />
         </InfoBar>
       </InfoContainer>
       <StoryContainer>
@@ -121,24 +97,6 @@ const Container = styled.div`
   &:hover {
     transform: translate(-1px,-1px);
   }
-`
-
-const EpicName = styled(Typography.Title)`
-  margin-bottom: 0 !important;
-  margin-left: 0.5rem !important;
-
-  &:hover {
-    cursor: pointer;
-  }
-`
-
-const Title = styled.div`
-  display: flex;
-  align-items: center;
-`
-
-const ProgressBar = styled(Progress)`
-  margin-top: -0.2rem;
 `
 
 const InfoBar = styled.div`

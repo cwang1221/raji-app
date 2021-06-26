@@ -1,4 +1,4 @@
-import { Space, Typography, Progress, Tooltip, Dropdown, Menu, Button } from 'antd'
+import { Space, Typography, Tooltip, Dropdown, Menu, Button } from 'antd'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CheckOutlined, FlagOutlined, FileTextOutlined, CoffeeOutlined, CloseOutlined } from '@ant-design/icons'
@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { MilestoneStateIcon } from '../../components/milestoneStateIcon/MilestoneStateIcon'
 import { useMilestone } from '../../hooks/useRequest'
 import { useEventContext } from '../../contexts/eventContext'
-import { CreateMilestoneModal } from '../../components'
+import { CreateMilestoneModal, ProgressBar } from '../../components'
 
 export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countOfDoneStories, countOfInProgressStories, totalPoint, state, changeState }) {
   const { t } = useTranslation()
@@ -63,18 +63,11 @@ export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countO
           <DataContainer><CoffeeOutlined /><Number>{totalPoint}</Number></DataContainer>
         </Tooltip>
       </Space>
-      <div style={{ marginTop: '0.5rem', marginBottom: '-0.5rem' }}>
-        <Typography.Text strong>{t('milestone.percentageCompleted', { percentage: countOfStories ? Math.round((countOfDoneStories / countOfStories) * 100) : 0 })}</Typography.Text>
-      </div>
-      <Tooltip title={`${t('milestone.total')}: ${countOfStories}, ${t('milestone.inProgress')}: ${countOfInProgressStories}, ${t('milestone.done')}: ${countOfDoneStories}`}>
-        <Progress
-          percent={((countOfInProgressStories + countOfDoneStories) / countOfStories) * 100}
-          success={{ percent: (countOfDoneStories / countOfStories) * 100 }}
-          showInfo={false}
-          trailColor="#D9EAF0"
-          style={{ paddingTop: '-1rem' }}
-        />
-      </Tooltip>
+      <ProgressBar
+        countOfStories={countOfStories}
+        countOfInProgressStories={countOfInProgressStories}
+        countOfDoneStories={countOfDoneStories}
+      />
       <CreateMilestoneModal
         visible={showModal}
         close={() => setShowModal(false)}

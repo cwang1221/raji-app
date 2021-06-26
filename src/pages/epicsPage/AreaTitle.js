@@ -1,5 +1,10 @@
 import { Typography } from 'antd'
+import styled from 'styled-components'
 
 export function AreaTitle({ title, count }) {
-  return <Typography.Title level={5} style={{ color: 'gray' }}>{`${title} (${count})`}</Typography.Title>
+  return <Title level={5}>{`${title} (${count})`}</Title>
 }
+
+const Title = styled(Typography.Title)`
+  color: gray !important;
+`

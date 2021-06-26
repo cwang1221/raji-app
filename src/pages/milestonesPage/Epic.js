@@ -1,9 +1,8 @@
 import { Typography, Progress, Avatar, Tooltip, List } from 'antd'
 import styled from 'styled-components'
-import { FileTextOutlined, CoffeeOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
-import { EpicStateIcon, CreateEpicModal } from '../../components'
+import { EpicStateIcon, CreateEpicModal, StoryProperty, PointProperty } from '../../components'
 
 export function Epic({ id, name, state, countOfStories, countOfDoneStories, countOfInProgressStories, totalPoint, owners }) {
   const { t } = useTranslation()
@@ -18,16 +17,12 @@ export function Epic({ id, name, state, countOfStories, countOfDoneStories, coun
         <EpicName level={5} onClick={() => setShowModal(true)}>{name}</EpicName>
         <Footer>
           <DataContainer>
-            <Tooltip title={`${countOfStories} ${t('general.stories')}`}>
-              <DataBackground>
-                <FileTextOutlined /> <Number>{countOfStories}</Number>
-              </DataBackground>
-            </Tooltip>
-            <Tooltip title={`${totalPoint} ${t('general.points')}`}>
-              <DataBackground>
-                <CoffeeOutlined /> <Number>{totalPoint}</Number>
-              </DataBackground>
-            </Tooltip>
+            <DataBackground>
+              <StoryProperty countOfStories={countOfStories} hasRightMargin={false} />
+            </DataBackground>
+            <DataBackground>
+              <PointProperty point={totalPoint} hasRightMargin={false} />
+            </DataBackground>
             <Tooltip title={`${t('milestone.total')}: ${countOfStories}, ${t('milestone.inProgress')}: ${countOfInProgressStories}, ${t('milestone.done')}: ${countOfDoneStories}`}>
               <DataBackground>
                 <ProgressBar
@@ -94,10 +89,6 @@ const DataContainer = styled.div`
   justify-content: space-between;
   color: gray;
   font-size: 12px;
-`
-
-const Number = styled.span`
-  margin-left: 0.1rem;
 `
 
 const ProgressBar = styled(Progress)`

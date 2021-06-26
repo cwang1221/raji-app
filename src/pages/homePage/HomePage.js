@@ -7,7 +7,7 @@ import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonC
 import { useAuth } from '../../contexts/authContext'
 import { WorkArea } from './WorkArea'
 import { useStory } from '../../hooks'
-import { StoryCard } from '../storiesPage/StoryCard'
+import { StoryCard } from '../../components'
 import { useEventContext } from '../../contexts/eventContext'
 
 export function HomePage() {

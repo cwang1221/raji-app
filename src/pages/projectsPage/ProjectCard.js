@@ -1,12 +1,12 @@
 import { Button, Space, Tooltip, Typography } from 'antd'
-import { FileTextOutlined, CoffeeOutlined, CloseOutlined, EyeOutlined, ZoomInOutlined } from '@ant-design/icons'
+import { CloseOutlined, EyeOutlined, ZoomInOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useState } from 'react'
 import { useProject } from '../../hooks'
 import { clone } from '../../utils'
 import { useAuth } from '../../contexts/authContext'
-import { ColorDropdown, CreateProjectModal } from '../../components'
+import { ColorDropdown, CreateProjectModal, StoryProperty, PointProperty } from '../../components'
 import { useEventContext } from '../../contexts/eventContext'
 
 export function ProjectCard({ id, indicator, title, description, storyCount, point, followerIds, onDelete }) {
@@ -61,12 +61,8 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
           <Typography.Text>{description}</Typography.Text>
           <div>
             <Footer size="middle">
-              <Tooltip title={`${storyCount} ${t('general.stories')}`}>
-                <FileTextOutlined /> <span>{storyCount}</span>
-              </Tooltip>
-              <Tooltip title={`${point} ${t('general.points')}`}>
-                <CoffeeOutlined /> <span>{point}</span>
-              </Tooltip>
+              <StoryProperty countOfStories={storyCount} hasRightMargin={false} />
+              <PointProperty point={point} hasRightMargin={false} />
               <Tooltip title={t('project.zoomInTooltip')}>
                 <ZoomInIcon />
               </Tooltip>

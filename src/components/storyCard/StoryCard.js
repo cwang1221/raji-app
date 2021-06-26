@@ -1,9 +1,8 @@
-import { CoffeeOutlined } from '@ant-design/icons'
 import { Avatar, Tooltip, Typography } from 'antd'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { CreateStoryModal, StoryTypeIcon } from '../../components'
+import { CreateStoryModal, StoryTypeIcon, PointProperty } from '..'
 
 export function StoryCard({ id, name, epicName, projectColor, projectName, type, estimate, ownerAvatar, owner }) {
   const { t } = useTranslation()
@@ -30,10 +29,7 @@ export function StoryCard({ id, name, epicName, projectColor, projectName, type,
           <Tooltip title={projectName}>
             <ProjectName>{projectName[0].toLocaleUpperCase()}</ProjectName>
           </Tooltip>
-          <Tooltip title={t('general.points')}>
-            {estimate !== undefined && <CoffeeOutlined />}
-            <span style={{ marginLeft: '0.2rem' }}>{estimate}</span>
-          </Tooltip>
+          { Number.isInteger(estimate) && <PointProperty point={estimate} /> }
         </LeftFooter>
         <Tooltip title={`${t('general.owner')}: ${owner}`}>
           {ownerAvatar && <Avatar size="small" src={ownerAvatar} />}
