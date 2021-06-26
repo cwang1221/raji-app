@@ -1,4 +1,4 @@
-import { NumberOutlined, FileTextOutlined, CoffeeOutlined } from '@ant-design/icons'
+import { NumberOutlined, FileTextOutlined, CoffeeOutlined, FlagOutlined } from '@ant-design/icons'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 
@@ -45,6 +45,19 @@ export function PointProperty({ point, hasRightMargin = true }) {
       tooltip={`${point} ${t('general.points')}`}
       icon={<CoffeeOutlined />}
       number={point}
+      hasRightMargin={hasRightMargin}
+    />
+  )
+}
+
+export function EpicProperty({ countOfEpics, hasRightMargin = true }) {
+  const { t } = useTranslation()
+
+  return (
+    <Property
+      tooltip={`${countOfEpics} ${t('general.epics')}`}
+      icon={<FlagOutlined />}
+      number={countOfEpics}
       hasRightMargin={hasRightMargin}
     />
   )

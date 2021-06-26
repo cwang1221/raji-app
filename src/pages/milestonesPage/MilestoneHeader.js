@@ -1,12 +1,12 @@
 import { Space, Typography, Tooltip, Dropdown, Menu, Button } from 'antd'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { CheckOutlined, FlagOutlined, FileTextOutlined, CoffeeOutlined, CloseOutlined } from '@ant-design/icons'
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 import { MilestoneStateIcon } from '../../components/milestoneStateIcon/MilestoneStateIcon'
 import { useMilestone } from '../../hooks/useRequest'
 import { useEventContext } from '../../contexts/eventContext'
-import { CreateMilestoneModal, ProgressBar } from '../../components'
+import { CreateMilestoneModal, ProgressBar, StoryProperty, PointProperty, EpicProperty } from '../../components'
 
 export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countOfDoneStories, countOfInProgressStories, totalPoint, state, changeState }) {
   const { t } = useTranslation()
@@ -38,7 +38,7 @@ export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countO
         </Tooltip>
         )}
       </Space>
-      <Space>
+      <Space style={{ color: 'gray' }}>
         <Dropdown
           trigger={['click']}
           overlay={(
@@ -53,15 +53,9 @@ export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countO
             <MilestoneStateIcon state={state} style={{ marginRight: '0.3rem' }} /> {t(`milestone.${state}`)}
           </State>
         </Dropdown>
-        <Tooltip title={`${countOfEpics} ${t('general.epics')}`}>
-          <DataContainer><FlagOutlined /><Number>{countOfEpics}</Number></DataContainer>
-        </Tooltip>
-        <Tooltip title={`${countOfStories} ${t('general.stories')}`}>
-          <DataContainer><FileTextOutlined /><Number>{countOfStories}</Number></DataContainer>
-        </Tooltip>
-        <Tooltip title={`${totalPoint} ${t('general.points')}`}>
-          <DataContainer><CoffeeOutlined /><Number>{totalPoint}</Number></DataContainer>
-        </Tooltip>
+        <EpicProperty countOfEpics={countOfEpics} hasRightMargin={false} />
+        <StoryProperty countOfStories={countOfStories} hasRightMargin={false} />
+        <PointProperty point={totalPoint} hasRightMargin={false} />
       </Space>
       <ProgressBar
         countOfStories={countOfStories}
@@ -99,13 +93,4 @@ const MilestoneName = styled(Typography.Title)`
   &:hover {
     cursor: pointer;
   }
-`
-
-const Number = styled.span`
-  margin-left: 0.1rem;
-`
-
-const DataContainer = styled.span`
-  color: gray;
-  margin-right: 0.2rem;
 `
