@@ -27,7 +27,7 @@ export function StoriesPage() {
   const { getStoryUiList, putStory } = useStory()
   const statesRef = useRef(['unscheduled', 'readyForDevelopment', 'inDevelopment', 'readyForReview', 'readyForDeploy', 'completed'])
   const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
-  const { storyCreatedEvent, storyDeletedEvent, storyUpdatedEvent } = useEventContext()
+  const { storyCreatedEvent, storyDeletedEvent, storyUpdatedEvent, filterStoryByProjectEvent } = useEventContext()
 
   useEffect(() => {
     setHeaderCreateButtonType('story')
@@ -36,6 +36,10 @@ export function StoriesPage() {
   useEffect(() => {
     getStoryData()
   }, [selectedProjectIds, selectedEpicIds, selectedStates, storyCreatedEvent, storyDeletedEvent, storyUpdatedEvent])
+
+  useEffect(() => {
+    filterStoryByProjectEvent.projectId && setSelectedProjectIds([filterStoryByProjectEvent.projectId.toString()])
+  }, [filterStoryByProjectEvent])
 
   const getStoryData = async () => {
     const tempStories = {

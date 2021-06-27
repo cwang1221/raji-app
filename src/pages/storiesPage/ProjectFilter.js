@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { clone } from 'lodash'
@@ -10,6 +10,7 @@ import { useEventContext } from '../../contexts/eventContext'
 export function ProjectFilter({ selectedProjectIds, onSelectionChange, expanded, onExpandedChange }) {
   const { t } = useTranslation()
   const [projects, setProjects] = useState([])
+  const selectedProjectIdsRef = useRef(selectedProjectIds)
 
   const { getProjects } = useProject()
   const { projectCreatedEvent, projectDeletedEvent } = useEventContext()
@@ -18,11 +19,15 @@ export function ProjectFilter({ selectedProjectIds, onSelectionChange, expanded,
     getProjectData()
   }, [projectCreatedEvent, projectDeletedEvent])
 
+  useEffect(() => {
+    selectedProjectIdsRef.current = selectedProjectIds
+  }, [selectedProjectIds])
+
   const getProjectData = async () => {
     const data = await getProjects()
     data.forEach((project) => { project.id = project.id.toString() })
     setProjects(data)
-    selectedProjectIds.length === 0 && onSelectionChange(data.map((project) => project.id))
+    selectedProjectIdsRef.current.length === 0 && onSelectionChange(data.map((project) => project.id))
   }
 
   const onCheck = (id, checked) => {

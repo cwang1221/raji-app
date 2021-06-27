@@ -3,6 +3,7 @@ import { CloseOutlined, EyeOutlined, ZoomInOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useProject } from '../../hooks'
 import { clone } from '../../utils'
 import { useAuth } from '../../contexts/authContext'
@@ -14,8 +15,9 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
   const [followers, setFollowers] = useState(followerIds)
   const { putProject } = useProject()
   const { user } = useAuth()
-  const { publishProjectUpdatedEvent } = useEventContext()
+  const { publishProjectUpdatedEvent, publishFilterStoryByProjectEvent } = useEventContext()
   const [showModal, setShowModal] = useState(false)
+  const history = useHistory()
 
   const changeColor = async (color) => {
     await putProject(id, { color })
@@ -38,6 +40,11 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
 
   const deleteProject = () => {
     onDelete(id)
+  }
+
+  const viewStoryInProject = () => {
+    history.push('/stories')
+    publishFilterStoryByProjectEvent(id)
   }
 
   return (
@@ -64,7 +71,7 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
               <StoryProperty countOfStories={storyCount} hasRightMargin={false} />
               <PointProperty point={point} hasRightMargin={false} />
               <Tooltip title={t('project.zoomInTooltip')}>
-                <ZoomInIcon />
+                <ZoomInIcon onClick={viewStoryInProject} />
               </Tooltip>
               <Button
                 type={followers.includes(user.id) ? 'primary' : 'default'}

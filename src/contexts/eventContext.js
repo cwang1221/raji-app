@@ -15,6 +15,10 @@ export function EventProvider({ children }) {
   const [projectCreatedEvent, setProjectCreatedEvent] = useState(0)
   const [projectDeletedEvent, setProjectDeletedEvent] = useState(0)
   const [projectUpdatedEvent, setProjectUpdatedEvent] = useState(0)
+  const [filterStoryByProjectEvent, setFilterStoryByProjectEvent] = useState({
+    indicator: 0,
+    projectId: undefined
+  })
 
   const publishStoryCreatedEvent = () => setStoryCreatedEvent((prev) => ++prev)
   const publishStoryDeletedEvent = () => setStoryDeletedEvent((prev) => ++prev)
@@ -28,6 +32,10 @@ export function EventProvider({ children }) {
   const publishProjectCreatedEvent = () => setProjectCreatedEvent((prev) => ++prev)
   const publishProjectDeletedEvent = () => setProjectDeletedEvent((prev) => ++prev)
   const publishProjectUpdatedEvent = () => setProjectUpdatedEvent((prev) => ++prev)
+  const publishFilterStoryByProjectEvent = (projectId) => setFilterStoryByProjectEvent((prev) => ({
+    indicator: prev.indicator + 1,
+    projectId
+  }))
 
   return (
     <EventContext.Provider value={{
@@ -43,6 +51,7 @@ export function EventProvider({ children }) {
       projectCreatedEvent,
       projectDeletedEvent,
       projectUpdatedEvent,
+      filterStoryByProjectEvent,
       publishStoryCreatedEvent,
       publishStoryDeletedEvent,
       publishStoryUpdatedEvent,
@@ -54,7 +63,8 @@ export function EventProvider({ children }) {
       publishMilestoneUpdatedEvent,
       publishProjectCreatedEvent,
       publishProjectDeletedEvent,
-      publishProjectUpdatedEvent
+      publishProjectUpdatedEvent,
+      publishFilterStoryByProjectEvent
     }}
     >
       {children}
