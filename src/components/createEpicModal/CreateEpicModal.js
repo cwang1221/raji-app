@@ -7,8 +7,7 @@ import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
 import { focusErrorInForm } from '../../utils'
 import { useEpic, useMilestone } from '../../hooks/useRequest'
-import { MilestoneSelector } from './MilestoneSelector'
-import { StateSelector } from './StateSelector'
+import { StateSelector, MilestoneSelector } from '..'
 import { EPIC_CREATED, EPIC_UPDATED } from '../../utils/events'
 
 export function CreateEpicModal({ visible, close, id }) {

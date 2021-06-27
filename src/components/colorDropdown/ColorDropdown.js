@@ -1,39 +1,31 @@
 import { Row, Dropdown } from 'antd'
-import { useRef } from 'react'
 import styled from 'styled-components'
 import { MyCard } from '..'
-import { rgbToHex } from '../../utils'
+
+const colors = [
+  ['#880000', '#CC0000', '#DD6E13', '#E2C534'],
+  ['#37710C', '#54BA08', '#9DE061', '#CEEFAA'],
+  ['#004C82', '#007CBD', '#08BBDF', '#7CDFCF'],
+  ['#4E0380', '#AA44DD', '#E566A0', '#986030'],
+  ['#AE9744', '#090909', '#888888', '#C0C0C0'],
+  ['#3E1191', '#6515DD', '#8B78FA', '#FF5555'],
+  ['#FBB81B', '#00D38C', '#A3C5EB', '#414042']
+]
 
 export function ColorDropdown({ color, onColorChange, children }) {
-  const colorsRef = useRef([
-    ['#880000', '#CC0000', '#DD6E13', '#E2C534'],
-    ['#37710C', '#54BA08', '#9DE061', '#CEEFAA'],
-    ['#004C82', '#007CBD', '#08BBDF', '#7CDFCF'],
-    ['#4E0380', '#AA44DD', '#E566A0', '#986030'],
-    ['#AE9744', '#090909', '#888888', '#C0C0C0'],
-    ['#3E1191', '#6515DD', '#8B78FA', '#FF5555'],
-    ['#FBB81B', '#00D38C', '#A3C5EB', '#414042']
-  ])
-
-  const changeColor = (e) => {
-    const rgbColor = e.currentTarget.style.backgroundColor
-    const hexColor = rgbToHex(rgbColor)
-    onColorChange(hexColor)
-  }
-
   return (
     <Dropdown
       overlay={(
         <div>
-          <ColorDropDownContainer style={{ width: '130px' }}>
-            {colorsRef.current.map((row, rowIndex) => (
+          <ColorDropDownContainer style={{ width: '131px' }}>
+            {colors.map((row, rowIndex) => (
               <Row key={rowIndex}>
-                {row.map((colorCode, index) => (
+                {row.map((colorCode) => (
                   <ColorBlock
-                    key={`${rowIndex}-${index}`}
-                    style={{ backgroundColor: colorCode }}
+                    key={colorCode}
+                    color={colorCode}
                     className={color.toLowerCase() === colorCode.toLowerCase() ? 'selected' : undefined}
-                    onClick={changeColor}
+                    onClick={() => onColorChange(colorCode)}
                   />
                 ))}
               </Row>
@@ -52,6 +44,7 @@ const ColorBlock = styled.div`
   width: 20px;
   height: 20px;
   margin: 4px;
+  background-color: ${(props) => props.color};
   
   &:hover {
     margin: 2px;

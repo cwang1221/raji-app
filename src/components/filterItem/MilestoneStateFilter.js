@@ -3,6 +3,7 @@ import { Button, Dropdown, Menu } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { stopPropagation } from '../../utils'
 import { MilestoneStateIcon } from '../milestoneStateIcon/MilestoneStateIcon'
 import { MyCard } from '../myCard'
 import { FilterItemBase } from './FilterItem'
@@ -51,11 +52,6 @@ export function MilestoneStateFilter({ selectedStates, onChange, registerFilter 
     } else {
       filterChange(selectedKeys)
     }
-  }
-
-  const stopPropagation = (e) => {
-    e.stopPropagation()
-    e.nativeEvent.stopImmediatePropagation()
   }
 
   const clear = (e) => {

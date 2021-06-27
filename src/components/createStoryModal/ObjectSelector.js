@@ -1,6 +1,7 @@
 import { Dropdown, Menu } from 'antd'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { stopPropagation } from '../../utils'
 import { MyCard } from '../myCard'
 import { SearchInput } from '../searchInput'
 
@@ -11,11 +12,6 @@ export function ObjectSelector({ title, items, selectedId, onSelect, popupTitle,
   useEffect(() => {
     setSelectedItem(items.find((item) => `${item.id}` === selectedId) || {})
   }, [selectedId, items])
-
-  const stopPropagation = (e) => {
-    e.stopPropagation()
-    e.nativeEvent.stopImmediatePropagation()
-  }
 
   const Popup = () => (
     <div>

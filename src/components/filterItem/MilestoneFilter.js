@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useMilestone } from '../../hooks'
+import { stopPropagation } from '../../utils'
 import { MilestoneStateIcon } from '../milestoneStateIcon'
 import { MyCard } from '../myCard'
 import { FilterItemBase } from './FilterItem'
@@ -82,11 +83,6 @@ export function MilestoneFilter({ selectedMilestones, onChange, registerFilter }
       setFilteredMilestones(milestones)
       setShowAll(true)
     }
-  }
-
-  const stopPropagation = (e) => {
-    e.stopPropagation()
-    e.nativeEvent.stopImmediatePropagation()
   }
 
   const onClear = (e) => {

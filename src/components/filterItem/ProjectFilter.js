@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useProject } from '../../hooks'
+import { stopPropagation } from '../../utils'
 import { MyCard } from '../myCard'
 import { FilterItemBase } from './FilterItem'
 
@@ -79,11 +80,6 @@ export function ProjectFilter({ selectedProjects, onChange, registerFilter }) {
       setFilteredProjects(projects)
       setShowAll(true)
     }
-  }
-
-  const stopPropagation = (e) => {
-    e.stopPropagation()
-    e.nativeEvent.stopImmediatePropagation()
   }
 
   const onClear = (e) => {

@@ -1,24 +1,29 @@
 import { Dropdown, Menu } from 'antd'
-import { useRef } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useState } from 'react'
 import styled from 'styled-components'
-import { EpicStateIcon } from '../epicStateIcon'
+import { stopPropagation } from '../../utils'
 import { MyCard } from '../myCard'
+import { SearchInput } from '../searchInput'
 
-export function StateSelector({ state, onStateChange }) {
-  const { t } = useTranslation()
-  const statesRef = useRef(['todo', 'inProgress', 'done'])
+// Structure of items: [{key, text, icon}]
+export function SimpleSelector({ title, description, showSearch, items, selectedKey, onSelect }) {
+  const [searchText, setSearchText] = useState('')
 
   const Popup = () => (
     <div>
       <PopupContainer>
         <PopupHeader>
-          <span style={{ fontSize: '12px' }}>{t('epic.updateEpicState')}</span>
+          <span style={{ fontSize: '12px' }}>{description}</span>
+          {showSearch && <SearchInput onChange={(e) => setSearchText(e.currentTarget.value.toLowerCase())} onClick={(e) => stopPropagation(e)} />}
         </PopupHeader>
-        <Menu selectedKeys={[state]} onSelect={({ key }) => onStateChange(key)} style={{ borderRight: '0' }}>
-          {statesRef.current.map((item) => (
-            <Menu.Item key={`${item}`} icon={<EpicStateIcon state={item} />}>
-              {t(`epic.${item}`)}
+        <Menu selectedKeys={[selectedKey]} onSelect={({ key }) => onSelect(key)} style={{ borderRight: '0' }}>
+          {items.filter((item) => item.text.toLowerCase().includes(searchText)).map((item) => (
+            <Menu.Item
+              key={item.key}
+              icon={item.icon}
+              style={{ fontStyle: item.key === 'none' ? 'italic' : 'normal' }}
+            >
+              {item.text}
             </Menu.Item>
           ))}
         </Menu>
@@ -29,8 +34,8 @@ export function StateSelector({ state, onStateChange }) {
   return (
     <Dropdown overlay={Popup} trigger={['click']}>
       <Button>
-        <Title>{t('general.state')}</Title>
-        <Text>{t(`epic.${state}`)}</Text>
+        <Title>{title}</Title>
+        <Text isNone={selectedKey === 'none'}>{items?.find((item) => item.key === selectedKey)?.text}</Text>
       </Button>
     </Dropdown>
   )
