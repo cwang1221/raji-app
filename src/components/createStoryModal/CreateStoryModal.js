@@ -2,6 +2,7 @@ import { Form, Modal, Space, Input } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { publish } from 'pubsub-js'
 import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
 import { EpicSelector } from './EpicSelector'
@@ -14,7 +15,7 @@ import { OwnerSelector } from './OwnerSelector'
 import { EstimateSelector } from '../estimateSelector'
 import { focusErrorInForm } from '../../utils'
 import { useStory } from '../../hooks/useRequest'
-import { useEventContext } from '../../contexts/eventContext'
+import { STORY_CREATED, STORY_UPDATED } from '../../utils/events'
 
 export function CreateStoryModal({ visible, close, id }) {
   const { t } = useTranslation()
@@ -31,7 +32,6 @@ export function CreateStoryModal({ visible, close, id }) {
   const formRef = useRef()
 
   const { postStory, getStory, putStory } = useStory()
-  const { publishStoryCreatedEvent, publishStoryUpdatedEvent } = useEventContext()
 
   useEffect(async () => {
     if (visible && id) {
@@ -68,10 +68,10 @@ export function CreateStoryModal({ visible, close, id }) {
 
         if (id) {
           await putStory(id, payload)
-          publishStoryUpdatedEvent()
+          publish(STORY_UPDATED)
         } else {
           await postStory(payload)
-          publishStoryCreatedEvent()
+          publish(STORY_CREATED)
         }
 
         formRef.current.resetFields()

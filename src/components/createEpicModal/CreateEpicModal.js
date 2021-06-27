@@ -2,13 +2,14 @@ import { Form, Modal, Space, Input, Alert } from 'antd'
 import { useRef, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { publish } from 'pubsub-js'
 import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
 import { focusErrorInForm } from '../../utils'
 import { useEpic, useMilestone } from '../../hooks/useRequest'
 import { MilestoneSelector } from './MilestoneSelector'
 import { StateSelector } from './StateSelector'
-import { useEventContext } from '../../contexts/eventContext'
+import { EPIC_CREATED, EPIC_UPDATED } from '../../utils/events'
 
 export function CreateEpicModal({ visible, close, id }) {
   const { t } = useTranslation()
@@ -21,7 +22,6 @@ export function CreateEpicModal({ visible, close, id }) {
 
   const { postEpic, getEpic, putEpic } = useEpic()
   const { addEpic, changeEpic } = useMilestone()
-  const { publishEpicCreatedEvent, publishEpicUpdatedEvent } = useEventContext()
 
   useEffect(async () => {
     if (visible) {
@@ -54,11 +54,11 @@ export function CreateEpicModal({ visible, close, id }) {
         if (!id) {
           const createdEpic = await postEpic(payload)
           await addEpic(milestoneId === 'none' ? 1 : parseInt(milestoneId, 10), createdEpic.id)
-          publishEpicCreatedEvent()
+          publish(EPIC_CREATED)
         } else {
           await putEpic(id, payload)
           originalMilestone !== milestoneId && await changeEpic(milestoneId === 'none' ? 1 : parseInt(milestoneId, 10), id)
-          publishEpicUpdatedEvent()
+          publish(EPIC_UPDATED)
         }
 
         formRef.current.resetFields()

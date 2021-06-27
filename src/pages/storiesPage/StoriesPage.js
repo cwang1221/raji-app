@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { subscribe, unsubscribe } from 'pubsub-js'
 import { useStory } from '../../hooks'
 import { clone } from '../../utils'
 import { Filter } from './Filter'
 import { StoryContainer } from './StoryContainer'
 import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
-import { useEventContext } from '../../contexts/eventContext'
 import { StoryCard } from '../../components'
+import { FILTER_STORY_BY_PROJECT, STORY_CREATED, STORY_DELETED, STORY_UPDATED } from '../../utils/events'
 
 export function StoriesPage() {
   const { t } = useTranslation()
@@ -27,19 +28,25 @@ export function StoriesPage() {
   const { getStoryUiList, putStory } = useStory()
   const statesRef = useRef(['unscheduled', 'readyForDevelopment', 'inDevelopment', 'readyForReview', 'readyForDeploy', 'completed'])
   const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
-  const { storyCreatedEvent, storyDeletedEvent, storyUpdatedEvent, filterStoryByProjectEvent } = useEventContext()
 
   useEffect(() => {
     setHeaderCreateButtonType('story')
+    subscribe(FILTER_STORY_BY_PROJECT, (msg, data) => {
+      setSelectedProjectIds([data.toString()])
+    })
+    subscribe(STORY_CREATED, getStoryData)
+    subscribe(STORY_UPDATED, getStoryData)
+
+    return () => {
+      unsubscribe(FILTER_STORY_BY_PROJECT)
+      unsubscribe(STORY_CREATED)
+      unsubscribe(STORY_UPDATED)
+    }
   }, [])
 
   useEffect(() => {
     getStoryData()
-  }, [selectedProjectIds, selectedEpicIds, selectedStates, storyCreatedEvent, storyDeletedEvent, storyUpdatedEvent])
-
-  useEffect(() => {
-    filterStoryByProjectEvent.projectId && setSelectedProjectIds([filterStoryByProjectEvent.projectId.toString()])
-  }, [filterStoryByProjectEvent])
+  }, [selectedProjectIds, selectedEpicIds, selectedStates])
 
   const getStoryData = async () => {
     const tempStories = {

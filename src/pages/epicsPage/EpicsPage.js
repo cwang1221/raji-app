@@ -1,12 +1,13 @@
 import { message, Typography } from 'antd'
+import { publish, subscribe, unsubscribe } from 'pubsub-js'
 import { useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { EpicStateFilter, FilterBar, FilterItem, MilestoneFilter, ProjectFilter } from '../../components'
-import { useEventContext } from '../../contexts/eventContext'
 import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
 import { useEpic } from '../../hooks'
+import { EPIC_CREATED, EPIC_UPDATED, STORY_CREATED, STORY_UPDATED } from '../../utils/events'
 import { AreaTitle } from './AreaTitle'
 import { DoneItem } from './DoneItem'
 import { InProgressItem } from './InProgressItem'
@@ -25,15 +26,25 @@ export function EpicsPage() {
   const [dropDisabledState, setDropDisabledState] = useState('')
   const { getEpicsUiList, putEpic } = useEpic()
   const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
-  const { storyCreatedEvent, storyDeletedEvent, storyUpdatedEvent, epicCreatedEvent, epicDeletedEvent, epicUpdatedEvent, publishEpicUpdatedEvent } = useEventContext()
 
   useEffect(() => {
     setHeaderCreateButtonType('epic')
+    subscribe(STORY_CREATED, getEpicData)
+    subscribe(STORY_UPDATED, getEpicData)
+    subscribe(EPIC_CREATED, getEpicData)
+    subscribe(EPIC_UPDATED, getEpicData)
+
+    return () => {
+      unsubscribe(STORY_CREATED)
+      unsubscribe(STORY_UPDATED)
+      unsubscribe(EPIC_CREATED)
+      unsubscribe(EPIC_UPDATED)
+    }
   }, [])
 
   useEffect(() => {
     getEpicData()
-  }, [filteredProjects, filteredMilestones, filteredStates, storyCreatedEvent, storyDeletedEvent, storyUpdatedEvent, epicCreatedEvent, epicDeletedEvent, epicUpdatedEvent])
+  }, [filteredProjects, filteredMilestones, filteredStates])
 
   const getEpicData = async () => {
     const tempEpics = {
@@ -59,7 +70,7 @@ export function EpicsPage() {
     }
 
     await putEpic(result.draggableId, { state: result.destination.droppableId })
-    publishEpicUpdatedEvent()
+    publish(EPIC_UPDATED)
   }
 
   return (

@@ -3,21 +3,21 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { useState } from 'react'
+import { publish } from 'pubsub-js'
 import { MilestoneStateIcon } from '../../components/milestoneStateIcon/MilestoneStateIcon'
 import { useMilestone } from '../../hooks/useRequest'
-import { useEventContext } from '../../contexts/eventContext'
 import { CreateMilestoneModal, ProgressBar, StoryProperty, PointProperty, EpicProperty } from '../../components'
+import { MILESTONE_DELETED } from '../../utils/events'
 
 export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countOfDoneStories, countOfInProgressStories, totalPoint, state, changeState }) {
   const { t } = useTranslation()
   const [showModal, setShowModal] = useState(false)
 
   const { deleteMilestone } = useMilestone()
-  const { publishMilestoneDeletedEvent } = useEventContext()
 
   const onDeleteMilestone = async () => {
     await deleteMilestone(id)
-    publishMilestoneDeletedEvent()
+    publish(MILESTONE_DELETED)
   }
 
   return (

@@ -3,6 +3,7 @@ import { List, message, Space, Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { publish, subscribe, unsubscribe } from 'pubsub-js'
 import { FilterBar, FilterItem, MilestoneStateFilter, ProjectFilter } from '../../components'
 import { useDocumentTitle, useMilestone } from '../../hooks'
 import { Epic } from './Epic'
@@ -10,7 +11,7 @@ import { BacklogHeader } from './BacklogHeader'
 import { MilestoneHeader } from './MilestoneHeader'
 import { clone } from '../../utils'
 import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
-import { useEventContext } from '../../contexts/eventContext'
+import { EPIC_CREATED, EPIC_UPDATED, MILESTONE_CREATED, MILESTONE_DELETED, MILESTONE_UPDATED, STORY_CREATED } from '../../utils/events'
 
 export function MilestonesPage() {
   const { t } = useTranslation()
@@ -20,37 +21,33 @@ export function MilestonesPage() {
   const [dragging, setDragging] = useState(false)
   const { getMilestonesList, putMilestone } = useMilestone()
   const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
-  const {
-    storyCreatedEvent,
-    storyDeletedEvent,
-    epicCreatedEvent,
-    epicDeletedEvent,
-    epicUpdatedEvent,
-    milestoneCreatedEvent,
-    milestoneDeletedEvent,
-    milestoneUpdatedEvent,
-    publishMilestoneUpdatedEvent
-  } = useEventContext()
 
   useDocumentTitle(t('milestone.milestones'))
 
   useEffect(() => {
     setHeaderCreateButtonType('milestone')
+    subscribe(STORY_CREATED, getMilestones)
+    subscribe(EPIC_CREATED, getMilestones)
+    subscribe(EPIC_UPDATED, getMilestones)
+    subscribe(MILESTONE_CREATED, getMilestones)
+    subscribe(MILESTONE_UPDATED, getMilestones)
+    subscribe(MILESTONE_DELETED, getMilestones)
+
+    return () => {
+      unsubscribe(STORY_CREATED)
+      unsubscribe(EPIC_CREATED)
+      unsubscribe(EPIC_UPDATED)
+      unsubscribe(MILESTONE_CREATED)
+      unsubscribe(MILESTONE_UPDATED)
+      unsubscribe(MILESTONE_DELETED)
+    }
   }, [])
 
   useEffect(() => {
     getMilestones()
   }, [
     filteredStates,
-    filteredProjects,
-    storyCreatedEvent,
-    storyDeletedEvent,
-    epicCreatedEvent,
-    epicDeletedEvent,
-    epicUpdatedEvent,
-    milestoneCreatedEvent,
-    milestoneDeletedEvent,
-    milestoneUpdatedEvent
+    filteredProjects
   ])
 
   const getMilestones = async () => {
@@ -87,9 +84,9 @@ export function MilestonesPage() {
     const promise1 = putMilestone(destinationMilestone.id, { epicIds: destinationMilestone.epicIds })
     if (sourceMilestone.id !== destinationMilestone.id) {
       const promise2 = putMilestone(sourceMilestone.id, { epicIds: sourceMilestone.epicIds })
-      Promise.all([promise1, promise2]).then(() => publishMilestoneUpdatedEvent())
+      Promise.all([promise1, promise2]).then(() => publish(MILESTONE_UPDATED))
     } else {
-      promise1.then(() => publishMilestoneUpdatedEvent())
+      promise1.then(() => publish(MILESTONE_UPDATED))
     }
   }
 
@@ -99,7 +96,7 @@ export function MilestonesPage() {
 
     setMilestones(milestonesClone)
     await putMilestone(id, { state })
-    publishMilestoneUpdatedEvent()
+    publish(MILESTONE_UPDATED)
   }
 
   return (

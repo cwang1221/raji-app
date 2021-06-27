@@ -3,12 +3,13 @@ import styled from 'styled-components'
 import { Avatar, Typography, Result, Tabs } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { SmileOutlined } from '@ant-design/icons'
+import { subscribe, unsubscribe } from 'pubsub-js'
 import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
 import { useAuth } from '../../contexts/authContext'
 import { WorkArea } from './WorkArea'
 import { useStory } from '../../hooks'
 import { StoryCard } from '../../components'
-import { useEventContext } from '../../contexts/eventContext'
+import { STORY_CREATED, STORY_UPDATED } from '../../utils/events'
 
 export function HomePage() {
   const { t } = useTranslation()
@@ -16,7 +17,6 @@ export function HomePage() {
   const [selectedViewOption, setSelectedViewOption] = useState('startedOnly')
   const [taskFilter, setTaskFilter] = useState('startedOnly')
   const [dueFilter, setDueFilter] = useState('ownedByMe')
-  const { storyCreatedEvent, storyDeletedEvent, storyUpdatedEvent } = useEventContext()
   const [stories, setStories] = useState({
     unscheduled: [],
     readyForDevelopment: [],
@@ -30,11 +30,18 @@ export function HomePage() {
 
   useEffect(() => {
     setHeaderCreateButtonType('story')
+    subscribe(STORY_CREATED, getStoryData)
+    subscribe(STORY_UPDATED, getStoryData)
+
+    return () => {
+      unsubscribe(STORY_CREATED)
+      unsubscribe(STORY_UPDATED)
+    }
   }, [])
 
   useEffect(() => {
     getStoryData()
-  }, [selectedViewOption, storyCreatedEvent, storyDeletedEvent, storyUpdatedEvent])
+  }, [selectedViewOption])
 
   const getStoryData = async () => {
     const tempStories = {

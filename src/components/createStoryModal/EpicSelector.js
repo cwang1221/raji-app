@@ -1,19 +1,28 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { subscribe, unsubscribe } from 'pubsub-js'
 import { useEpic } from '../../hooks/useRequest'
 import { ObjectSelector } from './ObjectSelector'
 import { EpicStateIcon } from '../epicStateIcon'
-import { useEventContext } from '../../contexts/eventContext'
+import { EPIC_CREATED, EPIC_DELETED, EPIC_UPDATED } from '../../utils/events'
 
 export function EpicSelector({ epicId, onEpicIdChange }) {
   const { t } = useTranslation()
   const [epics, setEpics] = useState([])
   const { getEpics } = useEpic()
-  const { epicCreatedEvent } = useEventContext()
 
   useEffect(() => {
     getEpicData()
-  }, [epicCreatedEvent])
+    subscribe(EPIC_CREATED, getEpicData)
+    subscribe(EPIC_UPDATED, getEpicData)
+    subscribe(EPIC_DELETED, getEpicData)
+
+    return () => {
+      unsubscribe(EPIC_CREATED)
+      unsubscribe(EPIC_UPDATED)
+      unsubscribe(EPIC_DELETED)
+    }
+  }, [])
 
   const getEpicData = async () => {
     const data = await getEpics()

@@ -1,12 +1,13 @@
 import { Typography, Space, Button } from 'antd'
+import { publish, subscribe, unsubscribe } from 'pubsub-js'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CreateProjectModal } from '../../components'
-import { useEventContext } from '../../contexts/eventContext'
 import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
 import { useDocumentTitle, useProject } from '../../hooks'
 import { clone } from '../../utils'
+import { PROJECT_CREATED, PROJECT_DELETED, PROJECT_UPDATED, STORY_CREATED } from '../../utils/events'
 import { ProjectCard } from './ProjectCard'
 
 export function ProjectsPage() {
@@ -19,17 +20,24 @@ export function ProjectsPage() {
 
   const { getProjectList, deleteProject } = useProject()
   const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
-  const { projectCreatedEvent, projectDeletedEvent, projectUpdatedEvent, storyCreatedEvent, storyDeletedEvent, publishProjectDeletedEvent } = useEventContext()
 
   useDocumentTitle(t('project.projects'))
 
   useEffect(() => {
     setHeaderCreateButtonType('project')
-  }, [])
-
-  useEffect(() => {
     getProjects()
-  }, [projectCreatedEvent, projectDeletedEvent, projectUpdatedEvent, storyCreatedEvent, storyDeletedEvent])
+    subscribe(PROJECT_CREATED, getProjects)
+    subscribe(PROJECT_UPDATED, getProjects)
+    subscribe(PROJECT_DELETED, getProjects)
+    subscribe(STORY_CREATED, getProjects)
+
+    return () => {
+      unsubscribe(PROJECT_CREATED)
+      unsubscribe(PROJECT_UPDATED)
+      unsubscribe(PROJECT_DELETED)
+      unsubscribe(STORY_CREATED)
+    }
+  }, [])
 
   const getProjects = async () => {
     const data = await getProjectList()
@@ -58,7 +66,7 @@ export function ProjectsPage() {
       setMobileProjects(projectsClone)
     }
 
-    publishProjectDeletedEvent()
+    publish(PROJECT_DELETED)
   }
 
   return (

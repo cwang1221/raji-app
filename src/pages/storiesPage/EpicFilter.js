@@ -3,11 +3,12 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { clone } from 'lodash'
 import { CaretDownFilled, CaretRightFilled } from '@ant-design/icons'
+import { subscribe, unsubscribe } from 'pubsub-js'
 import { FilterTitle } from './FilterTitle'
 import { useEpic } from '../../hooks/useRequest'
 import { CheckItem } from './CheckItem'
 import { EpicStateIcon } from '../../components'
-import { useEventContext } from '../../contexts/eventContext'
+import { EPIC_CREATED, EPIC_DELETED } from '../../utils/events'
 
 export function EpicFilter({ selectedEpicIds, onSelectionChange, expanded, onExpandedChange }) {
   const { t } = useTranslation()
@@ -16,11 +17,15 @@ export function EpicFilter({ selectedEpicIds, onSelectionChange, expanded, onExp
   const [itemsHeight, setItemsHeight] = useState('0')
 
   const { getEpics } = useEpic()
-  const { epicCreatedEvent, epicDeletedEvent } = useEventContext()
 
   useEffect(() => {
     getEpicData()
-  }, [epicCreatedEvent, epicDeletedEvent])
+    subscribe(EPIC_CREATED, getEpicData)
+
+    return () => {
+      unsubscribe(EPIC_CREATED)
+    }
+  }, [])
 
   useEffect(() => {
     const countOfEpics = epics.length

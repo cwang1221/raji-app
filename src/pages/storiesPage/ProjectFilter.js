@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { clone } from 'lodash'
+import { subscribe, unsubscribe } from 'pubsub-js'
 import { FilterTitle } from './FilterTitle'
 import { useProject } from '../../hooks/useRequest'
 import { CheckItem } from './CheckItem'
-import { useEventContext } from '../../contexts/eventContext'
+import { PROJECT_CREATED } from '../../utils/events'
 
 export function ProjectFilter({ selectedProjectIds, onSelectionChange, expanded, onExpandedChange }) {
   const { t } = useTranslation()
@@ -13,11 +14,15 @@ export function ProjectFilter({ selectedProjectIds, onSelectionChange, expanded,
   const selectedProjectIdsRef = useRef(selectedProjectIds)
 
   const { getProjects } = useProject()
-  const { projectCreatedEvent, projectDeletedEvent } = useEventContext()
 
   useEffect(() => {
     getProjectData()
-  }, [projectCreatedEvent, projectDeletedEvent])
+    subscribe(PROJECT_CREATED, getProjectData)
+
+    return () => {
+      unsubscribe(PROJECT_CREATED)
+    }
+  }, [])
 
   useEffect(() => {
     selectedProjectIdsRef.current = selectedProjectIds

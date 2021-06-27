@@ -2,11 +2,12 @@ import { Dropdown, Menu } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { subscribe, unsubscribe } from 'pubsub-js'
 import { useMilestone } from '../../hooks/useRequest'
 import { MyCard } from '../myCard'
 import { MilestoneStateIcon } from '..'
 import { SearchInput } from '../searchInput'
-import { useEventContext } from '../../contexts/eventContext'
+import { MILESTONE_CREATED, MILESTONE_DELETED, MILESTONE_UPDATED } from '../../utils/events'
 
 export function MilestoneSelector({ milestoneId, onMilestoneIdChange }) {
   const { t } = useTranslation()
@@ -14,11 +15,20 @@ export function MilestoneSelector({ milestoneId, onMilestoneIdChange }) {
   const [milestones, setMilestones] = useState([])
   const [selectedMilestone, setSelectedMilestone] = useState({})
   const { getMilestones } = useMilestone()
-  const { milestoneCreatedEvent, milestoneDeletedEvent } = useEventContext()
 
   useEffect(() => {
     getMilestoneData()
-  }, [milestoneCreatedEvent, milestoneDeletedEvent])
+
+    subscribe(MILESTONE_CREATED, getMilestoneData)
+    subscribe(MILESTONE_UPDATED, getMilestoneData)
+    subscribe(MILESTONE_DELETED, getMilestoneData)
+
+    return () => {
+      unsubscribe(MILESTONE_CREATED)
+      unsubscribe(MILESTONE_UPDATED)
+      unsubscribe(MILESTONE_DELETED)
+    }
+  }, [])
 
   useEffect(() => {
     setSelectedMilestone(milestones.find((item) => `${item.id}` === milestoneId) || {})

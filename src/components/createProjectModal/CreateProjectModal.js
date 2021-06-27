@@ -1,10 +1,11 @@
 import { Form, Modal, Space, Input, Select, Button, Alert } from 'antd'
+import { publish } from 'pubsub-js'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { useEventContext } from '../../contexts/eventContext'
 import { useProject } from '../../hooks'
 import { focusErrorInForm } from '../../utils'
+import { PROJECT_CREATED, PROJECT_UPDATED } from '../../utils/events'
 import { ColorDropdown } from '../colorDropdown'
 import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
@@ -15,7 +16,6 @@ export function CreateProjectModal({ id, visible, disableType, type = 'web', clo
   const [projectNames, setProjectNames] = useState([])
   const formRef = useRef()
   const { getProjects, postProject, putProject, getProject } = useProject()
-  const { publishProjectCreatedEvent, publishProjectUpdatedEvent } = useEventContext()
 
   useEffect(async () => {
     if (visible) {
@@ -51,14 +51,14 @@ export function CreateProjectModal({ id, visible, disableType, type = 'web', clo
             ...values,
             color
           })
-          publishProjectUpdatedEvent()
+          publish(PROJECT_UPDATED)
         } else {
           await postProject({
             ...values,
             color,
             followerIds: []
           })
-          publishProjectCreatedEvent()
+          publish(PROJECT_CREATED)
         }
 
         close()

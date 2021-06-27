@@ -2,11 +2,12 @@ import { Form, Modal, Space, Input, Alert } from 'antd'
 import { useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { publish } from 'pubsub-js'
 import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
 import { focusErrorInForm } from '../../utils'
 import { useMilestone } from '../../hooks/useRequest'
-import { useEventContext } from '../../contexts/eventContext'
+import { MILESTONE_CREATED, MILESTONE_UPDATED } from '../../utils/events'
 
 export function CreateMilestoneModal({ id, visible, close }) {
   const { t } = useTranslation()
@@ -14,7 +15,6 @@ export function CreateMilestoneModal({ id, visible, close }) {
   const formRef = useRef()
 
   const { postMilestone, getMilestone, putMilestone } = useMilestone()
-  const { publishMilestoneCreatedEvent, publishMilestoneUpdatedEvent } = useEventContext()
 
   useEffect(async () => {
     if (visible && id) {
@@ -32,10 +32,10 @@ export function CreateMilestoneModal({ id, visible, close }) {
       .then(async (values) => {
         if (id) {
           await putMilestone(id, values)
-          publishMilestoneUpdatedEvent()
+          publish(MILESTONE_UPDATED)
         } else {
           await postMilestone(values)
-          publishMilestoneCreatedEvent()
+          publish(MILESTONE_CREATED)
         }
         formRef.current.resetFields()
 

@@ -4,24 +4,24 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { publish } from 'pubsub-js'
 import { useProject } from '../../hooks'
 import { clone } from '../../utils'
 import { useAuth } from '../../contexts/authContext'
 import { ColorDropdown, CreateProjectModal, StoryProperty, PointProperty } from '../../components'
-import { useEventContext } from '../../contexts/eventContext'
+import { FILTER_STORY_BY_PROJECT, PROJECT_UPDATED } from '../../utils/events'
 
 export function ProjectCard({ id, indicator, title, description, storyCount, point, followerIds, onDelete }) {
   const { t } = useTranslation()
   const [followers, setFollowers] = useState(followerIds)
   const { putProject } = useProject()
   const { user } = useAuth()
-  const { publishProjectUpdatedEvent, publishFilterStoryByProjectEvent } = useEventContext()
   const [showModal, setShowModal] = useState(false)
   const history = useHistory()
 
   const changeColor = async (color) => {
     await putProject(id, { color })
-    publishProjectUpdatedEvent()
+    publish(PROJECT_UPDATED)
   }
 
   const onClickFollow = async () => {
@@ -35,7 +35,7 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
 
     setFollowers(followersClone)
     await putProject(id, { followerIds: followersClone })
-    publishProjectUpdatedEvent()
+    publish(PROJECT_UPDATED)
   }
 
   const deleteProject = () => {
@@ -44,7 +44,7 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
 
   const viewStoryInProject = () => {
     history.push('/stories')
-    publishFilterStoryByProjectEvent(id)
+    setTimeout(() => publish(FILTER_STORY_BY_PROJECT, id), 1000)
   }
 
   return (

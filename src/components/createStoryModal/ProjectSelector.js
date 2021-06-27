@@ -1,19 +1,28 @@
 import { RightCircleFilled } from '@ant-design/icons'
+import { subscribe, unsubscribe } from 'pubsub-js'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useEventContext } from '../../contexts/eventContext'
 import { useProject } from '../../hooks/useRequest'
+import { PROJECT_CREATED, PROJECT_DELETED, PROJECT_UPDATED } from '../../utils/events'
 import { ObjectSelector } from './ObjectSelector'
 
 export function ProjectSelector({ projectId, onProjectIdChange }) {
   const { t } = useTranslation()
   const [projects, setProjects] = useState([])
   const { getProjects } = useProject()
-  const { projectCreatedEvent, projectDeletedEvent } = useEventContext()
 
   useEffect(() => {
     getProjectData()
-  }, [projectCreatedEvent, projectDeletedEvent])
+    subscribe(PROJECT_CREATED, getProjectData)
+    subscribe(PROJECT_UPDATED, getProjectData)
+    subscribe(PROJECT_DELETED, getProjectData)
+
+    return () => {
+      unsubscribe(PROJECT_CREATED)
+      unsubscribe(PROJECT_UPDATED)
+      unsubscribe(PROJECT_DELETED)
+    }
+  }, [])
 
   useEffect(async () => {
     !projectId && projects.length && onProjectIdChange(`${projects[0].id}`)
