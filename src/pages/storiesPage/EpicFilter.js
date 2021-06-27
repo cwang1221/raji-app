@@ -8,7 +8,7 @@ import { FilterTitle } from './FilterTitle'
 import { useEpic } from '../../hooks/useRequest'
 import { CheckItem } from './CheckItem'
 import { EpicStateIcon } from '../../components'
-import { EPIC_CREATED, EPIC_DELETED } from '../../utils/events'
+import { EPIC_CREATED } from '../../utils/events'
 
 export function EpicFilter({ selectedEpicIds, onSelectionChange, expanded, onExpandedChange }) {
   const { t } = useTranslation()

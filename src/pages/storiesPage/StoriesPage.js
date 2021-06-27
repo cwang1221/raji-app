@@ -9,7 +9,7 @@ import { Filter } from './Filter'
 import { StoryContainer } from './StoryContainer'
 import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
 import { StoryCard } from '../../components'
-import { FILTER_STORY_BY_PROJECT, STORY_CREATED, STORY_DELETED, STORY_UPDATED } from '../../utils/events'
+import { FILTER_STORY_BY_PROJECT, STORY_CREATED, STORY_UPDATED } from '../../utils/events'
 
 export function StoriesPage() {
   const { t } = useTranslation()
