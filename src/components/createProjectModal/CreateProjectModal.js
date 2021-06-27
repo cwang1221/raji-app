@@ -1,4 +1,4 @@
-import { Form, Modal, Space, Input, Select, Button, Alert } from 'antd'
+import { Form, Modal, Space, Input, Select, Button } from 'antd'
 import { publish } from 'pubsub-js'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,7 +8,9 @@ import { focusErrorInForm } from '../../utils'
 import { PROJECT_CREATED, PROJECT_UPDATED } from '../../utils/events'
 import { ColorDropdown } from '../colorDropdown'
 import { CreateButton } from '../createButton'
+import { InfoBlock } from '../infoBlock'
 import { MyLabel } from '../myLabel'
+import { VerticalSpace } from '../verticalSpace'
 
 export function CreateProjectModal({ id, visible, disableType, type = 'web', close }) {
   const { t } = useTranslation()
@@ -116,8 +118,8 @@ export function CreateProjectModal({ id, visible, disableType, type = 'web', clo
             <Input.TextArea rows={5} maxLength={500} />
           </Form.Item>
         </Form>
-        <Space direction="vertical" size="middle">
-          <CreateInfo message={t('project.createModalInfo')} />
+        <RightContainer>
+          <InfoBlock message={t('project.createModalInfo')} />
 
           <ColorDropdown color={color} onColorChange={setColor}>
             <Button size="small" style={{ width: '100%', textAlign: 'start' }}>
@@ -125,15 +127,15 @@ export function CreateProjectModal({ id, visible, disableType, type = 'web', clo
               <span style={{ backgroundColor: color, width: '0.5rem', height: '0.5rem', marginLeft: '0.5rem' }} />
             </Button>
           </ColorDropdown>
+          <VerticalSpace />
+
           <CreateButton text={t(id ? 'header.udpateProject' : 'project.createProject')} onClick={createProject} />
-        </Space>
+        </RightContainer>
       </Space>
     </Modal>
   )
 }
 
-const CreateInfo = styled(Alert)`
-  margin-top: 2.5rem;
-  background-color: rgb(232, 240, 253);
-  border: 0;
+const RightContainer = styled.div`
+  margin-top: 40px;
 `

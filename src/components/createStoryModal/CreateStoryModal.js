@@ -16,6 +16,7 @@ import { EstimateSelector } from '..'
 import { focusErrorInForm } from '../../utils'
 import { useStory } from '../../hooks/useRequest'
 import { STORY_CREATED, STORY_UPDATED } from '../../utils/events'
+import { VerticalSpace } from '../verticalSpace'
 
 export function CreateStoryModal({ visible, close, id }) {
   const { t } = useTranslation()
@@ -120,18 +121,18 @@ export function CreateStoryModal({ visible, close, id }) {
         <RightContainer>
           <ProjectSelector projectId={projectId} onProjectIdChange={setProjectId} />
           <StoryStateSelector state={state} onStateChange={setState} />
-          <BottomSpace />
+          <VerticalSpace />
 
           <EpicSelector epicId={epicId} onEpicIdChange={setEpicId} />
           <StoryTypeSelector type={type} onTypeChange={setType} />
-          <BottomSpace />
+          <VerticalSpace />
 
           <RequesterSelector requesterId={requesterId} onRequesterIdChange={setRequesterId} />
           <OwnerSelector ownerId={ownerId} onOwnerIdChange={setOwnerId} />
-          <BottomSpace />
+          <VerticalSpace />
 
           <EstimateSelector estimate={estimate} onEstimateChange={setEstimate} />
-          <BottomSpace />
+          <VerticalSpace />
 
           <CreateButton text={t(id ? 'header.updateStory' : 'header.createStory')} onClick={createStory} />
         </RightContainer>
@@ -142,8 +143,4 @@ export function CreateStoryModal({ visible, close, id }) {
 
 const RightContainer = styled.div`
   margin-top: 40px;
-`
-
-const BottomSpace = styled.div`
-  height: 1rem;
 `

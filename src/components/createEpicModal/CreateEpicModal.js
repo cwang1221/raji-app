@@ -1,4 +1,4 @@
-import { Form, Modal, Space, Input, Alert } from 'antd'
+import { Form, Modal, Space, Input } from 'antd'
 import { useRef, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -9,6 +9,8 @@ import { focusErrorInForm } from '../../utils'
 import { useEpic, useMilestone } from '../../hooks/useRequest'
 import { StateSelector, MilestoneSelector } from '..'
 import { EPIC_CREATED, EPIC_UPDATED } from '../../utils/events'
+import { InfoBlock } from '../infoBlock'
+import { VerticalSpace } from '../verticalSpace'
 
 export function CreateEpicModal({ visible, close, id }) {
   const { t } = useTranslation()
@@ -99,11 +101,11 @@ export function CreateEpicModal({ visible, close, id }) {
           </Form.Item>
         </Form>
         <RightContainer>
-          <CreateInfo message={t('epic.createModalInfo')} />
+          <InfoBlock message={t('epic.createModalInfo')} />
 
           <MilestoneSelector milestoneId={milestoneId} onMilestoneIdChange={setMilestoneId} />
           <StateSelector state={state} onStateChange={setState} />
-          <BottomSpace />
+          <VerticalSpace />
 
           <CreateButton text={t(id ? 'header.updateEpic' : 'header.createEpic')} onClick={createEpic} />
         </RightContainer>
@@ -114,14 +116,4 @@ export function CreateEpicModal({ visible, close, id }) {
 
 const RightContainer = styled.div`
   margin-top: 40px;
-`
-
-const CreateInfo = styled(Alert)`
-  background-color: rgb(232, 240, 253);
-  margin-bottom: 1rem;
-  border: 0;
-`
-
-const BottomSpace = styled.div`
-  height: 1rem;
 `

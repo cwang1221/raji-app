@@ -1,4 +1,4 @@
-import { Form, Modal, Space, Input, Alert } from 'antd'
+import { Form, Modal, Space, Input } from 'antd'
 import { useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -8,6 +8,7 @@ import { MyLabel } from '../myLabel'
 import { focusErrorInForm } from '../../utils'
 import { useMilestone } from '../../hooks/useRequest'
 import { MILESTONE_CREATED, MILESTONE_UPDATED } from '../../utils/events'
+import { InfoBlock } from '../infoBlock'
 
 export function CreateMilestoneModal({ id, visible, close }) {
   const { t } = useTranslation()
@@ -74,7 +75,7 @@ export function CreateMilestoneModal({ id, visible, close }) {
           </Form.Item>
         </Form>
         <RightContainer>
-          <CreateInfo message={t('milestone.createModalInfo')} />
+          <InfoBlock message={t('milestone.createModalInfo')} />
           <CreateButton text={t(id ? 'header.updateMilestone' : 'header.createMilestone')} onClick={createMilestone} />
         </RightContainer>
       </Space>
@@ -84,10 +85,4 @@ export function CreateMilestoneModal({ id, visible, close }) {
 
 const RightContainer = styled.div`
   margin-top: 40px;
-`
-
-const CreateInfo = styled(Alert)`
-  background-color: rgb(232, 240, 253);
-  margin-bottom: 1rem;
-  border: 0;
 `
