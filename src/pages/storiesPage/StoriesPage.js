@@ -46,6 +46,10 @@ export function StoriesPage() {
 
   useEffect(() => {
     getStoryData()
+    unsubscribe(STORY_CREATED)
+    unsubscribe(STORY_UPDATED)
+    subscribe(STORY_CREATED, getStoryData)
+    subscribe(STORY_UPDATED, getStoryData)
   }, [selectedProjectIds, selectedEpicIds, selectedStates])
 
   const getStoryData = async () => {

@@ -44,6 +44,14 @@ export function EpicsPage() {
 
   useEffect(() => {
     getEpicData()
+    unsubscribe(STORY_CREATED)
+    unsubscribe(STORY_UPDATED)
+    unsubscribe(EPIC_CREATED)
+    unsubscribe(EPIC_UPDATED)
+    subscribe(STORY_CREATED, getEpicData)
+    subscribe(STORY_UPDATED, getEpicData)
+    subscribe(EPIC_CREATED, getEpicData)
+    subscribe(EPIC_UPDATED, getEpicData)
   }, [filteredProjects, filteredMilestones, filteredStates])
 
   const getEpicData = async () => {

@@ -41,6 +41,10 @@ export function HomePage() {
 
   useEffect(() => {
     getStoryData()
+    unsubscribe(STORY_CREATED)
+    unsubscribe(STORY_UPDATED)
+    subscribe(STORY_CREATED, getStoryData)
+    subscribe(STORY_UPDATED, getStoryData)
   }, [selectedViewOption])
 
   const getStoryData = async () => {

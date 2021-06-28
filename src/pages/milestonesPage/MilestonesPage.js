@@ -45,6 +45,18 @@ export function MilestonesPage() {
 
   useEffect(() => {
     getMilestones()
+    unsubscribe(STORY_CREATED)
+    unsubscribe(EPIC_CREATED)
+    unsubscribe(EPIC_UPDATED)
+    unsubscribe(MILESTONE_CREATED)
+    unsubscribe(MILESTONE_UPDATED)
+    unsubscribe(MILESTONE_DELETED)
+    subscribe(STORY_CREATED, getMilestones)
+    subscribe(EPIC_CREATED, getMilestones)
+    subscribe(EPIC_UPDATED, getMilestones)
+    subscribe(MILESTONE_CREATED, getMilestones)
+    subscribe(MILESTONE_UPDATED, getMilestones)
+    subscribe(MILESTONE_DELETED, getMilestones)
   }, [
     filteredStates,
     filteredProjects
