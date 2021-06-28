@@ -9,15 +9,15 @@ export const useFilterState = () => useContext(FilterStateContext)
 
 export function FilterBar({ leftChildren, rightChildren }) {
   const { t } = useTranslation()
-  const [filtering, setFiltering] = useState(false)
+  const [filteredFilters, setFilteredFilters] = useState([])
   const [clearFlag, setClearFlag] = useState(0)
 
   return (
-    <FilterStateContext.Provider value={{ setFiltering, clearFlag }}>
+    <FilterStateContext.Provider value={{ setFilteredFilters, clearFlag }}>
       <Container>
         <Space align="end">
           {leftChildren}
-          {filtering && (
+          {filteredFilters.length > 0 && (
             <Button onClick={() => setClearFlag((prev) => prev + 1)}>
               <StopOutlined style={{ color: 'rgb(198, 107, 107)' }} />{t('filterBar.clearFilters')}
             </Button>

@@ -20,9 +20,9 @@ export function EpicsPage() {
     inProgress: [],
     done: []
   })
-  const [filteredProjects, setFilteredProjects] = useState(['all'])
-  const [filteredMilestones, setFilteredMilestones] = useState(['all'])
-  const [filteredStates, setFilteredStates] = useState(['all'])
+  const [filteredProjects, setFilteredProjects] = useState([])
+  const [filteredMilestones, setFilteredMilestones] = useState([])
+  const [filteredStates, setFilteredStates] = useState(['todo', 'inProgress', 'done'])
   const [dropDisabledState, setDropDisabledState] = useState('')
   const { getEpicsUiList, putEpic } = useEpic()
   const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
@@ -79,8 +79,8 @@ export function EpicsPage() {
 
       <FilterBar
         leftChildren={[
-          <ProjectFilter key="projectFilter" selectedProjects={filteredProjects} onChange={setFilteredProjects} />,
-          <MilestoneFilter key="milestoneFilter" selectedMilestones={filteredMilestones} onChange={setFilteredMilestones} />,
+          <ProjectFilter key="projectFilter" selectedProjectIds={filteredProjects} onChange={setFilteredProjects} />,
+          <MilestoneFilter key="milestoneFilter" selectedMilestoneIds={filteredMilestones} onChange={setFilteredMilestones} />,
           <EpicStateFilter key="epicStateFilter" selectedStates={filteredStates} onChange={setFilteredStates} />
         ]}
         rightChildren={[

@@ -15,8 +15,8 @@ import { EPIC_CREATED, EPIC_UPDATED, MILESTONE_CREATED, MILESTONE_DELETED, MILES
 
 export function MilestonesPage() {
   const { t } = useTranslation()
-  const [filteredStates, setFilteredStates] = useState(['all'])
-  const [filteredProjects, setFilteredProjects] = useState(['all'])
+  const [filteredStates, setFilteredStates] = useState(['todo', 'inProgress', 'done'])
+  const [filteredProjects, setFilteredProjects] = useState([])
   const [milestones, setMilestones] = useState([])
   const [dragging, setDragging] = useState(false)
   const { getMilestonesList, putMilestone } = useMilestone()
@@ -105,9 +105,9 @@ export function MilestonesPage() {
 
       <FilterBar
         leftChildren={[
-          <MilestoneStateFilter key="milestoneStateFilter" selectedStates={filteredStates} onChange={setFilteredStates} />,
+          <MilestoneStateFilter key="milestoneState" selectedStates={filteredStates} onChange={setFilteredStates} />,
           <Seperator key="seperator" />,
-          <ProjectFilter key="projectFilter" selectedProjects={filteredProjects} onChange={setFilteredProjects} />
+          <ProjectFilter key="project" selectedProjectIds={filteredProjects} onChange={setFilteredProjects} />
         ]}
         rightChildren={[
           <RadioGroupButton

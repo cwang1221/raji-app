@@ -77,10 +77,10 @@ const getMilestonesList = async (states, projectIds) => {
   let url = '/milestones/ui/list'
 
   const queryStrings = []
-  states && !states.includes('all') && queryStrings.push(`state=${states.join(',')}`)
-  projectIds && !projectIds.includes('all') && queryStrings.push(`projectId=${projectIds.join(',')}`)
+  queryStrings.push(`state=${states.join(',')}`)
+  queryStrings.push(`projectId=${projectIds.join(',')}`)
 
-  queryStrings.length > 0 && (url += `?${queryStrings.join('&')}`)
+  url += `?${queryStrings.join('&')}`
 
   const { data } = await axios.request({
     url,
@@ -183,9 +183,9 @@ const getEpicsUiList = async (projectIds, milestoneIds, states) => {
   let url = '/epics/ui/list'
 
   const queryStrings = []
-  projectIds.length && !projectIds.includes('all') && queryStrings.push(`projectId=${projectIds.join(',')}`)
-  milestoneIds.length && !milestoneIds.includes('all') && queryStrings.push(`milestoneId=${milestoneIds.join(',')}`)
-  states.length && !states.includes('all') && queryStrings.push(`state=${states.join(',')}`)
+  queryStrings.push(`projectId=${projectIds.join(',')}`)
+  queryStrings.push(`milestoneId=${milestoneIds.join(',')}`)
+  queryStrings.push(`state=${states.join(',')}`)
 
   queryStrings.length > 0 && (url += `?${queryStrings.join('&')}`)
 
