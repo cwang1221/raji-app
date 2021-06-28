@@ -1,8 +1,5 @@
 import { Typography } from 'antd'
 import styled from 'styled-components'
-import { RadioGroupButton } from './RadioGroupButton'
-import { Seperator } from './Seperator'
-import { MultiSelect } from './MultiSelect'
 
 export function FilterItemBase({ name, children }) {
   return (
@@ -11,12 +8,6 @@ export function FilterItemBase({ name, children }) {
       {children}
     </Container>
   )
-}
-
-export const FilterItem = {
-  RadioGroupButton,
-  Seperator,
-  MultiSelect
 }
 
 const Container = styled.div`

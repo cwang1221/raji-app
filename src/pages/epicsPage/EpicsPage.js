@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { EpicStateFilter, FilterBar, FilterItem, MilestoneFilter, ProjectFilter } from '../../components'
+import { EpicStateFilter, FilterBar, MilestoneFilter, ProjectFilter, RadioGroupButton } from '../../components'
 import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
 import { useEpic } from '../../hooks'
 import { EPIC_CREATED, EPIC_UPDATED, STORY_CREATED, STORY_UPDATED } from '../../utils/events'
@@ -84,7 +84,7 @@ export function EpicsPage() {
           <EpicStateFilter key="epicStateFilter" selectedStates={filteredStates} onChange={setFilteredStates} />
         ]}
         rightChildren={[
-          <FilterItem.RadioGroupButton
+          <RadioGroupButton
             key="viewSetting"
             name={t('milestone.view')}
             items={[

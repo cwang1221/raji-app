@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { publish, subscribe, unsubscribe } from 'pubsub-js'
-import { FilterBar, FilterItem, MilestoneStateFilter, ProjectFilter } from '../../components'
+import { FilterBar, MilestoneStateFilter, ProjectFilter, RadioGroupButton, Seperator } from '../../components'
 import { useDocumentTitle, useMilestone } from '../../hooks'
 import { Epic } from './Epic'
 import { BacklogHeader } from './BacklogHeader'
@@ -106,11 +106,11 @@ export function MilestonesPage() {
       <FilterBar
         leftChildren={[
           <MilestoneStateFilter key="milestoneStateFilter" selectedStates={filteredStates} onChange={setFilteredStates} />,
-          <FilterItem.Seperator key="seperator" />,
+          <Seperator key="seperator" />,
           <ProjectFilter key="projectFilter" selectedProjects={filteredProjects} onChange={setFilteredProjects} />
         ]}
         rightChildren={[
-          <FilterItem.RadioGroupButton
+          <RadioGroupButton
             key="viewSetting"
             name={t('milestone.view')}
             items={[

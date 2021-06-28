@@ -8,16 +8,9 @@ import { EpicStateIcon } from '../epicStateIcon/EpicStateIcon'
 import { MyCard } from '../myCard'
 import { FilterItemBase } from './FilterItem'
 
-export function EpicStateFilter({ selectedStates, onChange, registerFilter }) {
+export function EpicStateFilter({ selectedStates, onChange }) {
   const { t } = useTranslation()
   const [shownText, setShownText] = useState(t('filterBar.all'))
-
-  useEffect(() => {
-    registerFilter({
-      id: 'epicState',
-      clear: () => filterChange(['all'])
-    })
-  }, [])
 
   useEffect(() => {
     if (selectedStates.includes('all')) {
