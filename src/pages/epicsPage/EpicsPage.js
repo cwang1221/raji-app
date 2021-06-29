@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { EpicStateFilter, FilterBar, MilestoneFilter, ProjectFilter, RadioGroupButton } from '../../components'
 import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
-import { useEpic } from '../../hooks'
+import { useDocumentTitle, useEpic } from '../../hooks'
 import { EPIC_CREATED, EPIC_UPDATED, STORY_CREATED, STORY_UPDATED } from '../../utils/events'
 import { AreaTitle } from './AreaTitle'
 import { DoneItem } from './DoneItem'
@@ -26,6 +26,8 @@ export function EpicsPage() {
   const [dropDisabledState, setDropDisabledState] = useState('')
   const { getEpicsUiList, putEpic } = useEpic()
   const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
+
+  useDocumentTitle(t('general.epics'))
 
   useEffect(() => {
     setHeaderCreateButtonType('epic')

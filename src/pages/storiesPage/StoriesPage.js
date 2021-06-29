@@ -3,7 +3,7 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { subscribe, unsubscribe } from 'pubsub-js'
-import { useStory } from '../../hooks'
+import { useDocumentTitle, useStory } from '../../hooks'
 import { clone } from '../../utils'
 import { Filter } from './Filter'
 import { StoryContainer } from './StoryContainer'
@@ -28,6 +28,8 @@ export function StoriesPage() {
   const { getStoryUiList, putStory } = useStory()
   const statesRef = useRef(['unscheduled', 'readyForDevelopment', 'inDevelopment', 'readyForReview', 'readyForDeploy', 'completed'])
   const { setHeaderCreateButtonType } = useHeaderCreateButtonContext()
+
+  useDocumentTitle(t('general.stories'))
 
   useEffect(() => {
     setHeaderCreateButtonType('story')

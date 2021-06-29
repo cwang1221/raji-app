@@ -28,7 +28,7 @@ export function SettingPage() {
     && toolsFormRef.current.setFieldsValue({ timePerTopic: setting.timePerTopic })
   }, [setting])
 
-  useDocumentTitle(t('signIn.signIn'))
+  useDocumentTitle(t('header.setting'))
 
   const onProfileFinish = async ({ username }) => {
     putUser(username)

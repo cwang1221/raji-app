@@ -20,7 +20,7 @@ export function HeaderCreateButton() {
   useEffect(() => {
     const i18nKey = `header.create${headerCreateButtonType.substring(0, 1).toUpperCase()}${headerCreateButtonType.substring(1)}`
     setButtonText(t(i18nKey))
-  }, [headerCreateButtonType, t])
+  }, [headerCreateButtonType])
 
   const createObject = (objectType) => {
     switch (objectType) {
