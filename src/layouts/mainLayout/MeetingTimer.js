@@ -3,14 +3,23 @@ import { useTranslation } from 'react-i18next'
 import { Button, Typography } from 'antd'
 import styled from 'styled-components'
 import { useSettingContext } from '../../contexts/settingContext'
+import { useSetting } from '../../hooks/useRequest'
 
 let timeInterval
 
 export function MeetingTimer({ onTimeout, clearTimeout }) {
   const [start, setStart] = useState(false)
   const [time, setTime] = useState(0)
-  const { setting } = useSettingContext()
+  const { setting, setSetting } = useSettingContext()
+  const { getSetting } = useSetting()
   const { t } = useTranslation()
+
+  useEffect(async () => {
+    if (!setting.timePerTopic) {
+      const data = await getSetting()
+      setSetting(data)
+    }
+  }, [])
 
   useEffect(() => {
     if (start) {
