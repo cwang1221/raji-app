@@ -6,7 +6,7 @@ export function ProgressBar({ countOfStories, countOfDoneStories, countOfInProgr
 
   return (
     <>
-      <div style={{ marginTop: '0.5rem', marginBottom: '-0.5rem' }}>
+      <div className="mt-2 -mb-2">
         <Typography.Text strong>{t('epic.percentage', {
           completed: countOfStories ? Math.round((countOfDoneStories / countOfStories) * 100) : 0,
           inProgress: countOfStories ? Math.round((countOfInProgressStories / countOfStories) * 100) : 0
@@ -18,7 +18,7 @@ export function ProgressBar({ countOfStories, countOfDoneStories, countOfInProgr
           percent={((countOfInProgressStories + countOfDoneStories) / countOfStories) * 100}
           success={{ percent: (countOfDoneStories / countOfStories) * 100 }}
           showInfo={false}
-          trailColor="#D9EAF0"
+          trailColor="#E5E7EB"
         />
       </Tooltip>
     </>

@@ -1,9 +1,9 @@
 import { FlagFilled, FlagOutlined, CheckCircleOutlined } from '@ant-design/icons'
 
 const stateMapping = {
-  todo: <FlagOutlined style={{ color: 'rgb(97, 39, 202)' }} />,
-  inProgress: <FlagFilled style={{ color: 'rgb(97, 39, 202)' }} />,
-  done: <CheckCircleOutlined style={{ color: '#009D4D' }} />
+  todo: <FlagOutlined className="text-purple-700" />,
+  inProgress: <FlagFilled className="text-purple-700" />,
+  done: <CheckCircleOutlined className="text-green-500" />
 }
 
 export function EpicStateIcon({ state }) {

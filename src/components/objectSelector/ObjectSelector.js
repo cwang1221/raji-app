@@ -1,11 +1,11 @@
 import { Dropdown, Menu } from 'antd'
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { stopPropagation } from '../../utils'
 import { MyCard } from '../myCard'
 import { SearchInput } from '../searchInput'
 
-export function ObjectSelector({ title, items, selectedId, onSelect, popupTitle, style, showSearch = true }) {
+export function ObjectSelector({ title, items, selectedId, onSelect, popupTitle, showSearch = true }) {
   const [searchText, setSearchText] = useState([])
   const [selectedItem, setSelectedItem] = useState({})
 
@@ -15,88 +15,75 @@ export function ObjectSelector({ title, items, selectedId, onSelect, popupTitle,
 
   const Popup = () => (
     <div>
-      <PopupContainer>
-        <PopupHeader>
-          <span style={{ fontSize: '12px' }}>{popupTitle}</span>
+      <MyCard className="w-64">
+        <div className="p-2">
+          <span className="text-sm">{popupTitle}</span>
           {showSearch && <SearchInput onChange={(e) => setSearchText(e.currentTarget.value.toLowerCase())} onClick={(e) => stopPropagation(e)} />}
-        </PopupHeader>
-        <Menu selectedKeys={[selectedId]} onSelect={({ key }) => onSelect(key)} style={{ borderRight: '0', maxHeight: '20rem', overflow: 'auto' }}>
+        </div>
+        <Menu selectedKeys={[selectedId]} onSelect={({ key }) => onSelect(key)} className="border-r-0 max-h-80 overflow-auto">
           {items.filter((item) => item.name.toLowerCase().includes(searchText)).map((item) => (
             <Menu.Item
               key={`${item.id}`}
               icon={item.id !== 'none' && item.icon}
-              style={{ fontStyle: item.id === 'none' ? 'italic' : 'normal' }}
+              className={item.id === 'none' && 'italic'}
             >
               {item.name}
             </Menu.Item>
           ))}
         </Menu>
-      </PopupContainer>
+      </MyCard>
     </div>
   )
 
   return (
     <Dropdown overlay={Popup} trigger={['click']}>
-      <Container style={style}>
-        <span style={{ fontSize: '24px', display: 'flex' }}>
+      <Container>
+        <span className="flex text-2xl">
           {selectedItem.icon}
         </span>
         <TextContainer>
           <Title>{title}</Title>
-          <Text isNone={selectedId === 'none'}>{selectedItem.name}</Text>
+          <Text $isNone={selectedId === 'none'}>{selectedItem.name}</Text>
         </TextContainer>
       </Container>
     </Dropdown>
   )
 }
 
-const Container = styled.div`
-  border: 1px rgb(217, 217, 217) solid;
-  border-radius: 5px;
-  display: flex;
+const Container = tw.div`
+  flex
+  items-center
+  h-10
+  w-48
+  border
+  text-left
+  border-gray-300
+  rounded-md
   align-items: center;
-  height: 40px;
-  width: 190px;
-  text-align: left;
-  padding: 8px;
+  p-2
+  cursor-pointer
 
-  &:hover {
-    border: 1px #804bd6 solid;
-    cursor: pointer;
-  }
+  hover:border-main-purple
 `
 
-const TextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-left: 8px;
+const TextContainer = tw.div`
+  flex
+  flex-col
+  ml-2
 `
 
-const Title = styled.span`
-  font-size: 13px;
-  color: gray;
+const Title = tw.span`
+  text-sm
+  text-purple-700
 `
 
-const Text = styled.span`
-  margin-top: -4px;
-  font-size: 13px;
-  font-weight: 600;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 130px;
-  font-style: ${(props) => (props.isNone ? 'italic' : 'normal')};
-  color: ${(props) => (props.isNone && 'gray')};
-`
-
-const PopupContainer = styled(MyCard)`
-  width: 16rem;
-
-  & .ant-card-body {
-    padding: 0;
-  }
-`
-
-const PopupHeader = styled.div`
-  padding: 0.5rem
+const Text = tw.span`
+  -mt-1
+  text-sm
+  font-semibold
+  whitespace-nowrap
+  overflow-ellipsis
+  overflow-hidden
+  w-32
+  ${({ $isNone }) => ($isNone && 'italic text-gray-500')}
 `

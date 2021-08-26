@@ -58,10 +58,10 @@ export function HeaderCreateButton() {
         trigger={['click']}
         overlay={(
           <Menu onClick={(e) => createObject(e.key)} style={{ width: dropdownWidth }}>
-            <Menu.Item key="story" icon={<FileTextFilled style={{ color: 'gray' }} />}>{t('header.createStory')}</Menu.Item>
-            <Menu.Item key="epic" icon={<FlagFilled style={{ color: 'rgb(100, 20, 219)' }} />}>{t('header.createEpic')}</Menu.Item>
-            <Menu.Item key="project" icon={<RocketFilled style={{ color: 'gray' }} />}>{t('header.createProject')}</Menu.Item>
-            <Menu.Item key="milestone" icon={<EnvironmentFilled style={{ color: 'rgb(237, 128, 2)' }} />}>{t('header.createMilestone')}</Menu.Item>
+            <Menu.Item key="story" icon={<FileTextFilled className="text-green-600" />}>{t('header.createStory')}</Menu.Item>
+            <Menu.Item key="epic" icon={<FlagFilled className="text-purple-700" />}>{t('header.createEpic')}</Menu.Item>
+            <Menu.Item key="project" icon={<RocketFilled className="text-gray-600" />}>{t('header.createProject')}</Menu.Item>
+            <Menu.Item key="milestone" icon={<EnvironmentFilled className="text-yellow-600" />}>{t('header.createMilestone')}</Menu.Item>
           </Menu>
       )}
       >

@@ -29,7 +29,7 @@ export function Epic({ id, name, state, countOfStories, countOfDoneStories, coun
                   percent={((countOfInProgressStories + countOfDoneStories) / countOfStories) * 100}
                   success={{ percent: (countOfDoneStories / countOfStories) * 100 }}
                   showInfo={false}
-                  trailColor="#D9EAF0"
+                  trailColor="#E5E7EB"
                 />
               </DataBackground>
             </Tooltip>
