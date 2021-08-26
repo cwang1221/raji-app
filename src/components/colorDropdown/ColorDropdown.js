@@ -1,6 +1,5 @@
-import { Row, Dropdown } from 'antd'
-import styled from 'styled-components'
-import { MyCard } from '..'
+import { Dropdown } from 'antd'
+import tw from 'tailwind-styled-components'
 
 const colors = [
   ['#880000', '#CC0000', '#DD6E13', '#E2C534'],
@@ -17,14 +16,14 @@ export function ColorDropdown({ color, onColorChange, children }) {
     <Dropdown
       overlay={(
         <div>
-          <ColorDropDownContainer style={{ width: '131px' }}>
+          <ColorDropDownContainer>
             {colors.map((row, rowIndex) => (
               <Row key={rowIndex}>
                 {row.map((colorCode) => (
                   <ColorBlock
                     key={colorCode}
-                    color={colorCode}
-                    className={color.toLowerCase() === colorCode.toLowerCase() ? 'selected' : undefined}
+                    style={{ backgroundColor: colorCode }}
+                    $selected={color.toLowerCase() === colorCode.toLowerCase()}
                     onClick={() => onColorChange(colorCode)}
                   />
                 ))}
@@ -40,32 +39,31 @@ export function ColorDropdown({ color, onColorChange, children }) {
   )
 }
 
-const ColorBlock = styled.div`
-  width: 20px;
-  height: 20px;
-  margin: 4px;
-  background-color: ${(props) => props.color};
-  
-  &:hover {
-    margin: 2px;
-    width: 24px;
-    height: 24px;
-    border: white solid 2px;
-    outline: #DCDCDC solid 1px;
-    cursor: pointer;
-  }
-
-  &.selected {
-    margin: 2px;
-    width: 24px;
-    height: 24px;
-    border: white solid 2px;
-    outline: darkgray solid 1px;
-  }
+const ColorDropDownContainer = tw.div`
+  p-2
+  bg-white
+  rounded-md
+  shadow-lg
+  space-y-2
 `
 
-const ColorDropDownContainer = styled(MyCard)`
-  & .ant-card-body {
-    padding: 0.5rem;
-  }
+const Row = tw.div`
+  flex
+  flex-row
+  space-x-2
+`
+
+const ColorBlock = tw.div`
+  w-5
+  h-5
+  rounded-sm
+  ring-offset-2
+  cursor-pointer
+  ring-gray-400
+  ring-0
+
+  ${({ $selected }) => $selected && 'ring-1 hover:ring-gray-600'}}
+
+  hover:ring-gray-300
+  hover:ring-1
 `

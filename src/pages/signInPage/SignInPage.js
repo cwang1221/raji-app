@@ -2,7 +2,7 @@ import { Form, Input, Button, Image } from 'antd'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { useAuth } from '../../contexts/authContext'
 import logo from '../../assets/images/logo.png'
 import { focusErrorInForm } from '../../utils'
@@ -57,8 +57,8 @@ export function SignInPage() {
           >
             <Input maxLength={100} type="password" />
           </Form.Item>
-          <Form.Item style={{ marginTop: '3rem' }}>
-            <Button type="primary" htmlType="submit" style={{ width: '100%' }}>{t('signIn.signIn')}</Button>
+          <Form.Item className="mt-12">
+            <Button type="primary" htmlType="submit" className="w-full">{t('signIn.signIn')}</Button>
           </Form.Item>
         </SignInForm>
       </Card>
@@ -66,28 +66,30 @@ export function SignInPage() {
   )
 }
 
-const Container = styled.div`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 2rem;
+const Container = tw.div`
+  h-screen
+  flex
+  flex-col
+  items-center
+  pt-8
+`
+const Card = tw.div`
+  border
+  border-gray-200
+  border-solid
+  rounded-lg
+  shadow-lg
+  pt-12
+  pb-16
+  px-8
 `
 
-const Card = styled.div`
-  border: 1px lightgray solid;
-  border-radius: 10px;
-  box-shadow: 5px 5px 5px lightgray;
-  padding: 3rem 2rem 4rem 2rem;
+const SignInForm = tw(Form)`
+  w-80  
 `
 
-const SignInForm = styled(Form)`
-  width: 20rem !important;
-  margin: 0 auto !important;
-`
-
-const Logo = styled(Image)`
-  width: 70% !important;
-  margin: 0 auto;
-  padding-bottom: 1rem !important;
+const Logo = tw(Image)`
+  w-2/3
+  mx-auto
+  pb-6
 `
