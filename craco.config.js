@@ -1,6 +1,16 @@
 const CracoLessPlugin = require('craco-less')
+const tailwindcss = require('tailwindcss')
+const autoprefixer = require('autoprefixer')
 
 module.exports = {
+  style: {
+    postcss: {
+      plugins: [
+        tailwindcss,
+        autoprefixer
+      ]
+    }
+  },
   plugins: [
     {
       plugin: CracoLessPlugin,

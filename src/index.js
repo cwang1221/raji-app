@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals'
 import './libs/i18n'
 import { AppProvider } from './contexts'
 import { ErrorBoundaryPage } from './pages'
+import './index.less'
 
 ReactDOM.render(
   <ErrorBoundary FallbackComponent={ErrorBoundaryPage}>
