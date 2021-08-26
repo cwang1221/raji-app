@@ -1,5 +1,5 @@
 import { Typography } from 'antd'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 
 export function FilterItemBase({ name, children }) {
   return (
@@ -10,10 +10,10 @@ export function FilterItemBase({ name, children }) {
   )
 }
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
+const Container = tw.div`
+  flex
+  flex-col
 `
-const Label = styled(Typography.Text)`
-  margin-bottom: 0.2rem;
+const Label = tw(Typography.Text)`
+  mb-1
 `

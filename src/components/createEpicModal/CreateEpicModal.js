@@ -1,7 +1,6 @@
 import { Form, Modal, Space, Input } from 'antd'
 import { useRef, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 import { publish } from 'pubsub-js'
 import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
@@ -100,7 +99,7 @@ export function CreateEpicModal({ visible, close, id }) {
             <Input.TextArea rows={5} maxLength={500} />
           </Form.Item>
         </Form>
-        <RightContainer>
+        <div className="mt-10">
           <InfoBlock message={t('epic.createModalInfo')} />
 
           <MilestoneSelector milestoneId={milestoneId} onMilestoneIdChange={setMilestoneId} />
@@ -108,12 +107,8 @@ export function CreateEpicModal({ visible, close, id }) {
           <VerticalSpace />
 
           <CreateButton text={t(id ? 'header.updateEpic' : 'header.createEpic')} onClick={createEpic} />
-        </RightContainer>
+        </div>
       </Space>
     </Modal>
   )
 }
-
-const RightContainer = styled.div`
-  margin-top: 40px;
-`

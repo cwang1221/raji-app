@@ -31,7 +31,7 @@ export function MilestoneFilter({ selectedMilestoneIds, onChange }) {
   return (
     <MultiSelect
       name={t('milestone.milestones')}
-      icon={<EnvironmentFilled style={{ color: 'rgb(237, 128, 2)' }} />}
+      icon={<EnvironmentFilled className="text-yellow-500" />}
       description={t('filterBar.milestoneHint')}
       showSearch
       items={milestones}

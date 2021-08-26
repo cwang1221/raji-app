@@ -2,7 +2,7 @@ import { Dropdown, Menu, Button, Input } from 'antd'
 import { CaretDownOutlined, StopOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { FilterItemBase } from './FilterItem'
 import { clone, stopPropagation } from '../../utils'
 import { MyCard } from '../myCard'
@@ -87,10 +87,10 @@ export function MultiSelect({ name, icon, description, showSearch, items, allTex
 
   const Popup = () => (
     <div>
-      <FilterPopup onClick={(e) => stopPropagation(e)}>
-        <span style={{ fontSize: '10px' }}>{description}</span>
+      <MyCard onClick={(e) => stopPropagation(e)} className="w-72">
+        <span className="text-xs">{description}</span>
         {showSearch && <Input.Search onChange={(e) => setSearchText(e.currentTarget.value.toLowerCase())} />}
-        <Menu multiple selectedKeys={formattedSelectedKeys} onSelect={onSelect} onDeselect={onDeselect} style={{ borderRight: '0px' }}>
+        <Menu multiple selectedKeys={formattedSelectedKeys} onSelect={onSelect} onDeselect={onDeselect} className="border-r-0">
           {formattedItems.filter((item) => !searchText || (item.key !== 'all' && item.text.toLowerCase().includes(searchText))).map((item) => (
             <Menu.Item
               key={item.key}
@@ -100,14 +100,14 @@ export function MultiSelect({ name, icon, description, showSearch, items, allTex
             </Menu.Item>
           ))}
         </Menu>
-      </FilterPopup>
+      </MyCard>
     </div>
   )
 
   return (
     <FilterItemBase name={name}>
       <Dropdown overlay={Popup} trigger={['click']}>
-        <Button>
+        <Button className="flex items-center">
           {icon}
           {shownText}
           {formattedSelectedKeys.includes('all')
@@ -119,19 +119,7 @@ export function MultiSelect({ name, icon, description, showSearch, items, allTex
   )
 }
 
-const FilterPopup = styled(MyCard)`
-  width: 18rem;
-  padding: 0.5rem;
-
-  & .ant-card-body {
-    padding: 0;
-  }
-`
-
-const ClearIcon = styled(StopOutlined)`
-  color: rgb(198, 107, 107);
-
-  &:hover {
-    color: darkred;
-  }
+const ClearIcon = tw(StopOutlined)`
+  text-red-600
+  hover:text-red-800
 `

@@ -2,7 +2,6 @@ import { Form, Modal, Space, Input, Select, Button } from 'antd'
 import { publish } from 'pubsub-js'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 import { useProject } from '../../hooks'
 import { focusErrorInForm } from '../../utils'
 import { PROJECT_CREATED, PROJECT_UPDATED } from '../../utils/events'
@@ -118,7 +117,7 @@ export function CreateProjectModal({ id, visible, disableType, type = 'web', clo
             <Input.TextArea rows={5} maxLength={500} />
           </Form.Item>
         </Form>
-        <RightContainer>
+        <div className="mt-10">
           <InfoBlock message={t('project.createModalInfo')} />
 
           <ColorDropdown color={color} onColorChange={setColor}>
@@ -130,12 +129,8 @@ export function CreateProjectModal({ id, visible, disableType, type = 'web', clo
           <VerticalSpace />
 
           <CreateButton text={t(id ? 'header.udpateProject' : 'project.createProject')} onClick={createProject} />
-        </RightContainer>
+        </div>
       </Space>
     </Modal>
   )
 }
-
-const RightContainer = styled.div`
-  margin-top: 40px;
-`

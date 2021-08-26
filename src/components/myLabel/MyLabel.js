@@ -1,6 +1,6 @@
 import { Typography } from 'antd'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 
 export function MyLabel({ children, required = false }) {
   const { t } = useTranslation()
@@ -12,9 +12,9 @@ export function MyLabel({ children, required = false }) {
   )
 }
 
-const Optional = styled(Typography.Text)`
-  margin-left: 0.5rem;
-  font-weight: 400;
-  color: gray;
-  font-style: italic;
+const Optional = tw(Typography.Text)`
+  ml-2
+  font-normal
+  text-gray-500
+  italic
 `

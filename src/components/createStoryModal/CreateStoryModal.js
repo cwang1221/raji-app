@@ -1,7 +1,6 @@
 import { Form, Modal, Space, Input } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 import { publish } from 'pubsub-js'
 import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
@@ -112,7 +111,7 @@ export function CreateStoryModal({ visible, close, id }) {
             <Input.TextArea rows={5} maxLength={500} />
           </Form.Item>
         </Form>
-        <RightContainer>
+        <div className="mt-10">
           <ProjectSelector projectId={projectId} onProjectIdChange={setProjectId} />
           <StoryStateSelector state={state} onStateChange={setState} />
           <VerticalSpace />
@@ -129,12 +128,8 @@ export function CreateStoryModal({ visible, close, id }) {
           <VerticalSpace />
 
           <CreateButton text={t(id ? 'header.updateStory' : 'header.createStory')} onClick={createStory} />
-        </RightContainer>
+        </div>
       </Space>
     </Modal>
   )
 }
-
-const RightContainer = styled.div`
-  margin-top: 40px;
-`

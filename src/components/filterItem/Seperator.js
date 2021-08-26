@@ -1,11 +1,5 @@
 export function Seperator() {
   return (
-    <div style={{
-      marginTop: '1.5rem',
-      width: '1px',
-      height: '30px',
-      backgroundColor: 'lightgrey'
-    }}
-    />
+    <div className="mt-6 w-px h-8 bg-gray-300" />
   )
 }

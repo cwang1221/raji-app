@@ -18,7 +18,7 @@ export function MilestoneStateFilter({ selectedStates, onChange }) {
   return (
     <MultiSelect
       name={t('milestone.states')}
-      icon={<AppstoreFilled style={{ color: 'rgb(132, 131, 135)' }} />}
+      icon={<AppstoreFilled className="text-gray-600" />}
       description={t('filterBar.milestoneStateHint')}
       showSearch={false}
       items={statesRef.current}

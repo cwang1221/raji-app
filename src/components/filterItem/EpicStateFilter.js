@@ -18,7 +18,7 @@ export function EpicStateFilter({ selectedStates, onChange }) {
   return (
     <MultiSelect
       name={t('epic.epicStates')}
-      icon={<AppstoreFilled style={{ color: 'rgb(132, 131, 135)' }} />}
+      icon={<AppstoreFilled className="text-gray-600" />}
       description={t('filterBar.epicStateHint')}
       showSearch={false}
       items={statesRef.current}

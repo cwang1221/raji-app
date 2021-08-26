@@ -1,7 +1,6 @@
 import { Form, Modal, Space, Input } from 'antd'
 import { useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 import { publish } from 'pubsub-js'
 import { CreateButton } from '../createButton'
 import { MyLabel } from '../myLabel'
@@ -74,15 +73,11 @@ export function CreateMilestoneModal({ id, visible, close }) {
             <Input.TextArea rows={5} maxLength={500} />
           </Form.Item>
         </Form>
-        <RightContainer>
+        <div className="mt-10">
           <InfoBlock message={t('milestone.createModalInfo')} />
           <CreateButton text={t(id ? 'header.updateMilestone' : 'header.createMilestone')} onClick={createMilestone} />
-        </RightContainer>
+        </div>
       </Space>
     </Modal>
   )
 }
-
-const RightContainer = styled.div`
-  margin-top: 40px;
-`

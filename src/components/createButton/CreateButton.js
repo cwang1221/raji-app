@@ -6,7 +6,7 @@ export function CreateButton({ text, onClick }) {
   return (
     <Container type="primary" size="large" onClick={onClick}>
       {text}
-      <RightIcon className="icon" />
+      <RightIcon />
     </Container>
   )
 }

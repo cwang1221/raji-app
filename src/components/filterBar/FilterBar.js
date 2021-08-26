@@ -1,7 +1,7 @@
 import { Button, Space } from 'antd'
 import { StopOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import React, { useState, createContext, useContext } from 'react'
 
 const FilterStateContext = createContext()
@@ -18,8 +18,8 @@ export function FilterBar({ leftChildren, rightChildren }) {
         <Space align="end">
           {leftChildren}
           {filteredFilters.length > 0 && (
-            <Button onClick={() => setClearFlag((prev) => prev + 1)}>
-              <StopOutlined style={{ color: 'rgb(198, 107, 107)' }} />{t('filterBar.clearFilters')}
+            <Button onClick={() => setClearFlag((prev) => prev + 1)} className="flex items-center">
+              <StopOutlined className="text-red-600" />{t('filterBar.clearFilters')}
             </Button>
           )}
         </Space>
@@ -31,8 +31,8 @@ export function FilterBar({ leftChildren, rightChildren }) {
   )
 }
 
-const Container = styled.div`
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: space-between;
+const Container = tw.div`
+  mb-4
+  flex
+  justify-between
 `

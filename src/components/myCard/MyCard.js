@@ -1,5 +1,4 @@
-import { Card } from 'antd'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 
 export function MyCard(props = {}) {
   return (
@@ -7,6 +6,9 @@ export function MyCard(props = {}) {
   )
 }
 
-const ShadowCard = styled(Card)`
-  box-shadow: 1px 2px 2px #DCDCDC;
+const ShadowCard = tw.div`
+  bg-white
+  p-2
+  rounded-md
+  shadow-lg
 `
