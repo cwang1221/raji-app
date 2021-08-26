@@ -7,8 +7,10 @@ module.exports = {
   variants: {
     extend: {
       ringColor: ['hover'],
-      ringWidth: ['hover']
+      ringWidth: ['hover'],
+      margin: ['group-hover']
     }
   },
-  plugins: []
+  plugins: [],
+  important: true
 }

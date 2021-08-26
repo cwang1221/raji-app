@@ -1,29 +1,29 @@
 import { Button } from 'antd'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { ArrowRightOutlined } from '@ant-design/icons'
 
 export function CreateButton({ text, onClick }) {
   return (
     <Container type="primary" size="large" onClick={onClick}>
       {text}
-      <ArrowRightOutlined className="icon" />
+      <RightIcon className="icon" />
     </Container>
   )
 }
 
-const Container = styled(Button)`
-  background: #13AE47 !important;
-  border-color: #13AE47 !important;;
-  height: 36px !important;
-  padding-top: 4.4px !important;
-  padding-bottom: 4.4px !important;
+const Container = tw(Button)`
+  h-9
+  flex
+  items-center
+  bg-green-500
+  border-green-500
+    
+  hover:bg-green-600
+  hover:border-green-600
 
-  &:hover{
-    background: #14B74B !important;
-    border-color: #14B74B !important;;
-  }
-  
-  &:hover .icon{
-    margin-left: 1rem;
-  }
+  group
+`
+
+const RightIcon = tw(ArrowRightOutlined)`
+  group-hover:ml-4
 `
