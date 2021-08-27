@@ -18,7 +18,7 @@ export function FilterBar({ leftChildren, rightChildren }) {
         <Space align="end">
           {leftChildren}
           {filteredFilters.length > 0 && (
-            <Button onClick={() => setClearFlag((prev) => prev + 1)} className="flex items-center">
+            <Button onClick={() => setClearFlag((prev) => prev + 1)}>
               <StopOutlined className="text-red-600" />{t('filterBar.clearFilters')}
             </Button>
           )}

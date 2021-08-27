@@ -107,7 +107,7 @@ export function MultiSelect({ name, icon, description, showSearch, items, allTex
   return (
     <FilterItemBase name={name}>
       <Dropdown overlay={Popup} trigger={['click']}>
-        <Button className="flex items-center">
+        <Button>
           {icon}
           {shownText}
           {formattedSelectedKeys.includes('all')

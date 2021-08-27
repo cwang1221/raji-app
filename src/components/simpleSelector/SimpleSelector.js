@@ -1,6 +1,6 @@
 import { Dropdown, Menu } from 'antd'
 import { useState } from 'react'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { stopPropagation } from '../../utils'
 import { MyCard } from '../myCard'
 import { SearchInput } from '../searchInput'
@@ -11,23 +11,23 @@ export function SimpleSelector({ title, description, showSearch, items, selected
 
   const Popup = () => (
     <div>
-      <PopupContainer>
-        <PopupHeader>
-          <span style={{ fontSize: '12px' }}>{description}</span>
+      <MyCard className="w-44">
+        <div className="p-2">
+          <span className="text-sm">{description}</span>
           {showSearch && <SearchInput onChange={(e) => setSearchText(e.currentTarget.value.toLowerCase())} onClick={(e) => stopPropagation(e)} />}
-        </PopupHeader>
-        <Menu selectedKeys={[selectedKey]} onSelect={({ key }) => onSelect(key)} style={{ borderRight: '0' }}>
+        </div>
+        <Menu selectedKeys={[selectedKey]} onSelect={({ key }) => onSelect(key)} className="border-r-0">
           {items.filter((item) => item.text.toLowerCase().includes(searchText)).map((item) => (
             <Menu.Item
               key={item.key}
               icon={item.icon}
-              style={{ fontStyle: item.key === 'none' ? 'italic' : 'normal' }}
+              className={item.key === 'none' && 'italic'}
             >
               {item.text}
             </Menu.Item>
           ))}
         </Menu>
-      </PopupContainer>
+      </MyCard>
     </div>
   )
 
@@ -41,47 +41,34 @@ export function SimpleSelector({ title, description, showSearch, items, selected
   )
 }
 
-const Button = styled.div`
-  border: 1px rgb(217, 217, 217) solid;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  height: 28px;
-  width: 190px;
-  text-align: left;
-  padding: 8px;
+const Button = tw.div`
+  flex
+  items-center
+  h-7
+  w-48
+  border
+  text-left
+  border-gray-300
+  rounded-md
+  p-2
+  cursor-pointer
 
-  &:hover {
-    border: 1px #804bd6 solid;
-    cursor: pointer;
-  }
+  hover:border-purple-700
 `
 
-const Title = styled.span`
-  font-size: 13px;
-  color: gray;
+const Title = tw.span`
+  text-sm
+  text-gray-600
 `
 
-const Text = styled.span`
-  font-size: 13px;
-  font-weight: 600;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 130px;
-  font-style: ${(props) => (props.isNone ? 'italic' : 'normal')};
-  color: ${(props) => (props.isNone && 'gray')};
-  margin-left: 3px;
-`
-
-const PopupContainer = styled(MyCard)`
-  width: 170px;
-
-  & .ant-card-body {
-    padding: 0;
-  }
-`
-
-const PopupHeader = styled.div`
-  padding: 0.5rem
+const Text = tw.span`
+  text-sm
+  font-semibold
+  whitespace-nowrap
+  overflow-ellipsis
+  overflow-hidden
+  w-32
+  ${({ isNone }) => (isNone && 'italic')}
+  ${({ isNone }) => (isNone && 'text-gray-500')};
+  ml-1
 `

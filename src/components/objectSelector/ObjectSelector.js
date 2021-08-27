@@ -63,7 +63,7 @@ const Container = tw.div`
   p-2
   cursor-pointer
 
-  hover:border-main-purple
+  hover:border-purple-700
 `
 
 const TextContainer = tw.div`
@@ -74,7 +74,7 @@ const TextContainer = tw.div`
 
 const Title = tw.span`
   text-sm
-  text-purple-700
+  text-gray-700
 `
 
 const Text = tw.span`

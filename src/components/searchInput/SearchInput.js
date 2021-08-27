@@ -1,22 +1,11 @@
 import { SearchOutlined } from '@ant-design/icons'
 import { Input } from 'antd'
-import styled from 'styled-components'
 
 export function SearchInput(props = {}) {
   return (
-    <Container>
+    <div className="flex items-center">
       <Input {...props} style={{ backgroundColor: 'transparent' }} />
-      <SearchIcon />
-    </Container>
+      <SearchOutlined className="text-gray-500 -ml-6" />
+    </div>
   )
 }
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-`
-
-const SearchIcon = styled(SearchOutlined)`
-  color: gray;
-  margin-left: -1.5rem;
-`

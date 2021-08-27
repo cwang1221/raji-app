@@ -3,9 +3,9 @@ import { useRef } from 'react'
 
 export function MilestoneStateIcon({ state }) {
   const stateMappingRef = useRef({
-    todo: <FileOutlined style={{ color: '#c9a61d' }} />,
-    inProgress: <DoubleRightOutlined style={{ color: '#009D4D' }} />,
-    done: <CheckOutlined style={{ color: '#009D4D' }} />
+    todo: <FileOutlined className="text-yellow-600" />,
+    inProgress: <DoubleRightOutlined className="text-blue-500" />,
+    done: <CheckOutlined className="text-green-600" />
   })
 
   return stateMappingRef.current[state]

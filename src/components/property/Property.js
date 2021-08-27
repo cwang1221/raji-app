@@ -6,7 +6,7 @@ function Property({ tooltip, icon, number, hasRightMargin = true }) {
   return (
     <Tooltip title={tooltip}>
       {icon}
-      <span style={{ marginLeft: '0.3rem', marginRight: hasRightMargin ? '1rem' : '0' }}>{number}</span>
+      <span className={`ml-1 ${hasRightMargin && 'mr-4'}`}>{number}</span>
     </Tooltip>
   )
 }

@@ -12,9 +12,6 @@ export function CreateButton({ text, onClick }) {
 }
 
 const Container = tw(Button)`
-  h-9
-  flex
-  items-center
   bg-green-500
   border-green-500
     
