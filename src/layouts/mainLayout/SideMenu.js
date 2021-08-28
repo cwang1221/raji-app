@@ -3,7 +3,7 @@ import { HomeOutlined, ReadOutlined, FlagOutlined, EnvironmentOutlined, RocketOu
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import logo from '../../assets/images/logoWhite.png'
 import { useAuth } from '../../contexts/authContext'
 import { MyCard } from '../../components'
@@ -31,32 +31,42 @@ export function SideMenu() {
           <Logo shape="square" size={40} src={logo} />
           <SideList>
             <Link to="/home">
-              <Item className={menuSelectedKey === 'home' ? 'selected' : ''}>
-                <HomeOutlined className="icon" />
+              <Item $selected={menuSelectedKey === 'home'}>
+                <ItemIcon $selected={menuSelectedKey === 'home'}>
+                  <HomeOutlined className="icon" />
+                </ItemIcon>
                 {t('sideMenu.home')}
               </Item>
             </Link>
             <Link to="/stories">
-              <Item className={menuSelectedKey === 'stories' ? 'selected' : ''}>
-                <ReadOutlined className="icon" />
+              <Item $selected={menuSelectedKey === 'stories'}>
+                <ItemIcon $selected={menuSelectedKey === 'stories'}>
+                  <ReadOutlined className="icon" />
+                </ItemIcon>
                 {t('sideMenu.stories')}
               </Item>
             </Link>
             <Link to="/epics">
-              <Item className={menuSelectedKey === 'epics' ? 'selected' : ''}>
-                <FlagOutlined className="icon" />
+              <Item $selected={menuSelectedKey === 'epics'}>
+                <ItemIcon $selected={menuSelectedKey === 'epics'}>
+                  <FlagOutlined className="icon" />
+                </ItemIcon>
                 {t('sideMenu.epics')}
               </Item>
             </Link>
             <Link to="/milestones">
-              <Item className={menuSelectedKey === 'milestones' ? 'selected' : ''}>
-                <EnvironmentOutlined className="icon" />
+              <Item $selected={menuSelectedKey === 'milestones'}>
+                <ItemIcon $selected={menuSelectedKey === 'milestones'}>
+                  <EnvironmentOutlined className="icon" />
+                </ItemIcon>
                 {t('sideMenu.milestones')}
               </Item>
             </Link>
             <Link to="/projects">
-              <Item className={menuSelectedKey === 'projects' ? 'selected' : ''}>
-                <RocketOutlined className="icon" />
+              <Item $selected={menuSelectedKey === 'projects'}>
+                <ItemIcon $selected={menuSelectedKey === 'projects'}>
+                  <RocketOutlined className="icon" />
+                </ItemIcon>
                 {t('sideMenu.projects')}
               </Item>
             </Link>
@@ -84,7 +94,7 @@ export function SideMenu() {
             </div>
           )}
         >
-          <Item className={menuSelectedKey === 'settings' ? 'selected avatar' : 'avatar'}>
+          <Item className="h-20 cursor-pointer">
             <Avatar size="large" src={user.avatar} />
           </Item>
         </Dropdown>
@@ -93,69 +103,45 @@ export function SideMenu() {
   )
 }
 
-const Container = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: rgb(29, 29, 57);
+const Container = tw.div`
+  flex
+  flex-col
+  justify-between
+  h-full
+  bg-gray-800
 `
 
-const SideList = styled(List)`
-  padding-top: 2.4rem !important;
+const SideList = tw(List)`
+  pt-10
 `
 
-const Logo = styled(Avatar)`
-  margin-left: 1.1rem;
-  margin-top: 1rem;
+const Logo = tw(Avatar)`
+  ml-4
+  mt-4
 `
 
-const Item = styled.div`
-  padding-top: 1rem;
-  padding-bottom: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: rgb(188, 188, 196);
-  font-weight: 700;
-  font-size: 12px;
+const Item = tw.div`
+  flex
+  flex-col
+  items-center
+  justify-center
+  pt-4
+  pb-2
+  font-bold
+  text-xs
 
-  .icon {
-    color: rgb(119, 119, 136);
-    font-size: 1.5rem;
-    transition: transform .2s;
-  }
+  group
 
-  &:hover {
-    background-color: rgb(41, 41, 67);
-    color: white;
-  }
+  hover:text-white
 
-  &.selected {
-    background-color: rgb(17, 17, 34);
-    border-left: rgb(100, 20, 219) 3px solid;
-    color: white;
-  }
+  ${({ $selected }) => ($selected ? 'bg-gray-900 text-white border-l-4 border-purple-700'
+    : 'text-gray-300 hover:bg-gray-700')}
+`
+const ItemIcon = tw.div`
+  text-2xl
+  transform
+  transition-transform
 
-  &:hover.selected {
-    background-color: rgb(17, 17, 34);
-  }
-
-  &.selected .icon {
-    color: white;
-  }
-
-  &:hover .icon {
-    color: white;
-    transform: scale(1.2);
-  }
-
-  &.avatar {
-    height: 84px;
-  }
-
-  &:hover.avatar {
-    cursor: pointer;
-  }
+  group-hover:text-white
+  group-hover:scale-125
 `

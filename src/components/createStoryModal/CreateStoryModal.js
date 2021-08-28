@@ -9,7 +9,6 @@ import { EstimateSelector, EpicSelector, OwnerSelector, ProjectSelector, Request
 import { focusErrorInForm } from '../../utils'
 import { useStory } from '../../hooks/useRequest'
 import { STORY_CREATED, STORY_UPDATED } from '../../utils/events'
-import { VerticalSpace } from '../verticalSpace'
 
 export function CreateStoryModal({ visible, close, id }) {
   const { t } = useTranslation()
@@ -113,19 +112,23 @@ export function CreateStoryModal({ visible, close, id }) {
         </Form>
         <div className="mt-10">
           <ProjectSelector projectId={projectId} onProjectIdChange={setProjectId} />
-          <StoryStateSelector state={state} onStateChange={setState} />
-          <VerticalSpace />
+          <div className="mb-4">
+            <StoryStateSelector state={state} onStateChange={setState} />
+          </div>
 
           <EpicSelector epicId={epicId} onEpicIdChange={setEpicId} />
-          <StoryTypeSelector type={type} onTypeChange={setType} />
-          <VerticalSpace />
+          <div className="mb-4">
+            <StoryTypeSelector type={type} onTypeChange={setType} />
+          </div>
 
           <RequesterSelector requesterId={requesterId} onRequesterIdChange={setRequesterId} />
-          <OwnerSelector ownerId={ownerId} onOwnerIdChange={setOwnerId} />
-          <VerticalSpace />
+          <div className="mb-4">
+            <OwnerSelector ownerId={ownerId} onOwnerIdChange={setOwnerId} />
+          </div>
 
-          <EstimateSelector estimate={estimate} onEstimateChange={setEstimate} />
-          <VerticalSpace />
+          <div className="mb-4">
+            <EstimateSelector estimate={estimate} onEstimateChange={setEstimate} />
+          </div>
 
           <CreateButton text={t(id ? 'header.updateStory' : 'header.createStory')} onClick={createStory} />
         </div>

@@ -13,10 +13,9 @@ export function CreateButton({ text, onClick }) {
 
 const Container = tw(Button)`
   bg-green-500
-  border-green-500
+  border-0
     
   hover:bg-green-600
-  hover:border-green-600
 
   group
 `

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button, Typography } from 'antd'
-import styled from 'styled-components'
 import { useSettingContext } from '../../contexts/settingContext'
 import { useSetting } from '../../hooks/useRequest'
 
@@ -62,15 +61,10 @@ export function MeetingTimer({ onTimeout, clearTimeout }) {
   }
 
   return (
-    <Container>
-      {start && <Typography.Title level={2} style={{ margin: '0' }}>{formatTime(time)}</Typography.Title>}
-      {start && <Button type="primary" onClick={onNext} style={{ margin: '0 1rem' }}>{t('header.nextTopic')}</Button>}
+    <div className="flex items-center">
+      {start && <Typography.Title level={2} className="m-0">{formatTime(time)}</Typography.Title>}
+      {start && <Button type="primary" onClick={onNext} className="mx-4">{t('header.nextTopic')}</Button>}
       <Button onClick={() => setStart(!start)}>{t(start ? 'header.stopMeeting' : 'header.startMeeting')}</Button>
-    </Container>
+    </div>
   )
 }
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-`

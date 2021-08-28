@@ -1,7 +1,7 @@
 import { Layout } from 'antd'
 import { useState } from 'react'
 import { Redirect, Route } from 'react-router-dom'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { Header } from './Header'
 import { HeaderCreateButton } from './HeaderCreateButton'
 import { MeetingTimer } from './MeetingTimer'
@@ -24,12 +24,12 @@ function MainLayout({ children }) {
   }
 
   return (
-    <Layout style={{ height: '100vh' }}>
+    <Layout className="h-screen">
       <SideMenu />
       <Layout>
         <Header />
-        <div style={{ backgroundColor: 'rgb(29, 29, 57)' }}>
-          <SubHeader redHeader={redHeader}>
+        <div className="bg-gray-800">
+          <SubHeader $redHeader={redHeader}>
             <HeaderCreateButton />
             <MeetingTimer
               onTimeout={onTimeout}
@@ -62,21 +62,22 @@ export function MainLayoutRoute({ component: Component, headerCreateType, ...res
   )
 }
 
-const Content = styled(Layout.Content)`
-  background-color: rgb(238, 238, 238);
-  padding: 1rem 2rem;
-  overflow: auto;
+const Content = tw(Layout.Content)`
+  bg-gray-100
+  py-4
+  px-8
+  overflow-auto
 `
 
-const SubHeader = styled.div`
-  display: flex;
-  background-color: ${(props) => (props.redHeader ? 'red' : 'white')};
-  width: 100%;
-  height: 64px;
-  border-bottom: 1px #DCDCDC solid;
-  align-items: center;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  border-radius: 10px 0 0 0;
-  justify-content: space-between;
+const SubHeader = tw.div`
+  flex
+  items-center
+  justify-between
+  w-full
+  h-16
+  ${({ $redHeader }) => ($redHeader ? 'bg-red-600' : 'bg-white')}
+  border-b
+  border-gray-300
+  px-4
+  rounded-tl-xl
 `

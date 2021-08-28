@@ -9,7 +9,6 @@ import { ColorDropdown } from '../colorDropdown'
 import { CreateButton } from '../createButton'
 import { InfoBlock } from '../infoBlock'
 import { MyLabel } from '../myLabel'
-import { VerticalSpace } from '../verticalSpace'
 
 export function CreateProjectModal({ id, visible, disableType, type = 'web', close }) {
   const { t } = useTranslation()
@@ -120,13 +119,14 @@ export function CreateProjectModal({ id, visible, disableType, type = 'web', clo
         <div className="mt-10">
           <InfoBlock message={t('project.createModalInfo')} />
 
-          <ColorDropdown color={color} onColorChange={setColor}>
-            <Button size="small" style={{ width: '100%', textAlign: 'start' }}>
-              {t('project.color')}
-              <span style={{ backgroundColor: color, width: '0.5rem', height: '0.5rem', marginLeft: '0.5rem' }} />
-            </Button>
-          </ColorDropdown>
-          <VerticalSpace />
+          <div className="mb-4">
+            <ColorDropdown color={color} onColorChange={setColor}>
+              <Button size="small" style={{ width: '100%', textAlign: 'start' }}>
+                {t('project.color')}
+                <span style={{ backgroundColor: color, width: '0.5rem', height: '0.5rem', marginLeft: '0.5rem' }} />
+              </Button>
+            </ColorDropdown>
+          </div>
 
           <CreateButton text={t(id ? 'header.udpateProject' : 'project.createProject')} onClick={createProject} />
         </div>

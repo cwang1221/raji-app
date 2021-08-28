@@ -80,7 +80,7 @@ const Title = tw.span`
 const Text = tw.span`
   -mt-1
   text-sm
-  font-semibold
+  font-medium
   whitespace-nowrap
   overflow-ellipsis
   overflow-hidden

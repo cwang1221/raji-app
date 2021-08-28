@@ -3,7 +3,7 @@ import { useRef } from 'react'
 
 export function StoryTypeIcon({ type }) {
   const typeMappingRef = useRef({
-    feature: <CompassFilled className="text-yellow-600" />,
+    feature: <CompassFilled className="text-yellow-500" />,
     bug: <BugFilled className="text-red-700" />,
     chore: <ToolFilled className="text-gray-600" />
   })

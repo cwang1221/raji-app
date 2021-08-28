@@ -2,7 +2,7 @@ import { CaretDownOutlined, EnvironmentFilled, FileTextFilled, FlagFilled, Rocke
 import { Button, Dropdown, Menu } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { CreateEpicModal, CreateProjectModal, CreateStoryModal, CreateMilestoneModal } from '../../components'
 import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
 
@@ -48,8 +48,8 @@ export function HeaderCreateButton() {
   }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <LeftButton ref={leftButtonRef} type="primary" size="large" onClick={() => createObject(headerCreateButtonType)} className="headerCreateButtonLeft">
+    <div className="flex items-center">
+      <LeftButton ref={leftButtonRef} type="primary" size="large" onClick={() => createObject(headerCreateButtonType)}>
         {buttonText}
       </LeftButton>
       <Dropdown
@@ -61,7 +61,7 @@ export function HeaderCreateButton() {
             <Menu.Item key="story" icon={<FileTextFilled className="text-green-600" />}>{t('header.createStory')}</Menu.Item>
             <Menu.Item key="epic" icon={<FlagFilled className="text-purple-700" />}>{t('header.createEpic')}</Menu.Item>
             <Menu.Item key="project" icon={<RocketFilled className="text-gray-600" />}>{t('header.createProject')}</Menu.Item>
-            <Menu.Item key="milestone" icon={<EnvironmentFilled className="text-yellow-600" />}>{t('header.createMilestone')}</Menu.Item>
+            <Menu.Item key="milestone" icon={<EnvironmentFilled className="text-yellow-500" />}>{t('header.createMilestone')}</Menu.Item>
           </Menu>
       )}
       >
@@ -75,35 +75,23 @@ export function HeaderCreateButton() {
   )
 }
 
-const LeftButton = styled(Button)`
-  background: #13AE47 !important;
-  border-color: #13AE47 !important;;
-  height: 36px !important;
-  padding-top: 4.4px !important;
-  padding-bottom: 4.4px !important;
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-
-  &:hover{
-    background: #14B74B !important;
-    border-color: #14B74B !important;;
-  }
+const LeftButton = tw(Button)`
+  bg-green-500
+  border-0
+  rounded-tr-none
+  rounded-br-none
+    
+  hover:bg-green-600
 `
 
-const RightButton = styled(Button)`
-  background: #13AE47 !important;
-  border-color: #13AE47 !important;;
-  height: 36px !important;
-  padding-top: 4.4px !important;
-  padding-bottom: 4.4px !important;
-  width: 36px !important;
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-  border-left: 1px solid DimGray !important;
-
-  &:hover{
-    background: #14B74B !important;
-    border-color: #14B74B !important;
-    border-left: 1px solid DimGray !important;
-  }
+const RightButton = tw(Button)`
+  w-9
+  bg-green-500
+  border-0
+  border-l
+  border-gray-500
+  rounded-tl-none
+  rounded-bl-none
+    
+  hover:bg-green-600
 `

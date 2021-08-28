@@ -8,7 +8,8 @@ module.exports = {
     extend: {
       ringColor: ['hover'],
       ringWidth: ['hover'],
-      margin: ['group-hover']
+      margin: ['group-hover'],
+      scale: ['group-hover']
     }
   },
   plugins: [],

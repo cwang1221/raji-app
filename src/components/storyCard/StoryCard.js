@@ -1,7 +1,7 @@
 import { Avatar, Tooltip, Typography } from 'antd'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { CreateStoryModal, StoryTypeIcon, PointProperty } from '..'
 
 export function StoryCard({ id, name, epicName, projectColor, projectName, type, estimate, ownerAvatar, owner }) {
@@ -13,10 +13,10 @@ export function StoryCard({ id, name, epicName, projectColor, projectName, type,
   }
 
   return (
-    <Container projectColor={projectColor}>
-      <div style={{ padding: '0.5rem' }}>
+    <Container style={{ borderLeft: `6px ${projectColor} solid` }}>
+      <div className="p-2">
         <EpicName>{epicName?.toLocaleUpperCase()}</EpicName>
-        <StoryName strong onClick={editStory}>{name}</StoryName>
+        <Typography.Text strong onClick={editStory} className="cursor-pointer">{name}</Typography.Text>
       </div>
       <Footer>
         <LeftFooter>
@@ -44,88 +44,71 @@ export function StoryCard({ id, name, epicName, projectColor, projectName, type,
   )
 }
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-radius: 5px;
-  min-height: 6rem;
-  margin-bottom: 1rem;
-  box-shadow: 3px 5px 5px #DCDCDC;
-  border-bottom: 1px lightgray solid;
-  background-color: white;
-  border-left: ${(props) => props.projectColor} 5px solid;
+const Container = tw.div`
+  flex
+  flex-col
+  rounded-md
+  min-h-24
+  mb-4
+  bg-white
+  shadow-md
+  transform
+  transition-transform
 
-  &:hover {
-    transform: translate(-1px,-1px);
-  }
+  hover:-translate-x-0.5
+  hover:-translate-y-0.5
 `
 
-const EpicName = styled.div`
-  font-size: 10px;
-  color: gray
+const EpicName = tw.div`
+  text-xs
+  text-gray-500
 `
 
-const StoryName = styled(Typography.Text)`
-  &:hover {
-    cursor: pointer;
-  }
+const Footer = tw.div`
+  flex
+  justify-between
+  items-center
+  bg-gray-50
+  rounded-br-md
+  h-9
+  px-4
 `
 
-const Footer = styled.div`
-  background-color: rgb(249, 249, 249);
-  border-bottom-right-radius: 5px;
-  height: 37px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 1rem;
+const LeftFooter = tw.div`
+  flex
+  items-center
+  text-xs
+  text-gray-500
 `
 
-const LeftFooter = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-  color: gray;
+const StoryInfo = tw.div`
+  flex
+  items-center
+  rounded
+  px-1
+  bg-gray-100
+  h-5
 `
 
-const StoryInfo = styled.div`
-  display: flex;
-  align-items: center;
-  border-radius: 3px;
-  padding: 0 0.3rem;
-  background-color: ${({ type }) => {
+const StoryId = tw.div`
+  h-5 
+  ml-1
+  flex
+  items-center
+  ${({ type }) => {
     switch (type) {
       case 'feature':
-        return 'rgb(245, 243, 233)'
+        return 'text-yellow-500'
       case 'bug':
-        return 'rgb(245, 235, 235)'
+        return 'text-red-700'
       case 'chore':
       default:
-        return 'rgb(235, 238, 242)'
+        return 'text-gray-600'
     }
-  }};
-  height: 20px;
+  }}
 `
 
-const StoryId = styled.div`
-  height: 20px;
-  margin-left: 0.3rem;
-  color: ${({ type }) => {
-    switch (type) {
-      case 'feature':
-        return 'rgb(201, 166, 29)'
-      case 'bug':
-        return 'rgb(160, 8, 8)'
-      case 'chore':
-      default:
-        return 'rgb(85, 85, 85)'
-    }
-  }};
-`
-
-const ProjectName = styled.span`
-  margin-left: 0.8rem;
-  margin-right: 1rem;
+const ProjectName = tw.span`
+  ml-3
+  mr-4
 `

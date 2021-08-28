@@ -3,7 +3,7 @@ import { useRef } from 'react'
 
 export function MilestoneStateIcon({ state }) {
   const stateMappingRef = useRef({
-    todo: <FileOutlined className="text-yellow-600" />,
+    todo: <FileOutlined className="text-yellow-500" />,
     inProgress: <DoubleRightOutlined className="text-blue-500" />,
     done: <CheckOutlined className="text-green-600" />
   })

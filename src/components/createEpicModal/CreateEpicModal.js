@@ -9,7 +9,6 @@ import { useEpic, useMilestone } from '../../hooks/useRequest'
 import { StateSelector, MilestoneSelector } from '..'
 import { EPIC_CREATED, EPIC_UPDATED } from '../../utils/events'
 import { InfoBlock } from '../infoBlock'
-import { VerticalSpace } from '../verticalSpace'
 
 export function CreateEpicModal({ visible, close, id }) {
   const { t } = useTranslation()
@@ -103,8 +102,9 @@ export function CreateEpicModal({ visible, close, id }) {
           <InfoBlock message={t('epic.createModalInfo')} />
 
           <MilestoneSelector milestoneId={milestoneId} onMilestoneIdChange={setMilestoneId} />
-          <StateSelector state={state} onStateChange={setState} />
-          <VerticalSpace />
+          <div className="mb-4">
+            <StateSelector state={state} onStateChange={setState} />
+          </div>
 
           <CreateButton text={t(id ? 'header.updateEpic' : 'header.createEpic')} onClick={createEpic} />
         </div>

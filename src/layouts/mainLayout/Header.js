@@ -1,6 +1,6 @@
 import { Layout, Button, Dropdown, Menu } from 'antd'
 import { TranslationOutlined } from '@ant-design/icons'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { useLanguageContext } from '../../contexts/languageContext'
 
 export function Header() {
@@ -18,22 +18,23 @@ export function Header() {
             </Menu>
           )}
         >
-          <Button type="primary" icon={<TranslationOutlined />} shape="circle" />
+          <Button icon={<TranslationOutlined />} shape="circle" />
         </Dropdown>
       </HeaderGroup>
     </HeaderBar>
   )
 }
-const HeaderBar = styled(Layout.Header)`
-  height: 42px;
-  display: flex;
-  align-items: center;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-  background-color: rgb(29, 29, 57) !important;
+
+const HeaderBar = tw(Layout.Header)`
+  flex
+  items-center
+  flex-row-reverse
+  justify-between
+  h-11
+  bg-gray-800
 `
 
-const HeaderGroup = styled.div`
-  display: flex;
-  align-items: center;
+const HeaderGroup = tw.div`
+  flex
+  items-center
 `
