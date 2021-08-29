@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react'
 import tw from 'tailwind-styled-components'
 import logo from '../../assets/images/logoWhite.png'
 import { useAuth } from '../../contexts/authContext'
-import { MyCard } from '../../components'
 
 export function SideMenu() {
   const history = useHistory()
@@ -77,7 +76,7 @@ export function SideMenu() {
           arrow
           overlay={(
             <div>
-              <MyCard
+              <Card
                 actions={[
                   <Link to="/settings">
                     <Button type="text">{t('header.setting')}</Button>
@@ -90,7 +89,7 @@ export function SideMenu() {
                   title={user.username}
                   description={user.email}
                 />
-              </MyCard>
+              </Card>
             </div>
           )}
         >

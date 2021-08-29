@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { List, message, Space, Typography } from 'antd'
 import { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { publish, subscribe, unsubscribe } from 'pubsub-js'
 import { FilterBar, MilestoneStateFilter, ProjectFilter, RadioGroupButton, Seperator } from '../../components'
@@ -138,7 +138,7 @@ export function MilestonesPage() {
       <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
         <Space align="start">
           {milestones.map((milestone) => (
-            <MilestoneContainer
+            <List
               bordered
               key={milestone.id}
               header={milestone.id === 1
@@ -169,12 +169,12 @@ export function MilestonesPage() {
                     />
                   )
                 })()}
-              style={{ backgroundColor: 'white' }}
+              className="bg-white w-80"
             >
 
               <Droppable droppableId={`${milestone.id}`}>
                 {(provided) => (
-                  <DropContainer ref={provided.innerRef} {...provided.droppableProps} className={dragging ? 'dragging' : ''}>
+                  <DropContainer ref={provided.innerRef} {...provided.droppableProps} $dragging={dragging}>
                     {milestone.epics.map((epic, index) => (
                       <Draggable key={epic.id} draggableId={`${epic.id}`} index={index}>
                         {(provided) => (
@@ -201,7 +201,7 @@ export function MilestonesPage() {
                   </DropContainer>
                 )}
               </Droppable>
-            </MilestoneContainer>
+            </List>
           ))}
         </Space>
       </DragDropContext>
@@ -209,15 +209,8 @@ export function MilestonesPage() {
   )
 }
 
-const MilestoneContainer = styled(List)`
-  width: 20rem;
-`
-
-const DropContainer = styled.div`
-  min-height: 4rem;
-  
-  &.dragging {
-    background-color: rgb(0, 191, 255, 0.2);
-    outline: rgb(0, 191, 255, 0.4) dashed 3px;
-  }
+const DropContainer = tw.div`
+  min-h-16
+  bg-opacity-25
+  ${({ $dragging }) => $dragging && 'bg-blue-200 ring-4 ring-blue-200'}
 `

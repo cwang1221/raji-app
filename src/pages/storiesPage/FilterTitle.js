@@ -1,24 +1,22 @@
 import { CaretDownFilled, CaretRightFilled } from '@ant-design/icons'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 
 export function FilterTitle({ expanded, title, onExpandedChange }) {
   return (
     <Container onClick={() => onExpandedChange(!expanded)}>
       {expanded ? <CaretDownFilled /> : <CaretRightFilled />}
-      <span style={{ marginLeft: '0.5rem' }}>{title}</span>
+      <span className="ml-2">{title}</span>
     </Container>
   )
 }
 
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-  color: gray;
-  margin-top: 0.5rem;
+const Container = tw.div`
+  flex
+  items-center
+  text-xs
+  text-gray-500
+  mt-2
+  cursor-pointer
 
-  &:hover {
-    cursor: pointer;
-    color: black;
-  }
+  hover:text-gray-900
 `

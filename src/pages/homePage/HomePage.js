@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import styled from 'styled-components'
 import { Avatar, Typography, Result, Tabs } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { SmileOutlined } from '@ant-design/icons'
 import { subscribe, unsubscribe } from 'pubsub-js'
+import tw from 'tailwind-styled-components'
 import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
 import { useAuth } from '../../contexts/authContext'
 import { WorkArea } from './WorkArea'
@@ -64,15 +64,15 @@ export function HomePage() {
   }
 
   return (
-    <Container>
-      <UserInfo>
+    <div className="flex flex-col">
+      <div className="flex items-center mb-4">
         <Avatar src={user.avatar} size={40} />
         <UserTextInfo>
-          <Typography.Title level={5} style={{ marginBottom: '0' }}>{user.username}</Typography.Title>
-          <Typography.Text style={{ marginTop: '-4px', color: 'gray' }}>{user.email}</Typography.Text>
+          <Typography.Title level={5} className="mb-0">{user.username}</Typography.Title>
+          <Typography.Text className="-mt-1 text-gray-500">{user.email}</Typography.Text>
         </UserTextInfo>
-      </UserInfo>
-      <MainArea>
+      </div>
+      <div className="flex">
         <WorkArea
           title={t('home.myWork')}
           viewFilterDescription={t('home.myWorkFilterDescription')}
@@ -97,7 +97,7 @@ export function HomePage() {
             stories[key].length ? (
               <div key={key}>
                 <StateTitle>
-                  <span style={{ fontWeight: '500' }}>{t(`story.${key}`)}</span>
+                  <span className="font-medium">{t(`story.${key}`)}</span>
                   <span>{stories[key].length}</span>
                 </StateTitle>
                 {stories[key].map((story) => (
@@ -119,7 +119,7 @@ export function HomePage() {
           ))}
         </WorkArea>
 
-        <div style={{ display: 'flex', flexDirection: 'column', margin: '0 1rem', width: '33%' }}>
+        <div className="flex flex-col mx-4 w-1/3">
           <WorkArea
             title={t('home.myActiveTasks')}
             viewFilterDescription={t('home.myTasksFIlterDescription')}
@@ -135,10 +135,10 @@ export function HomePage() {
             }}
             selectedViewOption={taskFilter}
             onViewOptionChange={setTaskFilter}
-            style={{ width: '100%', marginBottom: '1rem' }}
+            className="mb-4 w-full"
           >
             <Result
-              icon={<SmileOutlined style={{ color: 'lightgray' }} />}
+              icon={<SmileOutlined className="text-gray-300" />}
               title={t('general.notReady')}
             />
           </WorkArea>
@@ -158,10 +158,10 @@ export function HomePage() {
             }}
             selectedViewOption={dueFilter}
             onViewOptionChange={setDueFilter}
-            style={{ width: '100%' }}
+            className="w-full"
           >
             <Result
-              icon={<SmileOutlined style={{ color: 'lightgray' }} />}
+              icon={<SmileOutlined className="text-gray-300" />}
               title={t('general.notReady')}
             />
           </WorkArea>
@@ -176,40 +176,25 @@ export function HomePage() {
             <Tabs.TabPane tab={t('home.onlyMentions')} key="3" />
           </Tabs>
           <Result
-            icon={<SmileOutlined style={{ color: 'lightgray' }} />}
+            icon={<SmileOutlined className="text-gray-300" />}
             title={t('general.notReady')}
           />
         </WorkArea>
-      </MainArea>
-    </Container>
+      </div>
+    </div>
   )
 }
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
+const UserTextInfo = tw.div`
+  flex
+  flex-col
+  ml-2
 `
 
-const UserInfo = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-`
-
-const UserTextInfo = styled.div`
-  display: flex;
-  margin-left: 0.6rem;
-  flex-direction: column;
-`
-
-const MainArea = styled.div`
-  display: flex;
-`
-
-const StateTitle = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px;
-  color: gray;
+const StateTitle = tw.div`
+  flex
+  justify-between
+  items-center
+  mb-2
+  text-gray-500
 `

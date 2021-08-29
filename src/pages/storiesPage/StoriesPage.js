@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { subscribe, unsubscribe } from 'pubsub-js'
 import { useDocumentTitle, useStory } from '../../hooks'
 import { clone } from '../../utils'
@@ -91,8 +91,8 @@ export function StoriesPage() {
   }
 
   return (
-    <Page>
-      <FilterArea>
+    <div className="flex w-full h-full">
+      <div className="w-52">
         <Filter
           selectedProjectIds={selectedProjectIds}
           selectedEpicIds={selectedEpicIds}
@@ -101,10 +101,10 @@ export function StoriesPage() {
           onEpicIdsChange={setSelectedEpicIds}
           onStatesChange={setSelectedStates}
         />
-      </FilterArea>
+      </div>
 
       <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-        <Container>
+        <div style={{ width: 'calc(100%-52rem)', maxWidth: 'calc(100%-52rem)' }} className="flex">
           {statesRef.current.map((state) => (
             selectedStates.includes(state) && (
             <StoryContainer
@@ -118,7 +118,8 @@ export function StoriesPage() {
                   <DropContainer
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className={dropDisabledState === '' ? '' : (state === dropDisabledState ? 'dropDisabled' : 'dropEnabled')}
+                    $dragging={dropDisabledState !== ''}
+                    $dropDisabled={state === dropDisabledState}
                   >
                     {stories[state].map((story, index) => (
                       <Draggable key={story.id} draggableId={story.id} index={index}>
@@ -150,38 +151,16 @@ export function StoriesPage() {
             </StoryContainer>
             )
           ))}
-        </Container>
+        </div>
       </DragDropContext>
-    </Page>
+    </div>
   )
 }
 
-const Page = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-`
+const DropContainer = tw.div`
+  min-h-16
+  bg-opacity-25
 
-const FilterArea = styled.div`
-  width: 204px;
-`
-
-const Container = styled.div`
-  width: calc(100% - 204px);
-  max-width: calc(100% - 204px);
-  display: flex;
-`
-
-const DropContainer = styled.div`
-  min-height: 4rem;
-  
-  &.dropDisabled {
-    background-color: rgb(255, 182, 193, 0.3);
-    outline: rgb(255, 182, 193) dashed 3px;
-  }
-  
-  &.dropEnabled {
-    background-color: rgb(0, 191, 255, 0.2);
-    outline: rgb(0, 191, 255, 0.4) dashed 3px;
-  }
+  ${({ $dropDisabled, $dragging }) => ($dragging && ($dropDisabled ? 'bg-red-200 ring-4 ring-red-200'
+    : 'bg-blue-200 ring-4 ring-blue-200'))}
 `

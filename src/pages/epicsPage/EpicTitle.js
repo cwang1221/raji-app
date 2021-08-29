@@ -1,26 +1,17 @@
 import { Typography } from 'antd'
-import styled from 'styled-components'
 import { EpicStateIcon } from '../../components'
 
 export function EpicTitle({ state, epicName, onClickName }) {
   return (
-    <Title>
+    <div className="flex items-center">
       <EpicStateIcon state={state} />
-      <EpicName level={4} onClick={onClickName}>{epicName}</EpicName>
-    </Title>
+      <Typography.Title
+        level={4}
+        onClick={onClickName}
+        className="mb-0 ml-2 cursor-pointer"
+      >
+        {epicName}
+      </Typography.Title>
+    </div>
   )
 }
-
-const EpicName = styled(Typography.Title)`
-  margin-bottom: 0 !important;
-  margin-left: 0.5rem !important;
-
-  &:hover {
-    cursor: pointer;
-  }
-`
-
-const Title = styled.div`
-  display: flex;
-  align-items: center;
-`

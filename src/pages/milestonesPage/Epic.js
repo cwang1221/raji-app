@@ -1,5 +1,5 @@
 import { Typography, Progress, Avatar, Tooltip, List } from 'antd'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { EpicStateIcon, CreateEpicModal, StoryProperty, PointProperty } from '../../components'
@@ -14,7 +14,7 @@ export function Epic({ id, name, state, countOfStories, countOfDoneStories, coun
         <EpicStateIcon state={state} />
       </Tooltip>
       <EpicMainContent>
-        <EpicName level={5} onClick={() => setShowModal(true)}>{name}</EpicName>
+        <Typography.Title level={5} onClick={() => setShowModal(true)} className="cursor-pointer">{name}</Typography.Title>
         <Footer>
           <DataContainer>
             <DataBackground>
@@ -34,13 +34,13 @@ export function Epic({ id, name, state, countOfStories, countOfDoneStories, coun
               </DataBackground>
             </Tooltip>
           </DataContainer>
-          <OwnerContainer>
+          <div className="flex justify-end">
             {owners.map((owner) => (
               <Tooltip key={owner.id} title={owner.name}>
-                <Avatar size="small" src={owner.avatar} style={{ marginLeft: '2px' }} />
+                <Avatar size="small" src={owner.avatar} className="ml-1" />
               </Tooltip>
             ))}
-          </OwnerContainer>
+          </div>
         </Footer>
       </EpicMainContent>
       <CreateEpicModal
@@ -52,58 +52,48 @@ export function Epic({ id, name, state, countOfStories, countOfDoneStories, coun
   )
 }
 
-const EpicContainer = styled(List.Item)`
-  width: 100%;
-  display: flex;
-  align-items: baseline;
-  padding: 1rem;
-  background-color: white;
-  border: #f0f0f0 1px solid !important;
+const EpicContainer = tw(List.Item)`
+  flex
+  items-baseline
+  w-full
+  p-4
+  border
+  border-gray-200
+  bg-white
 `
 
-const EpicName = styled(Typography.Title)`
-  &:hover {
-    cursor: pointer;
-  }
+const EpicMainContent = tw.div`
+  flex
+  flex-col
+  justify-between
+  w-full
+  ml-2
+  -mt-2
+  -mb-2
 `
 
-const EpicMainContent = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-left: 0.5rem;
-  margin-top: -0.4rem;
-  margin-bottom: -0.6rem;
-  justify-content: space-between;
+const Footer = tw.div`
+  flex
+  items-center
+  justify-between
 `
 
-const Footer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+const DataContainer = tw.div`
+  flex
+  items-center
+  justify-between
+  text-gray-500
+  text-xs
 `
 
-const DataContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: gray;
-  font-size: 12px;
+const ProgressBar = tw(Progress)`
+  w-12
+  -mt-1
 `
 
-const ProgressBar = styled(Progress)`
-  width: 3rem;
-  margin-top: -0.2rem;
-`
-
-const DataBackground = styled.div`
-  background-color: rgb(244, 244, 244);
-  border-radius: 5px;
-  padding: 0 0.3rem;
-  margin-right: 0.5rem;
-`
-
-const OwnerContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
+const DataBackground = tw.div`
+  bg-gray-100
+  rounded-md
+  px-1
+  mr-2
 `

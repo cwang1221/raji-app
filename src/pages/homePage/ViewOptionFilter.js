@@ -1,30 +1,30 @@
 import { CaretDownFilled } from '@ant-design/icons'
 import { Button, Dropdown, Menu } from 'antd'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { MyCard } from '../../components'
 
 export function ViewOptionFilter({ description, viewOptions, selectedViewOption, onViewOptionChange }) {
   const Popup = () => (
     <div>
-      <FilterPopup>
-        <span style={{ fontSize: '10px' }}>{description}</span>
-        <Menu multiple selectedKeys={[selectedViewOption]} onSelect={(e) => onViewOptionChange(e.key)} style={{ borderRight: '0px' }}>
+      <MyCard className="w-80 p-2">
+        <span>{description}</span>
+        <Menu multiple selectedKeys={[selectedViewOption]} onSelect={(e) => onViewOptionChange(e.key)} className="border-r-0">
           {Object.keys(viewOptions).map((key) => (
-            <ViewOptionItme key={key}>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <Menu.Item key={key} className="py-0">
+              <div className="flex flex-col">
                 <Title>{viewOptions[key].title}</Title>
                 <Description>{viewOptions[key].description}</Description>
               </div>
-            </ViewOptionItme>
+            </Menu.Item>
           ))}
         </Menu>
-      </FilterPopup>
+      </MyCard>
     </div>
   )
 
   return (
     <Dropdown overlay={Popup} trigger={['click']}>
-      <Button size="small" style={{ marginLeft: '0.5rem' }}>
+      <Button size="small" className="ml-2">
         {viewOptions[selectedViewOption].title}
         <CaretDownFilled />
       </Button>
@@ -32,28 +32,14 @@ export function ViewOptionFilter({ description, viewOptions, selectedViewOption,
   )
 }
 
-const FilterPopup = styled(MyCard)`
-  width: 18rem;
-  padding: 0.5rem;
-
-  & .ant-card-body {
-    padding: 0;
-  }
+const Title = tw.div`
+  h-4
+  -mt-2
+  font-medium
 `
 
-const ViewOptionItme = styled(Menu.Item)`
-  padding-top: 0;
-  padding-bottom: 0;
-`
-
-const Title = styled.div`
-  font-size: 13px;
-  height: 1rem;
-  margin-top: -0.5rem;
-  font-weight: 500;
-`
-
-const Description = styled.div`
-  font-size: 11px;
-  color: gray;
+const Description = tw.div`
+  text-xs
+  mt-3
+  text-gray-500
 `

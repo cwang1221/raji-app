@@ -1,6 +1,6 @@
 import { Typography } from 'antd'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { CaretDownFilled, CaretRightFilled } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import { ProjectFilter } from './ProjectFilter'
@@ -19,7 +19,7 @@ export function Filter({ selectedProjectIds, selectedEpicIds, selectedStates, on
   }, [projectExpanded, epicExpanded, stateExpanded])
 
   return (
-    <Container>
+    <div className="flex flex-col">
       <FilterAreaTitle onClick={() => {
         setFilterExpanded(!filtersExpanded)
         setProjectExpanded(!filtersExpanded)
@@ -27,35 +27,20 @@ export function Filter({ selectedProjectIds, selectedEpicIds, selectedStates, on
         setStateExpanded(!filtersExpanded)
       }}
       >
-        <Typography.Title level={5} style={{ marginBottom: '0', marginRight: '0.5rem' }}>{t('general.filters')}</Typography.Title>
-        {filtersExpanded ? <CaretDownFilled className="expandIcon" /> : <CaretRightFilled className="expandIcon" />}
+        <Typography.Title level={5} className="mb-0 mr-2">{t('general.filters')}</Typography.Title>
+        {filtersExpanded ? <CaretDownFilled className="text-gray-500 group-hover:text-gray-900" /> : <CaretRightFilled className="text-gray-500 group-hover:text-gray-900" />}
       </FilterAreaTitle>
 
       <ProjectFilter selectedProjectIds={selectedProjectIds} onSelectionChange={onProjectIdsChange} expanded={projectExpanded} onExpandedChange={setProjectExpanded} />
       <EpicFilter selectedEpicIds={selectedEpicIds} onSelectionChange={onEpicIdsChange} expanded={epicExpanded} onExpandedChange={setEpicExpanded} />
       <StateFilter selectedStates={selectedStates} onSelectionChange={onStatesChange} expanded={stateExpanded} onExpandedChange={setStateExpanded} />
-    </Container>
+    </div>
   )
 }
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
-const FilterAreaTitle = styled.div`
-  display: flex;
-  align-items: center;
-
-  & .expandIcon {
-    color: gray;
-  }
-
-  &:hover {
-    cursor: pointer;
-
-    & .expandIcon {
-      color: black;
-    }
-  }
+const FilterAreaTitle = tw.div`
+  flex
+  items-center
+  cursor-pointer
+  group
 `

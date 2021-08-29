@@ -58,7 +58,7 @@ export function SettingPage() {
         onFinish={onProfileFinish}
         onFinishFailed={onProfileFinishFailed}
         initialValues={{ username: user.username }}
-        style={{ width: '24rem', marginBottom: '2rem' }}
+        className="w-96 mb-8"
       >
         <Form.Item
           label={<MyLabel required>{t('setting.username')}</MyLabel>}
@@ -70,15 +70,15 @@ export function SettingPage() {
         >
           <Input maxLength={100} />
         </Form.Item>
-        <Form.Item style={{ marginTop: '2rem' }} wrapperCol={{ span: 8 }}>
-          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>{t('setting.save')}</Button>
+        <Form.Item wrapperCol={{ span: 8 }} className="mt-8">
+          <Button type="primary" htmlType="submit" className="w-full">{t('setting.save')}</Button>
         </Form.Item>
       </Form>
 
       <Divider />
 
-      <Typography.Title level={3} style={{ marginTop: '1rem' }}>{t('setting.tools')}</Typography.Title>
-      <Typography.Title level={5} style={{ marginTop: '1rem' }}>{t('setting.timer')}</Typography.Title>
+      <Typography.Title level={3} className="mt-4">{t('setting.tools')}</Typography.Title>
+      <Typography.Title level={5} className="mt-4">{t('setting.timer')}</Typography.Title>
 
       <Form
         ref={toolsFormRef}
@@ -87,7 +87,7 @@ export function SettingPage() {
         onFinish={onToolsFinish}
         onFinishFailed={onToolsFinishFailed}
         initialValues={{ timePerTopic: setting.timePerTopic }}
-        style={{ width: '24rem' }}
+        className="w-96"
       >
         <Form.Item
           label={<MyLabel required>{t('setting.timePerTopic')}</MyLabel>}
@@ -102,10 +102,10 @@ export function SettingPage() {
             message: t('setting.timeErrMsg')
           }]}
         >
-          <InputNumber style={{ width: '24rem' }} />
+          <InputNumber className="w-96" />
         </Form.Item>
-        <Form.Item style={{ marginTop: '2rem' }} wrapperCol={{ span: 8 }}>
-          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>{t('setting.save')}</Button>
+        <Form.Item wrapperCol={{ span: 8 }} className="mt-8">
+          <Button type="primary" htmlType="submit" className="w-full">{t('setting.save')}</Button>
         </Form.Item>
       </Form>
     </>

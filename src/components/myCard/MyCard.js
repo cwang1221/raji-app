@@ -10,5 +10,5 @@ const ShadowCard = tw.div`
   bg-white
   p-2
   rounded-md
-  shadow-lg
+  shadow-md
 `

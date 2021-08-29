@@ -2,7 +2,7 @@ import { Typography, Space, Button } from 'antd'
 import { publish, subscribe, unsubscribe } from 'pubsub-js'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { CreateProjectModal } from '../../components'
 import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
 import { useDocumentTitle, useProject } from '../../hooks'
@@ -72,9 +72,9 @@ export function ProjectsPage() {
   return (
     <>
       <Typography.Title level={3}>{t('project.projects')}</Typography.Title>
-      <Space style={{ marginTop: '0.5rem' }}>
+      <Space className="mt-2">
         <Typography.Title level={5}>{t('project.web')}</Typography.Title>
-        <Typography.Title level={5} style={{ fontWeight: 400 }}>{t('project.has', { count: webProjects.length })}</Typography.Title>
+        <Typography.Title level={5} className="font-normal">{t('project.has', { count: webProjects.length })}</Typography.Title>
       </Space>
       <div>
         <CardContainer>
@@ -96,9 +96,9 @@ export function ProjectsPage() {
           <Button size="small" onClick={() => openCreateModal('web')}>{t('project.createButton')}</Button>
         </div>
       </div>
-      <Space style={{ marginTop: '2rem' }}>
+      <Space className="mt-8">
         <Typography.Title level={5}>{t('project.mobile')}</Typography.Title>
-        <Typography.Title level={5} style={{ fontWeight: 400 }}>{t('project.has', { count: mobileProjects.length })}</Typography.Title>
+        <Typography.Title level={5} className="font-normal">{t('project.has', { count: mobileProjects.length })}</Typography.Title>
       </Space>
       <div>
         <CardContainer>
@@ -125,7 +125,7 @@ export function ProjectsPage() {
   )
 }
 
-const CardContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+const CardContainer = tw.div`
+  flex
+  flex-wrap
 `

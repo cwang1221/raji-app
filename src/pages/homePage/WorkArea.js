@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { ViewOptionFilter } from './ViewOptionFilter'
 
-export function WorkArea({ title, viewFilterDescription, viewOptions, selectedViewOption, onViewOptionChange, children, style = {} }) {
+export function WorkArea({ title, viewFilterDescription, viewOptions, selectedViewOption, onViewOptionChange, children, className = {} }) {
   const { t } = useTranslation()
 
   return (
-    <Container style={style}>
+    <Container className={className}>
       <Typography.Title level={4}>{title}</Typography.Title>
       {viewFilterDescription ? (
         <Filter>

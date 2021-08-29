@@ -1,7 +1,7 @@
 import { Button, Space, Tooltip, Typography } from 'antd'
 import { CloseOutlined, EyeOutlined, ZoomInOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { publish } from 'pubsub-js'
@@ -48,11 +48,10 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
   }
 
   return (
-    <Container>
+    <Container style={{ borderColor: indicator }}>
       <Space align="start">
-        <Indicator color={indicator} />
-        <div style={{ display: '' }}>
-          <ProjectName level={4} onClick={() => setShowModal(true)}>{title}</ProjectName>
+        <div>
+          <Typography.Title level={4} onClick={() => setShowModal(true)} className="mt-4 cursor-pointer">{title}</Typography.Title>
           {!storyCount && (
             <Tooltip title={t('general.delete')}>
               <Button
@@ -61,7 +60,7 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
                 size="small"
                 icon={<CloseOutlined />}
                 onClick={deleteProject}
-                style={{ position: 'absolute', right: '1rem', top: '1rem' }}
+                className="absolute right-4 top-4"
               />
             </Tooltip>
           )}
@@ -83,7 +82,7 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
               </Button>
               <ColorDropdown color={indicator} onColorChange={changeColor}>
                 <Button size="small">
-                  <div style={{ backgroundColor: indicator, width: '0.5rem', height: '0.5rem' }} />
+                  <div style={{ backgroundColor: indicator }} className="w-2 h-2" />
                 </Button>
               </ColorDropdown>
             </Footer>
@@ -99,53 +98,26 @@ export function ProjectCard({ id, indicator, title, description, storyCount, poi
   )
 }
 
-const Container = styled.div`
-  position:relative;
-  width: 23rem;
-  height: 12rem;
-  background-color: #fafafa;
-  border-radius: 0.5rem;
-  box-shadow: 3px 5px 5px #DCDCDC;
-  padding-right: 1rem;
-  margin-right: 1rem;
-  margin-bottom: 1rem;
-
-  &:hover {
-    -webkit-transform: translate(-1px,-1px);
-    -moz-transform: translate(-1px,-1px);
-    -o-transform: translate(-1px,-1px);
-    transform: translate(-1px,-1px);
-  }
+const Container = tw.div`
+  relative
+  w-96
+  h-48
+  bg-white
+  rounded-md
+  shadow-md
+  px-4
+  mr-4
+  mb-4
+  border-l-8
 `
 
-const ProjectName = styled(Typography.Title)`
-  margin-top: 1rem;
-
-  &:hover {
-    cursor: pointer;
-  }
+const Footer = tw(Space)`
+  absolute
+  bottom-3
+  text-gray-500
 `
 
-const Footer = styled(Space)`
-  position: absolute;
-  bottom: 0.8rem;
-  color: gray;
-`
-
-const Indicator = styled.div`
-  width: 0.7rem;
-  height: 12rem;
-  margin-right: 0.5rem;
-  border-top-left-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
-  background-color: ${(props) => props.color};
-`
-
-const ZoomInIcon = styled(ZoomInOutlined)`
-  color: gray;
-  
-  &:hover {
-    color: black;
-    cursor: pointer;
-  }
+const ZoomInIcon = tw(ZoomInOutlined)`
+  hover:text-purple-700
+  cursor-pointer
 `

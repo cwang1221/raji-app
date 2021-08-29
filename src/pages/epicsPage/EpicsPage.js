@@ -3,7 +3,7 @@ import { publish, subscribe, unsubscribe } from 'pubsub-js'
 import { useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { EpicStateFilter, FilterBar, MilestoneFilter, ProjectFilter, RadioGroupButton } from '../../components'
 import { useHeaderCreateButtonContext } from '../../contexts/headerCreateButtonContext'
 import { useDocumentTitle, useEpic } from '../../hooks'
@@ -108,7 +108,7 @@ export function EpicsPage() {
       />
 
       <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
-        <Container align="start">
+        <div className="flex">
           <ToDoArea>
             <AreaTitle title={t('epic.todo')} count={epics.todo.length} />
             <Droppable droppableId="todo" isDropDisabled={dropDisabledState === 'todo'}>
@@ -116,7 +116,8 @@ export function EpicsPage() {
                 <DropContainer
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className={dropDisabledState === '' ? '' : (dropDisabledState === 'todo' ? 'dropDisabled' : 'dropEnabled')}
+                  $dragging={dropDisabledState !== ''}
+                  $dropDisabled={dropDisabledState === 'todo'}
                 >
                   {epics.todo.map((epic, index) => (
                     <Draggable key={epic.id} draggableId={`${epic.id}`} index={index}>
@@ -150,7 +151,8 @@ export function EpicsPage() {
                 <DropContainer
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className={dropDisabledState === '' ? '' : (dropDisabledState === 'inProgress' ? 'dropDisabled' : 'dropEnabled')}
+                  $dragging={dropDisabledState !== ''}
+                  $dropDisabled={dropDisabledState === 'inProgress'}
                 >
                   {epics.inProgress.map((epic, index) => (
                     <Draggable key={epic.id} draggableId={`${epic.id}`} index={index}>
@@ -186,7 +188,8 @@ export function EpicsPage() {
                 <DropContainer
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className={dropDisabledState === '' ? '' : (dropDisabledState === 'done' ? 'dropDisabled' : 'dropEnabled')}
+                  $dragging={dropDisabledState !== ''}
+                  $dropDisabled={dropDisabledState === 'done'}
                 >
                   {epics.done.map((epic, index) => (
                     <Draggable key={epic.id} draggableId={`${epic.id}`} index={index}>
@@ -209,50 +212,40 @@ export function EpicsPage() {
               )}
             </Droppable>
           </DoneArea>
-        </Container>
+        </div>
       </DragDropContext>
     </>
   )
 }
 
-const Container = styled.div`
-  display: flex;
+const ToDoArea = tw.div`
+  flex
+  flex-col
+  items-center
+  w-1/4
+  pr-6
 `
 
-const ToDoArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 22%;
-  margin-right: 1.5rem;
+const InProgressArea = tw.div`
+  flex
+  flex-col
+  items-center
+  w-1/2
 `
 
-const InProgressArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 55%;
-  margin-right: 1.5rem;
+const DoneArea = tw.div`
+  flex
+  flex-col
+  items-center
+  w-1/4
+  pl-6
 `
 
-const DoneArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 22%;
-`
+const DropContainer = tw.div`
+  min-h-16
+  w-full
+  bg-opacity-25
 
-const DropContainer = styled.div`
-  min-height: 4rem;
-  width: 100%;
-  
-  &.dropDisabled {
-    background-color: rgb(255, 182, 193, 0.3);
-    outline: rgb(255, 182, 193) dashed 3px;
-  }
-  
-  &.dropEnabled {
-    background-color: rgb(0, 191, 255, 0.2);
-    outline: rgb(0, 191, 255, 0.4) dashed 3px;
-  }
+  ${({ $dropDisabled, $dragging }) => ($dragging && ($dropDisabled ? 'bg-red-200 ring-4 ring-red-200'
+    : 'bg-blue-200 ring-4 ring-blue-200'))}
 `

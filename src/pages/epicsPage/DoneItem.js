@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { CreateEpicModal } from '../../components'
 import { EpicTitle } from './EpicTitle'
 
@@ -21,17 +21,17 @@ export function DoneItem({ id, name }) {
   )
 }
 
-const Container = styled.div`
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  border-radius: 5px;
-  margin-bottom: 1rem;
-  box-shadow: 3px 5px 5px #DCDCDC;
-  border-bottom: 1px lightgray solid;
-  background-color: white;
+const Container = tw.div`
+  flex
+  flex-col
+  rounded-md
+  bg-white
+  mb-4
+  p-4
+  shadow-md
+  transform
+  transition-transform
 
-  &:hover {
-    transform: translate(-1px,-1px);
-  }
+  hover:-translate-x-0.5
+  hover:-translate-y-0.5
 `

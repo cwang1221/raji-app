@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 import { clone } from 'lodash'
 import { FilterTitle } from './FilterTitle'
 import { CheckItem } from './CheckItem'
@@ -25,30 +24,15 @@ export function StateFilter({ selectedStates, onSelectionChange, expanded, onExp
   }
 
   return (
-    <Container>
+    <div className="flex flex-col my-2">
       <FilterTitle expanded={expanded} title={t('story.workflowState').toLocaleUpperCase()} onExpandedChange={onExpandedChange} />
-      <ItemsContainer expanded={expanded} height={180}>
+      <div style={{ height: expanded ? '180px' : 0 }} className="transition-all overflow-hidden">
         {statesRef.current.map((state) => (
           <CheckItem key={state} checked={selectedStates.includes(state)} onCheck={(checked) => onCheck(state, checked)}>
             {t(`story.${state}`)}
           </CheckItem>
         ))}
-      </ItemsContainer>
-    </Container>
+      </div>
+    </div>
   )
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 0.5rem 0;
-`
-
-const ItemsContainer = styled.div`
-  overflow: hidden;
-  height: ${(props) => (props.expanded ? `${props.height}px` : '0')};
-  -webkit-transition:height 300ms ease-in-out;
-  -moz-transition:height 300ms ease-in-out;
-  -o-transition:height 300ms ease-in-out;
-  transition:height 300ms ease-in-out;
-`

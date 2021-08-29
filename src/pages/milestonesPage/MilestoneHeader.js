@@ -1,6 +1,6 @@
 import { Space, Typography, Tooltip, Dropdown, Menu, Button } from 'antd'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 import { publish } from 'pubsub-js'
@@ -21,10 +21,10 @@ export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countO
   }
 
   return (
-    <div style={{ width: '100%' }}>
-      <Space style={{ width: '100%' }}>
+    <div className="w-full">
+      <Space className="w-full">
         <MilestoneName level={4} onClick={() => setShowModal(true)}>{name}</MilestoneName>
-        {state === 'done' && <CheckOutlined style={{ fontSize: '20px', marginBottom: '0.5rem', color: '#009D4D' }} />}
+        {state === 'done' && <CheckOutlined className="text-xl mb-2 text-green-600" />}
         {!countOfEpics && (
         <Tooltip title={t('general.delete')}>
           <Button
@@ -33,12 +33,12 @@ export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countO
             size="small"
             icon={<CloseOutlined />}
             onClick={onDeleteMilestone}
-            style={{ position: 'absolute', right: '1rem', top: '1rem' }}
+            className="absolute right-4 top-4"
           />
         </Tooltip>
         )}
       </Space>
-      <Space style={{ color: 'gray' }}>
+      <Space className="text-gray-500">
         <Dropdown
           trigger={['click']}
           overlay={(
@@ -50,7 +50,7 @@ export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countO
         )}
         >
           <State>
-            <MilestoneStateIcon state={state} style={{ marginRight: '0.3rem' }} /> {t(`milestone.${state}`)}
+            <MilestoneStateIcon state={state} className="mr-1" /> {t(`milestone.${state}`)}
           </State>
         </Dropdown>
         <EpicProperty countOfEpics={countOfEpics} hasRightMargin={false} />
@@ -71,26 +71,21 @@ export function MilestoneHeader({ id, name, countOfEpics, countOfStories, countO
   )
 }
 
-const State = styled.span`
-  border-radius: 5px;
-  border: 1px solid lightgray;
-  color: gray;
-  padding: 0 0.3rem;
-  margin-right: 0.5rem;
-  font-size: 12px;
-  font-weight: bold;
+const State = tw.span`
+  rounded-md
+  border
+  border-gray-300
+  text-gray-500
+  px-1
+  mr-2
+  text-xs
+  font-medium
+  cursor-pointer
 
-  &:hover{
-    box-shadow: 1px 1px 1px lightgray;
-    border: 1px solid gray;
-    cursor: pointer;
-  }
+  hover:shadow
 `
 
-const MilestoneName = styled(Typography.Title)`
-  color: #316399 !important;
-
-  &:hover {
-    cursor: pointer;
-  }
+const MilestoneName = tw(Typography.Title)`
+  text-blue-900
+  cursor-pointer
 `

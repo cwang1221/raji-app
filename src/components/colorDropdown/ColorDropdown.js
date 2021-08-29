@@ -43,7 +43,7 @@ const ColorDropDownContainer = tw.div`
   p-2
   bg-white
   rounded-md
-  shadow-lg
+  shadow-md
   space-y-2
 `
 

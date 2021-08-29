@@ -1,7 +1,7 @@
 import { Typography, Tooltip } from 'antd'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { CreateStoryModal, CreateEpicModal, ProgressBar, IdProperty, StoryProperty, PointProperty } from '../../components'
 import { clone } from '../../utils'
 import { EpicTitle } from './EpicTitle'
@@ -58,16 +58,16 @@ export function InProgressItem({ id, name, countOfStories, countOfInProgressStor
       <StoryContainer>
         {Object.keys(storyMap).map((key) => (
           storyMap[key].length ? (
-            <StoryStateContainer key={key}>
+            <div key={key} className="mb-2">
               <StoryStateTitle state={key} count={storyMap[key].length} />
-              <StoryCardContainer>
+              <div className="flex">
                 {storyMap[key].map((story) => (
                   <Tooltip key={`${story.id}`} title={`#${story.id} ${story.title} (${t(`story.${story.type}`)})`}>
-                    <StoryCard projectColor={story.project.color} onClick={() => editStory(story.id)} />
+                    <StoryCard onClick={() => editStory(story.id)} style={{ borderColor: story.project.color }} />
                   </Tooltip>
                 ))}
-              </StoryCardContainer>
-            </StoryStateContainer>
+              </div>
+            </div>
           ) : null
         ))}
       </StoryContainer>
@@ -85,55 +85,47 @@ export function InProgressItem({ id, name, countOfStories, countOfInProgressStor
   )
 }
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 5px;
-  margin-bottom: 1rem;
-  box-shadow: 3px 5px 5px #DCDCDC;
-  border-bottom: 1px lightgray solid;
-  background-color: white;
+const Container = tw.div`
+  flex
+  flex-col
+  rounded-md
+  mb-4
+  shadow-md
+  bg-white
+  transform
+  transition-transform
 
-  &:hover {
-    transform: translate(-1px,-1px);
-  }
+  hover:-translate-x-0.5
+  hover:-translate-y-0.5
 `
 
-const InfoBar = styled.div`
-  display: flex;
-  align-items: center;
-  color: gray;
-  font-weight: 500;
+const InfoBar = tw.div`
+  flex
+  items-center
+  font-medium
+  text-gray-500
 `
 
-const InfoContainer = styled.div`
-  padding: 1rem;
-  border-bottom: 1px lightgray solid;
+const InfoContainer = tw.div`
+  p-4
+  border-b
+  border-gray-300
 `
 
-const StoryContainer = styled.div`
-  padding: 1rem;
-  font-size: 12px;
-  font-weight: 600;
+const StoryContainer = tw.div`
+  p-4
+  text-xs
+  font-semibold
 `
 
-const StoryStateContainer = styled.div`
-  margin-bottom: 6px;
-`
-
-const StoryCardContainer = styled.div`
-  display: flex;
-`
-
-const StoryCard = styled.div`
-  height: 18px;
-  width: 24px;
-  margin-right: 5px;
-  border-left: ${(props) => props.projectColor} 4px solid;
+const StoryCard = tw.div`
+  h-5
+  w-6
+  mr-1
+  border-l-4
+  bg-gray-100
   background-color: rgb(247, 244, 232);
+  cursor-pointer
 
-  &:hover {
-    cursor: pointer;
-    background-color: white;
-  }
+  hover:bg-white
 `

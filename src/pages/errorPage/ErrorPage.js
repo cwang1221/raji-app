@@ -1,15 +1,15 @@
 import { Typography } from 'antd'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import tw from 'tailwind-styled-components'
 import { useDocumentTitle } from '../../hooks'
 
 const ErrorPage = ({ title }) => {
   const { t } = useTranslation()
   useDocumentTitle(t('general.error'))
   return (
-    <Container>
+    <div className="h-screen">
       <Content>{title}</Content>
-    </Container>
+    </div>
   )
 }
 
@@ -23,13 +23,9 @@ export function NotFoundPage() {
   return <ErrorPage title={t('msg.notFoundPage')} />
 }
 
-const Container = styled.div`
-  height: 100vh;
-`
-
-const Content = styled(Typography.Title)`
-  position: relative;
-  top: 50%;
-  text-align: center;
-  margin-top: -10rem !important;
+const Content = tw(Typography.Title)`
+  relative
+  top-1/2
+  text-center
+  -mt-40
 `
