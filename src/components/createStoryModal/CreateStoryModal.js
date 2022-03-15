@@ -57,7 +57,7 @@ export function CreateStoryModal({ visible, close, id }) {
 
         payload.epicId = epicId === 'none' ? 0 : parseInt(epicId, 10)
         payload.ownerId = ownerId === 'none' ? 0 : parseInt(ownerId, 10)
-        payload.estimate = estimate === 'none' ? -1 : parseInt(estimate, 10)
+        payload.estimate = estimate === 'none' ? undefined : parseInt(estimate, 10)
 
         if (id) {
           await putStory(id, payload)

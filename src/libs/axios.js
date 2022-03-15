@@ -57,7 +57,7 @@ Axios.interceptors.response.use((res) => {
     message.error(i18n.t('msg.timeoutError'))
     err.showed = true
   }
-  if (err?.response?.status === 401) {
+  if (!err?.request?.responseURL?.endsWith?.('/auth') && err?.response?.status === 401) {
     createBrowserHistory().replace('/signIn')
     window.location.reload()
     message.error(i18n.t('msg.authFailedError'))
