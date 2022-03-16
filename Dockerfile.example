@@ -4,6 +4,7 @@ COPY package*.json ./
 RUN npm install
 COPY public public/
 COPY craco.config.js ./
+COPY tailwind.config.js ./
 COPY src src/
 ENV REACT_APP_SERVICE_URL xxxxxx
 RUN npm run build
